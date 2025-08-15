@@ -1,156 +1,167 @@
+
 Program X;
 
-Uses
-     sysutils;
+Uses 
+sysutils;
 
-Type
-     tweet = record
-	     codigoUsuario: integer;
-	     nombreUsuario: string;
-	     mensaje: string;
-	     esRetweet: boolean;
-     end;
+Type 
+    tweet =   Record
+        codigoUsuario:   integer;
+        nombreUsuario:   string;
+        mensaje:   string;
+        esRetweet:   boolean;
+    End;
 
-     listaTweets = ^nodoLista;
-     nodoLista = record
-          dato: tweet;
-          sig: listaTweets;
-     end;
+    listaTweets =   ^nodoLista;
+    nodoLista =   Record
+        dato:   tweet;
+        sig:   listaTweets;
+    End;
 
-     {Completar agregando aquí las estructuras de datos necesarias en el ejercicio}
+
+ {Completar agregando aquí las estructuras de datos necesarias en el ejercicio}
 
 {agregarAdelante - Agrega nro adelante de l}
-Procedure agregarAdelante(var l: listaTweets; t: tweet);
+Procedure agregarAdelante(Var l: listaTweets; t: tweet);
 
-var
-   aux: listaTweets;
+Var 
+    aux:   listaTweets;
 
-begin
-     new(aux);
-     aux^.dato := t;
-     aux^.sig := l;
-     l:= aux;
-end;
+Begin
+    new(aux);
+    aux^.dato := t;
+    aux^.sig := l;
+    l := aux;
+End;
 
 {crearLista - Genera una lista con tweets aleatorios}
-procedure crearLista(var l: listaTweets);
+Procedure crearLista(Var l: listaTweets);
 
-var
-   t: tweet;
-   texto: string;
-   v : array [1..10] of string;
+Var 
+    t:   tweet;
+    texto:   string;
+    v :   array [1..10] Of string;
 
-begin
-     v[1]:= 'juan';
-     v[2]:= 'pedro';
-     v[3]:= 'carlos';
-     v[4]:= 'julia';
-     v[5]:= 'mariana';
-     v[6]:= 'gonzalo';
-     v[7]:='alejandro';
-     v[8]:= 'silvana';
-     v[9]:= 'federico';
-     v[10]:= 'ruth';
+Begin
+    v[1] := 'juan';
+    v[2] := 'pedro';
+    v[3] := 'carlos';
+    v[4] := 'julia';
+    v[5] := 'mariana';
+    v[6] := 'gonzalo';
+    v[7] := 'alejandro';
+    v[8] := 'silvana';
+    v[9] := 'federico';
+    v[10] := 'ruth';
 
-     t.codigoUsuario := random(11);
-     while (t.codigoUsuario <> 0) do Begin
-          texto:= Concat(v[t.codigoUsuario], '-mensaje-', IntToStr(random (200)));
-          t.nombreUsuario := v[t.codigoUsuario];
-          t.mensaje := texto;
-          t.esRetweet := (random(2)=0);
-          agregarAdelante(l, t);
-          t.codigoUsuario := random(11);
-     end;
-end;
+    t.codigoUsuario := random(11);
+    While (t.codigoUsuario <> 0) Do
+        Begin
+            texto := Concat(v[t.codigoUsuario], '-mensaje-', IntToStr(random (
+                     200)));
+            t.nombreUsuario := v[t.codigoUsuario];
+            t.mensaje := texto;
+            t.esRetweet := (random(2)=0);
+            agregarAdelante(l, t);
+            t.codigoUsuario := random(11);
+        End;
+End;
 
 
 {imprimir - Muestra en pantalla el tweet}
-procedure imprimir(t: tweet);
+Procedure imprimir(t: tweet);
 
-begin
-     with (t) do begin
-          write('Tweet del usuario @', nombreUsuario, ' con codigo ',codigoUsuario, ': ', mensaje, ' RT:');
-          if(esRetweet)then
-               writeln(' Si')
-          else
-               writeln('No ');
-     end;
-end;
+Begin
+    With (t) Do
+        Begin
+            write('Tweet del usuario @', nombreUsuario, ' con codigo ',
+                  codigoUsuario, ': ', mensaje, ' RT:');
+            If (esRetweet)Then
+                writeln(' Si')
+            Else
+                writeln('No ');
+        End;
+End;
 
 
 {imprimirLista - Muestra en pantalla la lista l}
-procedure imprimirLista(l: listaTweets);
+Procedure imprimirLista(l: listaTweets);
 
-begin
-     while (l <> nil) do begin
-          imprimir(l^.dato);
-          l:= l^.sig;
-     end;
-end;
+Begin
+    While (l <> Nil) Do
+        Begin
+            imprimir(l^.dato);
+            l := l^.sig;
+        End;
+End;
 
 
 {agregarElemento - Resuelve la inserción de la estructura ordenada}
-procedure agregarOrdenado(var pri:listaTweets; t:tweet);
+Procedure agregarOrdenado(Var pri:listaTweets; t:tweet);
 
-var
-   nuevo, anterior, actual: listaTweets;
+Var 
+    nuevo, anterior, actual:   listaTweets;
 
-begin
-     new (nuevo);
-     nuevo^.dato:= t;
-     nuevo^.sig := nil;
-     if (pri = nil) then
-          pri := nuevo
-     else
-     begin
-          actual := pri;
-          anterior := pri;
-          
-          while (actual <> nil) and (actual^.dato.nombreUsuario < nuevo^.dato.nombreUsuario) do begin
-               anterior := actual;
-               actual:= actual^.sig;
-          end;
+Begin
+    new (nuevo);
+    nuevo^.dato := t;
+    nuevo^.sig := Nil;
+    If (pri = Nil) Then
+        pri := nuevo
+    Else
+        Begin
+            actual := pri;
+            anterior := pri;
 
-          if (anterior = actual) then
-               pri := nuevo
-          else
-               anterior^.sig := nuevo;
+            While (actual <> Nil) And (actual^.dato.nombreUsuario < nuevo^.dato.
+                  nombreUsuario) Do
+                Begin
+                    anterior := actual;
+                    actual := actual^.sig;
+                End;
 
-          nuevo^.sig := actual;
-     end;
-end;
+            If (anterior = actual) Then
+                pri := nuevo
+            Else
+                anterior^.sig := nuevo;
+
+            nuevo^.sig := actual;
+        End;
+End;
 
 
 {generarNuevaEstructura - Resuelve la generación estructura ordenada}
-procedure generarNuevaEstructura (lT: listaTweets; VAR listaOrdenada: listaTweets);
+Procedure generarNuevaEstructura (lT: listaTweets; Var listaOrdenada:
+                                  listaTweets);
 
-begin
-     listaOrdenada := nil;
+Begin
+    listaOrdenada := Nil;
 
-     while(lT <> nil) do begin
-          agregarOrdenado(listaOrdenada, lT^.dato);
-          lT := lT^.sig;
-     end;
-end;
+    While (lT <> Nil) Do
+        Begin
+            agregarOrdenado(listaOrdenada, lT^.dato);
+            lT := lT^.sig;
+        End;
+End;
 
-var
-   l, l_ordenada: listaTweets;
-begin
-     Randomize;
+Var 
+    l, l_ordenada:   listaTweets;
+Begin
+    Randomize;
 
-     l:= nil;
-     crearLista(l);
-     writeln ('Lista generada: ');
-     imprimirLista(l);
+    l := Nil;
+    crearLista(l);
+    writeln ('Lista generada: ');
+    imprimirLista(l);
 
      {Se crea la estructura ordenada}
-     l_ordenada:= nil;
-     generarNuevaEstructura(l,l_ordenada);
-     writeln ('Lista ordenada: ');
-     imprimirLista(l_ordenada);
+    l_ordenada := Nil;
+    generarNuevaEstructura(l,l_ordenada);
+    writeln ('Lista ordenada: ');
+    imprimirLista(l_ordenada);
 
      {Completar el programa}
 
-     writeln('Fin del programa');
-     readln;
-end.
+    writeln('Fin del programa');
+    readln;
+End.
