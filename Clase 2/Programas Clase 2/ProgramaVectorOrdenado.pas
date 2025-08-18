@@ -1,13 +1,39 @@
 program VectorOrdenado;
 
 const
-    dimF = 8;  {Dimensión física del vector}
+    dimF = 8;  {Dimensiï¿½n fï¿½sica del vector}
 
 type
-
     vector = array [1..dimF] of integer;
-
     dim = 0..dimF;
+
+function BuscarEnVector(V: vector; dimL: dim; izq, der, dato: integer): integer;
+
+var
+    medio: integer;
+
+begin
+    if (dimL = 0) then begin
+        writeln('El vector esta vacio');
+        BuscarEnVector := 0;
+
+    end else if (izq > der) then begin
+        writeln('El dato no esta en el vector');
+        BuscarEnVector := 0;
+
+    end else if (dimL > 0) then begin
+        medio := (der + izq) div 2;
+
+        if (V[medio] = dato) then begin
+            BuscarEnVector := medio;
+        end else begin
+            if (V[medio] < dato) then
+                BuscarEnVector := BuscarEnVector(V, dimL, medio + 1, der, dato)
+            else
+                BuscarEnVector := BuscarEnVector(V, dimL, izq, medio - 1, dato);
+        end;
+    end;
+end;
 
 {-----------------------------------------------------------------------------
 CARGARVECTORORDENADO - Carga ordenadamente nros aleatorios entre 0 y 100 en el
@@ -57,13 +83,18 @@ End;
 var
    v: vector;
    dimL : dim;
+   numero: integer;
 
 begin
+    cargarVectorOrdenado(v,dimL);
+    writeln('Nros almacenados: ');
+    imprimirVector(v, dimL);
 
-     cargarVectorOrdenado(v,dimL);
+    numero := BuscarEnVector(v, dimL, 1, dimL, 2);
 
-     writeln('Nros almacenados: ');
-     imprimirVector(v, dimL);
+    if numero <> 0 then
+        writeln('Se encontro el numero 2 en el arreglo. Esta en la posicion ', numero);
 
-     readln;
+    writeln('Nros almacenados: ');
+    imprimirVector(v, dimL);
 end.
