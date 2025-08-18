@@ -13,6 +13,21 @@ Type
 Procedure Maximo(V: vector; dimL: dim; Var max: integer; var i: integer);
 
 begin
+    if (dimL = 0) then // Esta vacio
+        writeln('El vector esta vacio');
+
+    else If (V[i] > max) Then // Se halló un nuevo maximo
+        max := V[i];
+
+    If (i < dimL) Then begin // ¿Quedan posiciones para procesar?
+        i := i + 1;
+        Maximo(V, dimL, max, i); // Entonces seguir procesando en la posicion siguente (i + 1)
+    end;
+End;
+
+Procedure Maximo(V: vector; dimL: dim; Var max: integer; var i: integer);
+
+begin
     if (dimL = 0) then
         writeln('El vector esta vacio');
     else If (V[i] > max) Then
