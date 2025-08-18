@@ -94,7 +94,4 @@ begin
 
     if numero <> 0 then
         writeln('Se encontro el numero 2 en el arreglo. Esta en la posicion ', numero);
-
-    writeln('Nros almacenados: ');
-    imprimirVector(v, dimL);
 end.
