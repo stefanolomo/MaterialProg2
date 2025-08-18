@@ -1,20 +1,17 @@
-
 Program Arreglos;
 
 Const
     dimF =   8;
 
 Type
-
     vector =   array [1..dimF] Of LongInt;
-
     dim =   0..dimF;
 
-Procedure Maximo(V: vector; dimL: dim; Var max: integer; var i: integer);
+Procedure Maximo(V: vector; dimL: dim; Var max, i: longint);
 
 begin
     if (dimL = 0) then // Esta vacio
-        writeln('El vector esta vacio');
+        writeln('El vector esta vacio')
 
     else If (V[i] > max) Then // Se halló un nuevo maximo
         max := V[i];
@@ -25,17 +22,19 @@ begin
     end;
 End;
 
-Procedure Maximo(V: vector; dimL: dim; Var max: integer; var i: integer);
+Procedure Suma2(V: vector; dimL: dim; Var i, suma: longint);
 
 begin
-    if (dimL = 0) then
-        writeln('El vector esta vacio');
-    else If (V[i] > max) Then
-        max := V[i];
+    if (dimL = 0) then // Esta vacio
+        writeln('El vector esta vacio')
 
-    If (i < dimL) Then begin
+    else begin // Si no esta vacio, le sumamos el valor a suma
+        suma := suma + V[i]
+    end;
+
+    if (i < dimL) Then begin // ¿Quedan posiciones para procesar?
         i := i + 1;
-        Maximo(V, dimL, max, i);
+        Suma2(V, dimL, i, suma); // Entonces seguir procesando en la posicion siguente (i + 1)
     end;
 End;
 
@@ -45,7 +44,7 @@ llegue el nro 99 o hasta que se complete el vector}
 Procedure cargarVector ( Var vec: vector; Var dimL: dim);
 
 Var
-    d:   integer;
+    d:   longint;
 Begin
     Randomize;  { Inicializa la secuencia de random a partir de una semilla}
     dimL := 0;
@@ -87,7 +86,7 @@ End;
 Var
     v:   vector;
     dimL :   dim;
-    max, i: integer;
+    max, sum, i: longint;
 
 Begin
     cargarVector(v, dimL);
@@ -96,8 +95,14 @@ Begin
     imprimirVector(v, dimL);
 
     max := -1;
+    sum := 0;
     i := 1;
+
+    Suma2(v, dimL, i, sum);
+    if (sum <> 0) then
+        writeln('La suma de todos los elementos es: ', sum);
+
     Maximo(v, dimL, max, i);
     if (max <> -1) then
-        writeln(max);
+        writeln('El elemento mayor es: ', max);
 End.
