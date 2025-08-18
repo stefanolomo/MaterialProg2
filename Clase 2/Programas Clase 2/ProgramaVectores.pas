@@ -1,28 +1,35 @@
 
 Program Arreglos;
 
-Const 
-    dimF =   8;  {Dimensi�n f�sica del vector}
+Const
+    dimF =   8;
 
-Type 
+Type
 
     vector =   array [1..dimF] Of LongInt;
 
     dim =   0..dimF;
 
-Function Maximo(V: vector):   integer;
+Procedure Maximo(V: vector; dimL: dim; Var max: integer; var i: integer);
 
-Begin
+begin
+    if (dimL = 0) then
+        writeln('El vector esta vacio');
+    else If (V[i] > max) Then
+        max := V[i];
 
+    If (i < dimL) Then begin
+        i := i + 1;
+        Maximo(V, dimL, max, i);
+    end;
 End;
-
 
 {-----------------------------------------------------------------------------
 CARGARVECTOR - Carga nros aleatorios entre 0 y 100 en el vector hasta que
 llegue el nro 99 o hasta que se complete el vector}
 Procedure cargarVector ( Var vec: vector; Var dimL: dim);
 
-Var 
+Var
     d:   integer;
 Begin
     Randomize;  { Inicializa la secuencia de random a partir de una semilla}
@@ -36,28 +43,11 @@ Begin
         End;
 End;
 
-Procedure digitoMaximo(n: integer; Var max: integer);
-
-Var 
-    dig:   integer;
-Begin
-    dig := n Mod 10;
-
-    If ( dig > max ) Then
-        max := dig;
-
-    n := n Div 10;
-    
-    If (n <> 0) Then
-        digitoMaximo(n, max);
-End;
-
-
 {-----------------------------------------------------------------------------
 IMPRIMIRVECTOR - Imprime todos los nros del vector }
 Procedure imprimirVector ( Var vec: vector; Var dimL: dim );
 
-Var 
+Var
     i:   dim;
 Begin
     For i:= 1 To dimL Do
@@ -79,16 +69,20 @@ End;
 
 {PROGRAMA PRINCIPAL}
 
-Var 
+Var
     v:   vector;
     dimL :   dim;
+    max, i: integer;
 
 Begin
-
-    cargarVector(v,dimL);
+    cargarVector(v, dimL);
 
     writeln('Nros almacenados: ');
     imprimirVector(v, dimL);
 
-    readln;
+    max := -1;
+    i := 1;
+    Maximo(v, dimL, max, i);
+    if (max <> -1) then
+        writeln(max);
 End.
