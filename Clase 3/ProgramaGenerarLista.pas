@@ -187,7 +187,30 @@ begin
             l := l^.sig;
         End;
 end;
-
+Procedure preOrden( a: arbol );
+begin
+  if ( a <> nil ) then begin
+    write (a^.dato, '   ');
+    preOrden (a^.HI);
+    preOrden (a^.HD)
+  end;
+end;
+Procedure EnOrden( a: arbol );
+begin
+  if ( a <> nil ) then begin
+    preOrden (a^.HI);
+    write (a^.dato, '   ');
+    preOrden (a^.HD)
+  end;
+end;
+Procedure PostOrden( a: arbol );
+begin
+  if ( a <> nil ) then begin
+    preOrden (a^.HI);
+    preOrden (a^.HD);
+    write (a^.dato, '   ');
+  end;
+end;
 Var
 
     l:   lista;
@@ -199,8 +222,13 @@ Begin
     crearLista(l);
     writeln ('Lista generada: ');
     imprimirLista(l);
-
+    ImprimirPorNivel(a);
     Insertardesdelista(a,l);
-    imprimirpornivel(a);
+    ;writeln;writeln('preorden:');
+    PreOrden(a);
+    ;writeln;writeln('en orden:');
+    EnOrden(a);
+    ;writeln;writeln('postorden:');
+    PostOrden(a);
     readln;
 End.

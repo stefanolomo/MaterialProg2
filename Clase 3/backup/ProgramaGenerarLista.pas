@@ -174,9 +174,9 @@ begin
         InsertarNodo(a,dato)
      else
         if (dato<a^.dato)then
-           InsertarNodo(a^.HI,dato)
+           Insertar(a^.HI,dato)
         else
-           InsertarNodo(a^.HD,dato);
+           Insertar(a^.HD,dato);
 
 end;
 procedure InsertarDesdeLista(var a:arbol;l:lista);
@@ -187,7 +187,30 @@ begin
             l := l^.sig;
         End;
 end;
-
+Procedure preOrden( a: arbol );
+begin
+  if ( a <> nil ) then begin
+    write (a^.dato, '   ');
+    preOrden (a^.HI);
+    preOrden (a^.HD)
+  end;
+end;
+Procedure EnOrden( a: arbol );
+begin
+  if ( a <> nil ) then begin
+    preOrden (a^.HI);
+    write (a^.dato, '   ');
+    preOrden (a^.HD)
+  end;
+end;
+Procedure PostOrden( a: arbol );
+begin
+  if ( a <> nil ) then begin
+    preOrden (a^.HI);
+    preOrden (a^.HD);
+    write (a^.dato, '   ');
+  end;
+end;
 Var
 
     l:   lista;
@@ -201,6 +224,11 @@ Begin
     imprimirLista(l);
 
     Insertardesdelista(a,l);
-    imprimirpornivel(a);
+    ;writeln;writeln('preorden:');
+    PreOrden(a);
+    ;writeln;writeln('en orden:');
+    EnOrden(a);
+    ;writeln;writeln('postorden:');
+    PostOrden(a);
     readln;
 End.
