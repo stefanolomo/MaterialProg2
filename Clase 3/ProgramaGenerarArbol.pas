@@ -240,6 +240,25 @@ begin
         Buscar(A^.HI, ptr, valor)
 end;
 
+procedure verMax(A: arbol; var valor: integer);
+
+begin
+    // El maximo de un arbol binario ordenado siempre va a estar a la derecha de todos los nodos, es decir, va a ser la hoja mas a la derecha del arbol
+
+    if (A = nil) then // El arbol esta vacio
+        valor := -1
+    else if (A^.HD = nil) then // Estamos en la ultima hoja a la derecha
+        valor := A^.dato
+    else // Hay que seguir avanzando hacia la derecha
+        verMax(A^.HD, valor);
+end;
+
+procedure verMin(A: arbol; var valor: integer);
+
+begin
+
+end;
+
 Var
 
     l:   lista;
@@ -278,13 +297,29 @@ Begin
     Separador();
 
     writeln('Ingrese el entero que quiere buscar en la lista');
+
     readln(enteroBuscado);
+    while enteroBuscado < 0 do begin
+        writeln('Ingresar un numero valido ( > 0 )');
+        readln(enteroBuscado);
+    end;
+
     Buscar(a, punteroBuscado, enteroBuscado);
 
     if (punteroBuscado <> nil) then
         writeln('Se encontro el puntero al numero ', punteroBuscado^.dato)
     else
         writeln('La lista esta vacia / No se encontro el entero');
+
+    Separador();
+
+    verMax(a, enteroBuscado);
+    if (enteroBuscado <> -1) then
+        writeln('El maximo en el arbol es ', enteroBuscado);
+
+    verMin(a, enteroBuscado);
+    if (enteroBuscado <> -1) then
+        verMin(a, enteroBuscado);
 
     writeln();
 End.
