@@ -25,9 +25,6 @@ Type
         sig:   listaNivel;
     End;
 
-
-
-
 {-----------------------------------------------------------------------------
 AgregarAdelante - Agrega nro adelante de l}
 Procedure agregarAdelante(Var l: Lista; nro: integer);
@@ -41,10 +38,6 @@ Begin
     l := aux;
 End;
 
-
-
-
-
 {-----------------------------------------------------------------------------
 CREARLISTA - Genera una lista con n�meros aleatorios }
 Procedure crearLista(Var l: Lista);
@@ -55,7 +48,7 @@ Begin
     l := Nil;
     n := random (40);
 
-    while n=0 do
+    While n=0 Do
         n := random (40);
 
     While (n <> 0) Do
@@ -64,9 +57,6 @@ Begin
             n := random (20);
         End;
 End;
-
-
-
 
 {-----------------------------------------------------------------------------
 IMPRIMIRLISTA - Muestra en pantalla la lista l }
@@ -78,8 +68,6 @@ Begin
             l := l^.sig;
         End;
 End;
-
-
 
 {-----------------------------------------------------------------------------
 CONTARELEMENTOS - Devuelve la cantidad de elementos de una lista l }
@@ -96,9 +84,6 @@ Begin
         End;
     contarElementos := c;
 End;
-
-
-
 
 {-----------------------------------------------------------------------------
 AGREGARATRAS - Agrega un elemento atr�s en l}
@@ -120,9 +105,6 @@ Begin
     ult := nue;
 End;
 
-
-
-
 {-----------------------------------------------------------------------------
 IMPRIMIRPORNIVEL - Muestra los datos del �rbol a por niveles }
 
@@ -133,8 +115,6 @@ Var
     nivel, cant, i:   integer;
 
 Begin
-    writeln();
-    writeln();
     l := Nil;
     If (a <> Nil) Then
         Begin
@@ -149,9 +129,13 @@ Begin
                         Begin
                             write (l^.info^.dato, ' - ');
 
-                            If (l^.info^.HI <> Nil) Then agregarAtras (l,ult,l^.info^.HI);
+                            If (l^.info^.HI <> Nil) Then agregarAtras (l,ult,l^.
+                                                                       info^.HI)
+                            ;
 
-                            If (l^.info^.HD <> Nil) Then agregarAtras (l,ult,l^.info^.HD);
+                            If (l^.info^.HD <> Nil) Then agregarAtras (l,ult,l^.
+                                                                       info^.HD)
+                            ;
 
                             aux := l;
                             l := l^.sig;
@@ -163,40 +147,82 @@ Begin
         End;
 End;
 
-procedure InsertarIntegerNodoArbol(var A: arbol; dato: integer);
+Procedure InsertarIntegerNodoArbol(Var A: arbol; dato: integer);
 
-var
-    aux: arbol;
+Var
+    aux:   arbol;
 
-begin
+Begin
     new(aux);
 
     aux^.dato := dato;
-    aux^.HI := nil;
-    aux^.HD := nil;
+    aux^.HI := Nil;
+    aux^.HD := Nil;
 
     A := aux;
-end;
+End;
 
-procedure InsertarIntegerArbol(var A: arbol; dato: integer);
+Procedure InsertarIntegerArbol(Var A: arbol; dato: integer);
 
-begin
-    if (A = nil) then
+Begin
+    If (A = Nil) Then
         InsertarIntegerNodoArbol(A, dato)
-    else if (A^.dato > dato) then
-        InsertarIntegerArbol(A^.HI, dato)
-    else
+    Else If (A^.dato > dato) Then
+             InsertarIntegerArbol(A^.HI, dato)
+    Else
         InsertarIntegerArbol(A^.HD, dato)
-end;
+End;
 
-procedure InsertarArbolDesdeLista(L: Lista; var A: arbol);
+Procedure InsertarArbolDesdeLista(L: Lista; Var A: arbol);
 
+Begin
+    While (L <> Nil) Do
+        Begin
+            InsertarIntegerArbol(A, L^.dato);
+
+            L := L^.sig;
+        End;
+End;
+
+Procedure preOrden( A:
+                   arbol );
+Begin
+    If ( A <> Nil ) Then
+        Begin
+            write (a^.dato, ' ');
+            preOrden (a^.HI);
+            preOrden (a^.HD)
+        End;
+End;
+
+Procedure enOrden( A:
+                   arbol );
+Begin
+    If ( A <> Nil ) Then
+        Begin
+            preOrden (a^.HI);
+            write (a^.dato, ' ');
+            preOrden (a^.HD)
+        End;
+End;
+
+Procedure postOrden( A:
+                   arbol );
+Begin
+    If ( A <> Nil ) Then
+        Begin
+            preOrden (a^.HI);
+            preOrden (a^.HD);
+            write (a^.dato, ' ');
+        End;
+End;
+
+procedure Separador();
 begin
-    while (L <> nil) do begin
-        InsertarIntegerArbol(A, L^.dato);
-
-        L := L^.sig;
-    end;
+    writeln('');
+    writeln('');
+    writeln('----------------------------------------');
+    writeln('');
 end;
 
 Var
@@ -213,7 +239,25 @@ Begin
 
     InsertarArbolDesdeLista(l, a);
 
+    Separador();
+
+    writeln('Arbol ordenado por nivel');
     imprimirpornivel(a);
 
-    readln;
+    Separador();
+
+    writeln('Pre Orden');
+    preOrden(a);
+
+    Separador();
+
+    writeln('En Orden');
+    enOrden(a);
+
+    Separador();
+
+    writeln('Post Orden');
+    postOrden(a);
+
+    writeln();
 End.
