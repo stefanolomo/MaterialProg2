@@ -4,7 +4,7 @@ Program arboles;
 Type
 
     // Lista de enteros
-    lista =   ^nodoL;
+    Lista =   ^nodoL;
     nodoL =   Record
         dato:   integer;
         sig:   lista;
@@ -53,7 +53,11 @@ Var
     n:   integer;
 Begin
     l := Nil;
-    n := random (20);
+    n := random (40);
+
+    while n=0 do
+        n := random (40);
+
     While (n <> 0) Do
         Begin
             agregarAdelante(L, n);
@@ -107,8 +111,12 @@ Begin
     new (nue);
     nue^.info := a;
     nue^.sig := Nil;
-    If l= Nil Then l := nue
-    Else ult^.sig := nue;
+
+    If l= Nil Then
+        l := nue
+    Else
+        ult^.sig := nue;
+
     ult := nue;
 End;
 
@@ -123,13 +131,16 @@ Procedure imprimirpornivel(a: arbol);
 Var
     l, aux, ult:   listaNivel;
     nivel, cant, i:   integer;
+
 Begin
+    writeln();
+    writeln();
     l := Nil;
-    If (a <> Nil)Then
+    If (a <> Nil) Then
         Begin
             nivel := 0;
             agregarAtras (l,ult,a);
-            While (l<> Nil) Do
+            While (l <> Nil) Do
                 Begin
                     nivel := nivel + 1;
                     cant := contarElementos(l);
@@ -137,14 +148,14 @@ Begin
                     For i:= 1 To cant Do
                         Begin
                             write (l^.info^.dato, ' - ');
-                            If (l^.info^.HI <> Nil) Then agregarAtras (l,ult,l^.
-                                                                       info^.HI)
-                            ;
-                            If (l^.info^.HD <> Nil) Then agregarAtras (l,ult,l^.
-                                                                       info^.HD)
-                            ;
+
+                            If (l^.info^.HI <> Nil) Then agregarAtras (l,ult,l^.info^.HI);
+
+                            If (l^.info^.HD <> Nil) Then agregarAtras (l,ult,l^.info^.HD);
+
                             aux := l;
                             l := l^.sig;
+
                             dispose (aux);
                         End;
                     writeln;
@@ -152,9 +163,46 @@ Begin
         End;
 End;
 
+procedure InsertarIntegerNodoArbol(var A: arbol; dato: integer);
+
+var
+    aux: arbol;
+
+begin
+    new(aux);
+
+    aux^.dato := dato;
+    aux^.HI := nil;
+    aux^.HD := nil;
+
+    A := aux;
+end;
+
+procedure InsertarIntegerArbol(var A: arbol; dato: integer);
+
+begin
+    if (A = nil) then
+        InsertarIntegerNodoArbol(A, dato)
+    else if (A^.dato > dato) then
+        InsertarIntegerArbol(A^.HI, dato)
+    else
+        InsertarIntegerArbol(A^.HD, dato)
+end;
+
+procedure InsertarArbolDesdeLista(L: Lista; var A: arbol);
+
+begin
+    while (L <> nil) do begin
+        InsertarIntegerArbol(A, L^.dato);
+
+        L := L^.sig;
+    end;
+end;
+
 Var
 
     l:   lista;
+    a:   arbol;
 
 Begin
     Randomize;
@@ -162,6 +210,10 @@ Begin
     crearLista(l);
     writeln ('Lista generada: ');
     imprimirLista(l);
+
+    InsertarArbolDesdeLista(l, a);
+
+    imprimirpornivel(a);
 
     readln;
 End.
