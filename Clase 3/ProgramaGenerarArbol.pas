@@ -256,7 +256,14 @@ end;
 procedure verMin(A: arbol; var valor: integer);
 
 begin
+    // El maximo de un arbol binario ordenado siempre va a estar a la izquierda de todos los nodos, es decir, va a ser la hoja mas a la izquierda del arbol
 
+    if (A = nil) then // El arbol esta vacio
+        valor := -1
+    else if (A^.HI = nil) then // Estamos en la ultima hoja a la izquierda
+        valor := A^.dato
+    else // Hay que seguir avanzando hacia la izquierda
+        verMax(A^.HI, valor);
 end;
 
 Var
@@ -319,7 +326,7 @@ Begin
 
     verMin(a, enteroBuscado);
     if (enteroBuscado <> -1) then
-        verMin(a, enteroBuscado);
+        writeln('El minimo en el arbol es ', enteroBuscado);
 
     writeln();
 End.
