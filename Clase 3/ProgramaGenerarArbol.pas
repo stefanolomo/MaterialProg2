@@ -225,10 +225,26 @@ begin
     writeln('');
 end;
 
+procedure Buscar(A: arbol; var ptr: arbol; valor: integer);
+
+begin
+    ptr := nil;
+
+    if (A = nil) then
+        ptr := nil
+    else if (A^.dato = valor) then
+        ptr := A
+    else if (A^.dato < valor) then
+        Buscar(A^.HD, ptr, valor)
+    else
+        Buscar(A^.HI, ptr, valor)
+end;
+
 Var
 
     l:   lista;
-    a:   arbol;
+    a, punteroBuscado:   arbol;
+    enteroBuscado: integer;
 
 Begin
     Randomize;
@@ -258,6 +274,17 @@ Begin
 
     writeln('Post Orden');
     postOrden(a);
+
+    Separador();
+
+    writeln('Ingrese el entero que quiere buscar en la lista');
+    readln(enteroBuscado);
+    Buscar(a, punteroBuscado, enteroBuscado);
+
+    if (punteroBuscado <> nil) then
+        writeln('Se encontro el puntero al numero ', punteroBuscado^.dato)
+    else
+        writeln('La lista esta vacia / No se encontro el entero');
 
     writeln();
 End.
