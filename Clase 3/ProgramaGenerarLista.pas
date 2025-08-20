@@ -39,7 +39,7 @@ end;
 
 
 {-----------------------------------------------------------------------------
-CREARLISTA - Genera una lista con nï¿½meros aleatorios }
+CREARLISTA - Genera una lista con números aleatorios }
 procedure crearLista(var l: Lista);
 var
   n: integer;
@@ -76,6 +76,17 @@ begin
  End;
  contarElementos := c;
 end;
+
+
+{-----------------------------------------------------------------------------
+AGREGARATRAS - Agrega un elemento atrás en l}
+
+Procedure AgregarAtras (var l, ult: listaNivel; a:arbol);
+ var nue:listaNivel;
+
+ begin
+ new (nue);
+ nue^.info := a;
  nue^.sig := nil;
  if l= nil then l:= nue
            else ult^.sig:= nue;
@@ -84,7 +95,7 @@ end;
 
 
 {-----------------------------------------------------------------------------
-IMPRIMIRPORNIVEL - Muestra los datos del ï¿½rbol a por niveles }
+IMPRIMIRPORNIVEL - Muestra los datos del árbol a por niveles }
 
 Procedure imprimirpornivel(a: arbol);
 var
