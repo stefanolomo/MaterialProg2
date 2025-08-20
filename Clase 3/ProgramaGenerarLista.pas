@@ -53,11 +53,15 @@ Var
     n:   integer;
 Begin
     l := Nil;
-    n := random (20);
+    n:=0;
+    while (n=0)do
+    begin
+      n := random (1000);
+    end;
     While (n <> 0) Do
         Begin
             agregarAdelante(L, n);
-            n := random (20);
+            n := random(20);
         End;
 End;
 
@@ -124,6 +128,7 @@ Var
     l, aux, ult:   listaNivel;
     nivel, cant, i:   integer;
 Begin
+    writeln;
     l := Nil;
     If (a <> Nil)Then
         Begin
@@ -136,13 +141,15 @@ Begin
                     write ('Nivel ', nivel, ': ');
                     For i:= 1 To cant Do
                         Begin
-                            write (l^.info^.dato, ' - ');
-                            If (l^.info^.HI <> Nil) Then agregarAtras (l,ult,l^.
-                                                                       info^.HI)
-                            ;
-                            If (l^.info^.HD <> Nil) Then agregarAtras (l,ult,l^.
-                                                                       info^.HD)
-                            ;
+                            write('');
+                            write (l^.info^.dato, ' | ');
+                            If (l^.info^.HI <> Nil) Then begin
+                            agregarAtras (l,ult,l^.info^.HI)
+                            end;
+
+                            If (l^.info^.HD <> Nil) Then begin
+                               agregarAtras (l,ult,l^.info^.HD);
+                            end;
                             aux := l;
                             l := l^.sig;
                             dispose (aux);
@@ -151,10 +158,40 @@ Begin
                 End;
         End;
 End;
+procedure InsertarNodo(var a:arbol; dato:integer);
+var aux:arbol;
+begin
+  new(aux);
+  aux^.dato:=dato;
+  aux^.HD:=nil;
+  aux^.HI:=nil;
+  a:=aux;
+end;
+
+procedure insertar(var a:arbol; dato:integer);
+begin
+     if (a=nil)then
+        InsertarNodo(a,dato)
+     else
+        if (dato<a^.dato)then
+           Insertar(a^.HI,dato)
+        else
+           Insertar(a^.HD,dato);
+
+end;
+procedure InsertarDesdeLista(var a:arbol;l:lista);
+begin
+    While (l <> Nil) Do
+        Begin
+            Insertar(a,l^.dato);
+            l := l^.sig;
+        End;
+end;
 
 Var
 
     l:   lista;
+    a:arbol;
 
 Begin
     Randomize;
@@ -163,5 +200,7 @@ Begin
     writeln ('Lista generada: ');
     imprimirLista(l);
 
+    Insertardesdelista(a,l);
+    imprimirpornivel(a);
     readln;
 End.
