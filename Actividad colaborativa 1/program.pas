@@ -28,6 +28,19 @@ Begin
         End;
 End;
 
+procedure verMinRecorrido(A: arbol; var valor: real);
+
+begin
+    // El minimo de un arbol binario ordenado siempre va a estar a la izquierda de todos los nodos, es decir, va a ser la hoja mas a la izquierda del arbol
+
+    if (A = nil) then // El arbol esta vacio
+        valor := -1
+    else if (A^.HI = nil) then // Estamos en la ultima hoja a la izquierda
+        valor := A^.datos.distancia
+    else // Hay que seguir avanzando hacia la izquierda
+        verMinRecorrido(A^.HI, valor);
+end;
+
 Procedure InsertarIntegerNodoArbol(Var A: arbol; datos: datarbol);
 
 Var
@@ -92,5 +105,22 @@ Begin
     writeln('Bienvenido Al Programa De Gestion De Viajes en autobus')
     decision := 999;
     While (decision<>0) Do Begin
+          writeln('Menu De Opciones:');
+          writeln('1-Inicializar Estructura De Datos (Necesario para funcionamiento)');
+          writeln('2-Cargar Destinos');
+          writeln('3-imprimir Informacion Contenida');
+          writeln('4-Buscar Destino Y Mostrar Su Informacion');
+          writeln('5-Buscar Destino Mas Cercano');
+          writeln('6-Sumar Pasajes A Un Destino');
+          writeln('0-Terminar');
+          writeln;
+          write('Inserte Opcion:');readln(decision);
+          while (decision<0)or(decision>6)do begin
+             writeln('Inserte Opcion Valida:');readln(decision);
+          end;
+          if (decision=1)then
+             Inicializar(a);
+          if (decision=2)then
+             Cargar(a);
         end;
 End.
