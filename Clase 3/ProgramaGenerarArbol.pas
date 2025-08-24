@@ -200,9 +200,9 @@ Procedure enOrden( A:
 Begin
     If ( A <> Nil ) Then
         Begin
-            preOrden (a^.HI);
+            enOrden (a^.HI);
             write (a^.dato, ' ');
-            preOrden (a^.HD)
+            enOrden (a^.HD)
         End;
 End;
 
@@ -211,8 +211,8 @@ Procedure postOrden( A:
 Begin
     If ( A <> Nil ) Then
         Begin
-            preOrden (a^.HI);
-            preOrden (a^.HD);
+            postOrden (a^.HI);
+            postOrden (a^.HD);
             write (a^.dato, ' ');
         End;
 End;
