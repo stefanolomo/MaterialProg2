@@ -28,6 +28,19 @@ Begin
         End;
 End;
 
+procedure verMinRecorrido(A: arbol; var valor: real);
+
+begin
+    // El minimo de un arbol binario ordenado siempre va a estar a la izquierda de todos los nodos, es decir, va a ser la hoja mas a la izquierda del arbol
+
+    if (A = nil) then // El arbol esta vacio
+        valor := -1
+    else if (A^.HI = nil) then // Estamos en la ultima hoja a la izquierda
+        valor := A^.datos.distancia
+    else // Hay que seguir avanzando hacia la izquierda
+        verMinRecorrido(A^.HI, valor);
+end;
+
 Procedure InsertarIntegerNodoArbol(Var A: arbol; datos: datarbol);
 
 Var
