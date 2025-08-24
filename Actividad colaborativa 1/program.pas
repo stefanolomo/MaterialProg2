@@ -2,11 +2,11 @@
 Program ActColaborativa;
 
 Type
-    datarbol = record
-    nombre: string;
-    distancia: real;
-    ventas: integer;
-    end;
+    datarbol =   Record
+        nombre:   string;
+        distancia:   real;
+        ventas:   integer;
+    End;
 
     // Arbol con datos
     arbol =   ^nodoA;
@@ -41,40 +41,44 @@ Begin
     Else
         InsertarIntegerArbol(A^.HD, dato)
 End;
-procedure Separador();
-begin
+Procedure Separador();
+Begin
     writeln('');
     writeln('');
     writeln('----------------------------------------');
     writeln('');
-end;
-procedure cargarDestino(var a:arbol);
-var datos:datarbol;
-begin
-  write('inserte destino:');readln(datos.nombre);
-  write('inserte distancia:');readln(datos.distancia);
-  write('inserte ventas:');readln(datos.ventas);
+End;
+Procedure cargarDestino(Var a:arbol);
 
-  writeln();
-end;
-procedure inicializar (var a:arbol);
-begin
-  a:=nil;
-  writeln('Inicializando estructura...');
-  delay(1000);
-  writeln('Estructura inicializada ...');
-end;
+Var datos:   datarbol;
+Begin
+    write('inserte destino:');
+    readln(datos.nombre);
+    write('inserte distancia:');
+    readln(datos.distancia);
+    write('inserte ventas:');
+    readln(datos.ventas);
+
+    writeln();
+End;
+Procedure inicializar (Var a:arbol);
+Begin
+    a := Nil;
+    writeln('Inicializando estructura...');
+    delay(1000);
+    writeln('Estructura inicializada ...');
+End;
 
 //Programa Principal
+
 Var
 
     a:   arbol;
-    decision: integer;
+    decision:   integer;
 
 Begin
-writeln('Bienvenido Al Programa De Gestion De Viajes en autobus')
-decision:=999;
-while (decision<>0)do
-begin
+    writeln('Bienvenido Al Programa De Gestion De Viajes en autobus')
+    decision := 999;
+    While (decision<>0) Do Begin
+        end;
 End.
-
