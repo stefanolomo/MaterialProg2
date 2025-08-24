@@ -16,6 +16,18 @@ Type
         HD:   arbol;
     End;
 
+Procedure enOrden( A: arbol );
+Begin
+    If ( A <> Nil ) Then
+        Begin
+            enOrden (a^.HI);
+            Writeln('Nombre: ', A^.datos.nombre,
+                '  Distancia: ', A^.datos.distancia:0:2,
+                '  Ventas: ', A^.datos.ventas);
+            enOrden (a^.HD)
+        End;
+End;
+
 Procedure InsertarIntegerNodoArbol(Var A: arbol; datos: datarbol);
 
 Var
