@@ -1,3 +1,4 @@
+
 Program ArbolesBusqueda;
 
 Type
@@ -24,38 +25,41 @@ Type
         sig:   listaNivel;
     End;
 
-    {-----------------------------------------------------------------------------
+
+{-----------------------------------------------------------------------------
     AgregarAdelante - Agrega nro adelante de l}
-    Procedure agregarAdelante(Var l: Lista; nro: integer);
+Procedure agregarAdelante(Var l: Lista; nro: integer);
 
-    Var
-        aux:   lista;
-    Begin
-        new(aux);
-        aux^.dato := nro;
-        aux^.sig := l;
-        l := aux;
-    End;
+Var
+    aux:   lista;
+Begin
+    new(aux);
+    aux^.dato := nro;
+    aux^.sig := l;
+    l := aux;
+End;
 
-    {-----------------------------------------------------------------------------
+
+{-----------------------------------------------------------------------------
     CREARLISTA - Genera una lista con n�meros aleatorios }
-    Procedure crearLista(Var l: Lista);
+Procedure crearLista(Var l: Lista);
 
-    Var
-        n:   integer;
-    Begin
-        l := Nil;
+Var
+    n:   integer;
+Begin
+    l := Nil;
+    n := random (40);
+
+    While n=0 Do
         n := random (40);
 
-        While n=0 Do
-            n := random (40);
+    While (n <> 0) Do
+        Begin
+            agregarAdelante(L, n);
+            n := random (20);
+        End;
+End;
 
-        While (n <> 0) Do
-            Begin
-                agregarAdelante(L, n);
-                n := random (20);
-            End;
-    End;
 
 {-----------------------------------------------------------------------------
 IMPRIMIRLISTA - Muestra en pantalla la lista l }
@@ -89,7 +93,7 @@ Begin
     If (A = Nil) Then
         InsertarIntegerNodoArbol(A, dato)
     Else If (A^.dato > dato) Then
-             InsertarIntegerArbol(A^.HI, dato)
+            InsertarIntegerArbol(A^.HI, dato)
     Else
         InsertarIntegerArbol(A^.HD, dato)
 End;
@@ -106,7 +110,7 @@ Begin
 End;
 
 Procedure enOrden( A:
-                   arbol );
+                  arbol );
 Begin
     If ( A <> Nil ) Then
         Begin
@@ -116,37 +120,38 @@ Begin
         End;
 End;
 
-procedure Separador();
-begin
+Procedure Separador();
+Begin
     writeln('');
     writeln('');
     writeln('----------------------------------------');
     writeln('');
-end;
+End;
 
 Procedure busquedaAcotada(a: arbol; inf:integer; sup:integer);
-begin
-  if (a <> nil) then
-    if (a^.dato >= inf) then
-      if (a^.dato <= sup) then begin
-        write(a^.dato,' - ');
-        busquedaAcotada(a^.hi, inf, sup);
-        busquedaAcotada (a^.hd, inf, sup);
-      end
-      else
+Begin
+    If (a <> Nil) Then
+        If (a^.dato >= inf) Then
+            If (a^.dato <= sup) Then
+                Begin
+                    write(a^.dato,' - ');
+                    busquedaAcotada(a^.hi, inf, sup);
+                    busquedaAcotada (a^.hd, inf, sup);
+                End
+    Else
         busquedaAcotada(a^.hi, inf, sup)
-    else
-      busquedaAcotada(a^.hd, inf, sup);
-end;
+    Else
+        busquedaAcotada(a^.hd, inf, sup);
+End;
 
 
 Var
 
     l:   lista;
-    a: arbol;
-    sup,inf:integer;
-begin
-  Randomize;
+    a:   arbol;
+    sup,inf:   integer;
+Begin
+    Randomize;
 
     crearLista(l);
     writeln ('Lista generada: ');
@@ -160,9 +165,11 @@ begin
     enOrden(a);
 
     writeln('Escribir rango:');
-    write('inferior: ');readln(inf);
-    write('superior: ');readln(sup);
+    write('inferior: ');
+    readln(inf);
+    write('superior: ');
+    readln(sup);
     BusquedaAcotada(a,inf,sup);
-    readln;readln;
-end.
-
+    readln;
+    readln;
+End.
