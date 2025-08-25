@@ -60,11 +60,11 @@ Procedure InsertarIntegerArbol(Var A: arbol; datos: datarbol);
 
 Begin
     If (A = Nil) Then
-        InsertarIntegerNodoArbol(A, dato)
+        InsertarIntegerNodoArbol(A, datos)
     Else If (A^.dato > dato) Then
-             InsertarIntegerArbol(A^.HI, dato)
+             InsertarIntegerArbol(A^.HI, datos)
     Else
-        InsertarIntegerArbol(A^.HD, dato)
+        InsertarIntegerArbol(A^.HD, datos)
 End;
 Procedure Separador();
 Begin
@@ -77,15 +77,21 @@ Procedure cargarDestino(Var a:arbol);
 
 Var datos:   datarbol;
 Begin
-    write('inserte destino:');
-    readln(datos.nombre);
-    write('inserte distancia:');
-    readln(datos.distancia);
-    write('inserte ventas:');
-    readln(datos.ventas);
-
-    writeln();
+    datos.nombre:='';
+    while (datos.nombre<>'Fin')and(datos.nombre<>'fin')do
+    begin
+      write('inserte Destino(Fin para terminar): ');
+      readln(datos.nombre);
+      if (datos.nombre<>'fin')and(datos.nombre<>'Fin') then begin
+      write('inserte Distancia: ');
+      readln(datos.distancia);
+      write('inserte Ventas: ');
+      readln(datos.ventas);
+      end;
+      InsertarIntegerArbol(A,datos)
+    end;
 End;
+
 Procedure inicializar (Var a:arbol);
 Begin
     a := Nil;
