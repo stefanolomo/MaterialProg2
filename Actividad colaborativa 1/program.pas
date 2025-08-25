@@ -84,7 +84,7 @@ Procedure LeerDestino(Var datos: dataDestino);
 Begin
     write('Inserte el nombre del destino:');
     readln(datos.nombre);
-    If datos.nombre <> 'Fin' Then
+    If (datos.nombre <> 'Fin')and(datos.nombre <> 'fin') Then
         Begin
             write('Inserte la distancia:');
             readln(datos.distancia);
@@ -102,8 +102,10 @@ var
 begin
     LeerDestino(datosDestino);
 
-    if (datosDestino.nombre <> 'Fin') then
+    while (datosDestino.nombre <> 'Fin') do begin
         InsertarIntegerArbol(A, datosDestino);
+        LeerDestino(datosDestino);
+    end;
 end;
 
 Procedure inicializar (Var A: arbol);
@@ -118,17 +120,18 @@ begin
     writeln('Distancia en kilometros: ', D.distancia);
 end;
 
-procedure Buscar(A: arbol; DestinoBuscado: dataDestino; var exito: boolean);
+procedure Buscar(A: arbol; DestinoBuscado: dataDestino; var PtrD: arbol; var exito: boolean);
 
 begin
     if (A = nil) then
         exito := False
-    else if (A^.datos.nombre = DestinoBuscado.nombre) and (A^.datos.distancia = DestinoBuscado.distancia) and (A^.datos.ventas = DestinoBuscado.ventas) then
-        exito := True
-    else if (A^.datos.nombre < DestinoBuscado.nombre) then
-        Buscar(A^.HD, DestinoBuscado, exito)
+    else if (A^.datos.nombre = DestinoBuscado.nombre) and (A^.datos.distancia = DestinoBuscado.distancia) and (A^.datos.ventas = DestinoBuscado.ventas) then begin
+        exito := True;
+        PtrD := A;
+    end else if (A^.datos.nombre < DestinoBuscado.nombre) then
+        Buscar(A^.HD, DestinoBuscado, PtrD, exito)
     else
-        Buscar(A^.HI, DestinoBuscado, exito)
+        Buscar(A^.HI, DestinoBuscado, PtrD, exito)
 end;
 
 procedure BuscarDestino(A: arbol);
@@ -136,13 +139,14 @@ procedure BuscarDestino(A: arbol);
 var
     DestinoBuscado: dataDestino;
     exito: boolean;
+    PtrD: arbol;
 
 begin
     writeln('Ingrese las caracteristicas del destino que quiere buscar');
 
     LeerDestino(DestinoBuscado);
 
-    Buscar(A, DestinoBuscado, exito);
+    Buscar(A, DestinoBuscado, PtrD, exito);
 
     if exito then begin
         writeln('Se encontro el destino. A continuacion se informara sus caracteristicas.');
@@ -163,19 +167,26 @@ begin
     end;
 end;
 
+procedure SumarPasaje(var PtrD: arbol);
+
+begin
+    PtrD^.datos.ventas := PtrD^.datos.ventas + 1;
+end;
+
 procedure SumarPasajeADestino(var A: arbol);
 
 var
     DestinoSumar: dataDestino;
     existe: boolean;
+    PtrD: arbol;
 
 begin
     writeln ('Ingrese las caracteristicas del destino que quiere sumar');
     LeerDestino(DestinoSumar);
     if DestinoSumar.nombre <> 'Fin' then begin
-        Buscar(A, DestinoSumar, existe);
+        Buscar(A, DestinoSumar, PtrD, existe);
         if existe then
-            SumarPasaje(A, DestinoSumar);
+            SumarPasaje(PtrD);
     end
 end;
 
@@ -217,7 +228,7 @@ Begin
                     readln(decision);
                 End;
             Case decision Of
-                1:   writeln(); // Falta Implementar
+                1:   CargarDestino(ArbolDestinos); // Falta Implementar
                 2:   InformarEnOrden(ArbolDestinos);
                 3:   BuscarDestino(ArbolDestinos);
                 4:   BuscarMasCercano(ArbolDestinos);
