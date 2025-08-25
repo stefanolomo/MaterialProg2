@@ -102,8 +102,10 @@ var
 begin
     LeerDestino(datosDestino);
 
-    if (datosDestino.nombre <> 'Fin') then
+    while (datosDestino.nombre <> 'Fin') do begin
         InsertarIntegerArbol(A, datosDestino);
+        LeerDestino(datosDestino);
+    end;
 end;
 
 Procedure inicializar (Var A: arbol);
