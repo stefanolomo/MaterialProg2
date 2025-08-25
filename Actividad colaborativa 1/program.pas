@@ -138,9 +138,14 @@ Begin
                     writeln('Inserte Opcion Valida:');
                     readln(decision);
                 End;
-            If (decision=1)Then
-                Inicializar(a);
-            If (decision=2)Then
-                Cargar(a);
+            Case decision Of
+                1:   writeln(); // Implementar inicializar
+                     2:   writeln(); // Implementar Cargar
+                          3:   InformarEnOrden(a);
+                               4:   BuscarDestino(a); // Implementar
+                                    5:   BuscarMasCercano(a); // Implementar
+                                         6:   SumarPasajeADestino(a);
+                                              0:   exit();
+            End;
         End;
 End.
