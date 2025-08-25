@@ -61,7 +61,7 @@ Procedure InsertarIntegerArbol(Var A: arbol; datos: datarbol);
 Begin
     If (A = Nil) Then
         InsertarIntegerNodoArbol(A, datos)
-    Else If (A^.dato > dato) Then
+    Else If (A^.datos.nombre > datos.nombre) Then
              InsertarIntegerArbol(A^.HI, datos)
     Else
         InsertarIntegerArbol(A^.HD, datos)
@@ -80,6 +80,7 @@ Begin
     datos.nombre:='';
     while (datos.nombre<>'Fin')and(datos.nombre<>'fin')do
     begin
+    writeln;
       write('inserte Destino(Fin para terminar): ');
       readln(datos.nombre);
       if (datos.nombre<>'fin')and(datos.nombre<>'Fin') then begin
@@ -87,31 +88,34 @@ Begin
       readln(datos.distancia);
       write('inserte Ventas: ');
       readln(datos.ventas);
+      InsertarIntegerArbol(A,datos);
       end;
-      InsertarIntegerArbol(A,datos)
     end;
 End;
 
 Procedure inicializar (Var a:arbol);
 Begin
     a := Nil;
+    writeln;
     writeln('Inicializando estructura...');
-    delay(1000);
+    writeln;
     writeln('Estructura inicializada ...');
+    writeln;
 End;
 
 //Programa Principal
 
 Var
-
     a:   arbol;
     decision:   integer;
+    valor:real;
 
 Begin
-    writeln('Bienvenido Al Programa De Gestion De Viajes en autobus')
-    decision := 999;
+    writeln('Bienvenido Al Programa De Gestion De Viajes en autobus');
+    decision := 999;valor:=9999999;
     While (decision<>0) Do Begin
-          writeln('Menu De Opciones:');
+          writeln;
+          writeln('Menu De Opciones:');writeln;
           writeln('1-Inicializar Estructura De Datos (Necesario para funcionamiento)');
           writeln('2-Cargar Destinos');
           writeln('3-imprimir Informacion Contenida');
@@ -127,6 +131,14 @@ Begin
           if (decision=1)then
              Inicializar(a);
           if (decision=2)then
-             Cargar(a);
+             CargarDestino(a);
+          if(decision=3)then
+             enOrden(a);
+          if(decision=4)then
+
+          if(decision=5)then begin
+             verMinRecorrido(a,valor);
+             writeln('')
+          end;
         end;
 End.
