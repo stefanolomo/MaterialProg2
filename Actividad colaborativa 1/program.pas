@@ -86,22 +86,19 @@ Var
 Begin
     write('Inserte destino:');
     readln(datos.nombre);
-    write('inserte distancia:');
-    readln(datos.distancia);
-    write('inserte ventas:');
-    readln(datos.ventas);
+    If datos.nombre <> 'Fin' Then
+        Begin
+            write('Inserte distancia:');
+            readln(datos.distancia);
 
-    writeln();
+            write('Inserte ventas:');
+            readln(datos.ventas);
+        End;
 End;
 
 Procedure inicializar (Var a:arbol);
 Begin
     a := Nil;
-    writeln('Inicializando estructura...');
-
-    delay(1000);
-
-    writeln('Estructura inicializada ...');
 End;
 
 //Programa Principal
