@@ -206,6 +206,7 @@ Begin
 
     While (decision <> 0) Do
         Begin
+            Separador();
             // Writelns
             writeln('Menu De Opciones:');
             writeln('1 -> Cargar Destinos');
