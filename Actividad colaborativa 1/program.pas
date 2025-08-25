@@ -167,10 +167,10 @@ begin
     end;
 end;
 
-procedure SumarPasaje(var PtrD: arbol);
+procedure SumarPasaje(var PtrD: arbol; P: integer);
 
 begin
-    PtrD^.datos.ventas := PtrD^.datos.ventas + 1;
+    PtrD^.datos.ventas := PtrD^.datos.ventas + P;
 end;
 
 procedure SumarPasajeADestino(var A: arbol);
@@ -179,15 +179,20 @@ var
     DestinoSumar: dataDestino;
     existe: boolean;
     PtrD: arbol;
+    pasajes: integer;
 
 begin
     writeln ('Ingrese las caracteristicas del destino que quiere sumar');
     LeerDestino(DestinoSumar);
     if DestinoSumar.nombre <> 'Fin' then begin
         Buscar(A, DestinoSumar, PtrD, existe);
-        if existe then
-            SumarPasaje(PtrD);
-    end
+        if existe then begin
+            writeln('Cuantos pasajes quieres sumar? ');
+            readln(pasajes);
+            SumarPasaje(PtrD, pasajes);
+        end else
+            writeln('El destino al que le queres sumar pasajes no existe');
+    end;
 end;
 
 // |==============================================================|
@@ -227,7 +232,7 @@ Begin
                     readln(decision);
                 End;
             Case decision Of
-                1:   CargarDestino(ArbolDestinos); // Falta Implementar
+                1:   CargarDestino(ArbolDestinos);
                 2:   InformarEnOrden(ArbolDestinos);
                 3:   BuscarDestino(ArbolDestinos);
                 4:   BuscarMasCercano(ArbolDestinos);
