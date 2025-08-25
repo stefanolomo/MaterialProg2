@@ -102,7 +102,7 @@ var
 begin
     LeerDestino(datosDestino);
 
-    while (datosDestino.nombre <> 'Fin')and(datosDestino.nombre <> 'fin') do begin
+    while (datosDestino.nombre <> 'Fin') and (datosDestino.nombre <> 'fin') do begin
         InsertarIntegerArbol(A, datosDestino);
         LeerDestino(datosDestino);
     end;
@@ -120,15 +120,15 @@ begin
     writeln('Distancia en kilometros: ', D.distancia);
 end;
 
-procedure Buscar(A: arbol; DestinoBuscado: dataDestino; var PtrD: arbol; var exito: boolean);
+procedure Buscar(A: arbol; DestinoBuscado: string; var PtrD: arbol; var exito: boolean);
 
 begin
     if (A = nil) then
         exito := False
-    else if (A^.datos.nombre = DestinoBuscado.nombre) and (A^.datos.distancia = DestinoBuscado.distancia) and (A^.datos.ventas = DestinoBuscado.ventas) then begin
+    else if (A^.datos.nombre = DestinoBuscado)then begin
         exito := True;
         PtrD := A;
-    end else if (A^.datos.nombre < DestinoBuscado.nombre) then
+    end else if (A^.datos.nombre < DestinoBuscado) then
         Buscar(A^.HD, DestinoBuscado, PtrD, exito)
     else
         Buscar(A^.HI, DestinoBuscado, PtrD, exito)
@@ -137,20 +137,19 @@ end;
 procedure BuscarDestino(A: arbol);
 
 var
-    DestinoBuscado: dataDestino;
+    DestinoBuscado: string;
     exito: boolean;
     PtrD: arbol;
 
 begin
-    writeln('Ingrese las caracteristicas del destino que quiere buscar');
-
-    LeerDestino(DestinoBuscado);
+    writeln('Ingrese el nombre del destino que quiere buscar');
+    readln(DestinoBuscado);
 
     Buscar(A, DestinoBuscado, PtrD, exito);
 
     if exito then begin
         writeln('Se encontro el destino. A continuacion se informara sus caracteristicas.');
-        InfromarDestino(DestinoBuscado);
+        InfromarDestino(PtrD^.datos);
     end;
 end;
 
@@ -161,7 +160,7 @@ var
 
 begin
     verMinRecorrido(A, DestinoCercano);
-    if (DestinoCercano.ventas <> -1) then begin
+    if (DestinoCercano.distancia <> -1) then begin
         writeln('El destino mas cercano es el siguiente');
         InfromarDestino(DestinoCercano);
     end;
@@ -176,15 +175,15 @@ end;
 procedure SumarPasajeADestino(var A: arbol);
 
 var
-    DestinoSumar: dataDestino;
+    DestinoSumar: string;
     existe: boolean;
     PtrD: arbol;
     pasajes: longint;
 
 begin
-    writeln ('Ingrese las caracteristicas del destino que quiere sumar');
-    LeerDestino(DestinoSumar);
-    if DestinoSumar.nombre <> 'Fin' then begin
+    writeln ('Ingrese el nombre del destino que quiere sumar');
+    readln(DestinoSumar);
+    if DestinoSumar <> 'Fin' then begin
         Buscar(A, DestinoSumar, PtrD, existe);
         if existe then begin
             writeln('Cuantos pasajes quieres sumar? ');
