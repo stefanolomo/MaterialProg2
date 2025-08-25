@@ -7,7 +7,7 @@ Type
     dataDestino =   Record
         nombre:   string;
         distancia:   real;
-        ventas:   integer;
+        ventas:   longint;
     End;
 
     // Arbol con datos
@@ -84,7 +84,7 @@ Procedure LeerDestino(Var datos: dataDestino);
 Begin
     write('Inserte el nombre del destino:');
     readln(datos.nombre);
-    If datos.nombre <> 'Fin' Then
+    If (datos.nombre <> 'Fin')and(datos.nombre <> 'fin') Then
         Begin
             write('Inserte la distancia:');
             readln(datos.distancia);
@@ -102,8 +102,10 @@ var
 begin
     LeerDestino(datosDestino);
 
-    if (datosDestino.nombre <> 'Fin') then
+    while (datosDestino.nombre <> 'Fin') and (datosDestino.nombre <> 'fin') do begin
         InsertarIntegerArbol(A, datosDestino);
+        LeerDestino(datosDestino);
+    end;
 end;
 
 Procedure inicializar (Var A: arbol);
@@ -115,44 +117,39 @@ procedure InformarDestino(D: dataDestino);
 begin
     writeln('Destino: ', D.nombre);
     writeln('Cantidad de pasajes vendidos: ', D.ventas);
-    writeln('Distancia en kilometros: ', D.distancia:0:0);
+    writeln('Distancia en kilometros: ', D.distancia:0:2);
 end;
 
-procedure Buscar(A: arbol; DestinoNom:string; var PtrD: arbol; var exito: boolean);
+procedure Buscar(A: arbol; DestinoBuscado: string; var PtrD: arbol; var exito: boolean);
 
 begin
     if (A = nil) then
         exito := False
-    else if (A^.datos.nombre = DestinoNom) then begin
+    else if (A^.datos.nombre = DestinoBuscado)then begin
         exito := True;
         PtrD := A;
-    end else if (A^.datos.nombre < DestinoNom) then
-        Buscar(A^.HD, DestinoNom, PtrD, exito)
+    end else if (A^.datos.nombre < DestinoBuscado) then
+        Buscar(A^.HD, DestinoBuscado, PtrD, exito)
     else
-        Buscar(A^.HI, DestinoNom, PtrD, exito)
+        Buscar(A^.HI, DestinoBuscado, PtrD, exito)
 end;
 
 procedure BuscarDestino(A: arbol);
 
 var
-    DestinoBuscado: dataDestino;
+    DestinoBuscado: string;
     exito: boolean;
     PtrD: arbol;
-    DestinoNom:string;
 
 begin
-    writeln('Ingrese El Destino A Buscar:');
+    writeln('Ingrese el nombre del destino que quiere buscar');
+    readln(DestinoBuscado);
 
-    read(destinonom);
-
-    Buscar(A, DestinoNom, PtrD, exito);
+    Buscar(A, DestinoBuscado, PtrD, exito);
 
     if exito then begin
         writeln('Se encontro el destino. A continuacion se informara sus caracteristicas.');
-        writeln();
-        writeln('Destino: ',PtrD^.datos.nombre);
-        writeln('Distancia: ',PtrD^.datos.distancia:0:0);
-        writeln('Ventas: ',PtrD^.datos.ventas);
+        InfromarDestino(PtrD^.datos);
     end;
 end;
 
@@ -163,10 +160,16 @@ var
 
 begin
     verMinRecorrido(A, DestinoCercano);
-    if (DestinoCercano.ventas <> -1) then begin
+    if (DestinoCercano.distancia <> -1) then begin
         writeln('El destino mas cercano es el siguiente');
         InfromarDestino(DestinoCercano);
     end;
+end;
+
+procedure SumarPasaje(var PtrD: arbol; P: longint);
+
+begin
+    PtrD^.datos.ventas := PtrD^.datos.ventas + P;
 end;
 
 procedure SumarPasajeADestino(var A: arbol);
@@ -174,15 +177,21 @@ procedure SumarPasajeADestino(var A: arbol);
 var
     DestinoSumar: string;
     existe: boolean;
+    PtrD: arbol;
+    pasajes: longint;
 
 begin
     writeln ('Ingrese el nombre del destino que quiere sumar');
-    read(DestinoSumar);
+    readln(DestinoSumar);
     if DestinoSumar <> 'Fin' then begin
         Buscar(A, DestinoSumar, PtrD, existe);
-        if existe then
-            SumarPasaje(A, DestinoSumar);
-    end
+        if existe then begin
+            writeln('Cuantos pasajes quieres sumar? ');
+            readln(pasajes);
+            SumarPasaje(PtrD, pasajes);
+        end else
+            writeln('El destino al que le queres sumar pasajes no existe');
+    end;
 end;
 
 // |==============================================================|
@@ -191,8 +200,7 @@ end;
 
 Var
     ArbolDestinos:   arbol;
-    decision:   integer;
-    valor:real;
+    decision:   longint;
 
 Begin
     writeln('Bienvenido Al Programa De Gestion De Viajes en autobus');
@@ -201,6 +209,7 @@ Begin
 
     While (decision <> 0) Do
         Begin
+            Separador();
             // Writelns
             writeln('Menu De Opciones:');
             writeln('1 -> Cargar Destinos');
@@ -223,7 +232,7 @@ Begin
                     readln(decision);
                 End;
             Case decision Of
-                1:   writeln(); // Falta Implementar
+                1:   CargarDestino(ArbolDestinos);
                 2:   InformarEnOrden(ArbolDestinos);
                 3:   BuscarDestino(ArbolDestinos);
                 4:   BuscarMasCercano(ArbolDestinos);
