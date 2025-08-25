@@ -139,13 +139,14 @@ procedure BuscarDestino(A: arbol);
 var
     DestinoBuscado: dataDestino;
     exito: boolean;
+    PtrD: arbol;
 
 begin
     writeln('Ingrese las caracteristicas del destino que quiere buscar');
 
     LeerDestino(DestinoBuscado);
 
-    Buscar(A, DestinoBuscado, exito);
+    Buscar(A, DestinoBuscado, PtrD, exito);
 
     if exito then begin
         writeln('Se encontro el destino. A continuacion se informara sus caracteristicas.');
