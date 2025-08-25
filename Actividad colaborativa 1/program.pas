@@ -118,23 +118,11 @@ begin
     writeln('Distancia en kilometros: ', D.distancia:0:0);
 end;
 
-<<<<<<< Updated upstream
-procedure Buscar(A: arbol; DestinoBuscado: dataDestino; var exito: boolean);
-=======
 procedure Buscar(A: arbol; DestinoNom:string; var PtrD: arbol; var exito: boolean);
->>>>>>> Stashed changes
 
 begin
     if (A = nil) then
         exito := False
-<<<<<<< Updated upstream
-    else if (A^.datos.nombre = DestinoBuscado.nombre) and (A^.datos.distancia = DestinoBuscado.distancia) and (A^.datos.ventas = DestinoBuscado.ventas) then
-        exito := True
-    else if (A^.datos.nombre < DestinoBuscado.nombre) then
-        Buscar(A^.HD, DestinoBuscado, exito)
-    else
-        Buscar(A^.HI, DestinoBuscado, exito)
-=======
     else if (A^.datos.nombre = DestinoNom) then begin
         exito := True;
         PtrD := A;
@@ -142,7 +130,6 @@ begin
         Buscar(A^.HD, DestinoNom, PtrD, exito)
     else
         Buscar(A^.HI, DestinoNom, PtrD, exito)
->>>>>>> Stashed changes
 end;
 
 procedure BuscarDestino(A: arbol);
@@ -150,22 +137,15 @@ procedure BuscarDestino(A: arbol);
 var
     DestinoBuscado: dataDestino;
     exito: boolean;
-<<<<<<< Updated upstream
-=======
     PtrD: arbol;
     DestinoNom:string;
->>>>>>> Stashed changes
 
 begin
     writeln('Ingrese El Destino A Buscar:');
 
     read(destinonom);
 
-<<<<<<< Updated upstream
-    Buscar(A, DestinoBuscado, exito);
-=======
     Buscar(A, DestinoNom, PtrD, exito);
->>>>>>> Stashed changes
 
     if exito then begin
         writeln('Se encontro el destino. A continuacion se informara sus caracteristicas.');
@@ -196,17 +176,10 @@ var
     existe: boolean;
 
 begin
-<<<<<<< Updated upstream
-    writeln ('Ingrese las caracteristicas del destino que quiere sumar');
-    LeerDestino(DestinoSumar);
-    if DestinoSumar.nombre <> 'Fin' then begin
-        Buscar(A, DestinoSumar, existe);
-=======
     writeln ('Ingrese el nombre del destino que quiere sumar');
     read(DestinoSumar);
     if DestinoSumar <> 'Fin' then begin
         Buscar(A, DestinoSumar, PtrD, existe);
->>>>>>> Stashed changes
         if existe then
             SumarPasaje(A, DestinoSumar);
     end
