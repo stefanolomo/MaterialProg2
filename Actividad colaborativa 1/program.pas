@@ -114,6 +114,7 @@ Begin
 
     While (decision <> 0) Do
         Begin
+        // Writelns
             writeln('Menu De Opciones:');
             writeln('1-Inicializar Estructura De Datos (Necesario para funcionamiento)');
             writeln('2-Cargar Destinos');
@@ -129,6 +130,8 @@ Begin
             readln(decision);
 
             Separador();
+
+        // Decisiones
 
             While not (decision in [1, 2, 3, 4, 5, 6, 0]) Do
                 Begin
