@@ -117,7 +117,7 @@ procedure InfromarDestino(D: dataDestino);
 begin
     writeln('Destino: ', D.nombre);
     writeln('Cantidad de pasajes vendidos: ', D.ventas);
-    writeln('Distancia en kilometros: ', D.distancia);
+    writeln('Distancia en kilometros: ', D.distancia:0:2);
 end;
 
 procedure Buscar(A: arbol; DestinoBuscado: string; var PtrD: arbol; var exito: boolean);
