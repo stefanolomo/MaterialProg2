@@ -163,12 +163,16 @@ Begin
     writeln('En Orden');
     enOrden(a);
 
-    writeln('Escribir rango:');
-    write('inferior: ');
+    Separador();
+
+    write('Rango inferior de busqueda: ');
     readln(inf);
-    write('superior: ');
+
+    write('Rango superior de busqueda: ');
     readln(sup);
+
     BusquedaAcotada(a,inf,sup);
-    readln;
+
+    writeln();
     readln;
 End.
