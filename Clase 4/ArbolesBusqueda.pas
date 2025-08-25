@@ -132,13 +132,12 @@ Procedure busquedaAcotada(a: arbol; inf:integer; sup:integer);
 Begin
     If (a <> Nil) Then
         If (a^.dato >= inf) Then
-            If (a^.dato <= sup) Then
-                Begin
-                    write(a^.dato,' - ');
-                    busquedaAcotada(a^.hi, inf, sup);
-                    busquedaAcotada (a^.hd, inf, sup);
-                End
-    Else
+            If (a^.dato <= sup) Then Begin
+                write(a^.dato,' - ');
+                busquedaAcotada(a^.hi, inf, sup);
+                busquedaAcotada (a^.hd, inf, sup);
+            End
+    Else //
         busquedaAcotada(a^.hi, inf, sup)
     Else
         busquedaAcotada(a^.hd, inf, sup);
