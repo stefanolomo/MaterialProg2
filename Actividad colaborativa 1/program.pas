@@ -133,7 +133,7 @@ Begin
 
             Separador();
 
-            While (decision<0)Or(decision>6) Do
+            While not (decision in [1, 2, 3, 4, 5, 6, 0]) Do
                 Begin
                     writeln('Inserte Opcion Valida:');
                     readln(decision);
