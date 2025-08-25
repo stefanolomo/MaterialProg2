@@ -120,17 +120,18 @@ begin
     writeln('Distancia en kilometros: ', D.distancia);
 end;
 
-procedure Buscar(A: arbol; DestinoBuscado: dataDestino; var exito: boolean);
+procedure Buscar(A: arbol; DestinoBuscado: dataDestino; var PtrD: arbol; var exito: boolean);
 
 begin
     if (A = nil) then
         exito := False
-    else if (A^.datos.nombre = DestinoBuscado.nombre) and (A^.datos.distancia = DestinoBuscado.distancia) and (A^.datos.ventas = DestinoBuscado.ventas) then
-        exito := True
-    else if (A^.datos.nombre < DestinoBuscado.nombre) then
-        Buscar(A^.HD, DestinoBuscado, exito)
+    else if (A^.datos.nombre = DestinoBuscado.nombre) and (A^.datos.distancia = DestinoBuscado.distancia) and (A^.datos.ventas = DestinoBuscado.ventas) then begin
+        exito := True;
+        PtrD := A;
+    end else if (A^.datos.nombre < DestinoBuscado.nombre) then
+        Buscar(A^.HD, DestinoBuscado, PtrD, exito)
     else
-        Buscar(A^.HI, DestinoBuscado, exito)
+        Buscar(A^.HI, DestinoBuscado, PtrD, exito)
 end;
 
 procedure BuscarDestino(A: arbol);
