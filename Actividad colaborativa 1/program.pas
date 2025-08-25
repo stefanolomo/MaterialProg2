@@ -7,7 +7,7 @@ Type
     dataDestino =   Record
         nombre:   string;
         distancia:   real;
-        ventas:   integer;
+        ventas:   longint;
     End;
 
     // Arbol con datos
@@ -167,7 +167,7 @@ begin
     end;
 end;
 
-procedure SumarPasaje(var PtrD: arbol; P: integer);
+procedure SumarPasaje(var PtrD: arbol; P: longint);
 
 begin
     PtrD^.datos.ventas := PtrD^.datos.ventas + P;
@@ -179,7 +179,7 @@ var
     DestinoSumar: dataDestino;
     existe: boolean;
     PtrD: arbol;
-    pasajes: integer;
+    pasajes: longint;
 
 begin
     writeln ('Ingrese las caracteristicas del destino que quiere sumar');
@@ -201,7 +201,7 @@ end;
 
 Var
     ArbolDestinos:   arbol;
-    decision:   integer;
+    decision:   longint;
 
 Begin
     writeln('Bienvenido Al Programa De Gestion De Viajes en autobus');
