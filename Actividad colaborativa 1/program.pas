@@ -227,7 +227,7 @@ Begin
                     readln(decision);
                 End;
             Case decision Of
-                1:   writeln(); // Falta Implementar
+                1:   CargarDestino(ArbolDestinos); // Falta Implementar
                 2:   InformarEnOrden(ArbolDestinos);
                 3:   BuscarDestino(ArbolDestinos);
                 4:   BuscarMasCercano(ArbolDestinos);
