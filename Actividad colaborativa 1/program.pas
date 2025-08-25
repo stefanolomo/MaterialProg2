@@ -84,7 +84,7 @@ Procedure LeerDestino(Var datos: dataDestino);
 Begin
     write('Inserte el nombre del destino:');
     readln(datos.nombre);
-    If datos.nombre <> 'Fin' Then
+    If (datos.nombre <> 'Fin')and(datos.nombre <> 'fin') Then
         Begin
             write('Inserte la distancia:');
             readln(datos.distancia);
@@ -102,7 +102,7 @@ var
 begin
     LeerDestino(datosDestino);
 
-    while (datosDestino.nombre <> 'Fin') do begin
+    while (datosDestino.nombre <> 'Fin')and(datosDestino.nombre <> 'fin') do begin
         InsertarIntegerArbol(A, datosDestino);
         LeerDestino(datosDestino);
     end;
@@ -210,6 +210,7 @@ Begin
 
     While (decision <> 0) Do
         Begin
+            Separador();
             // Writelns
             writeln('Menu De Opciones:');
             writeln('1 -> Cargar Destinos');
