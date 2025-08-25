@@ -167,19 +167,26 @@ begin
     end;
 end;
 
+procedure SumarPasaje(var PtrD: arbol);
+
+begin
+    PtrD^.datos.ventas := PtrD^.datos.ventas + 1;
+end;
+
 procedure SumarPasajeADestino(var A: arbol);
 
 var
     DestinoSumar: dataDestino;
     existe: boolean;
+    PtrD: arbol;
 
 begin
     writeln ('Ingrese las caracteristicas del destino que quiere sumar');
     LeerDestino(DestinoSumar);
     if DestinoSumar.nombre <> 'Fin' then begin
-        Buscar(A, DestinoSumar, existe);
+        Buscar(A, DestinoSumar, PtrD, existe);
         if existe then
-            SumarPasaje(A, DestinoSumar);
+            SumarPasaje(PtrD);
     end
 end;
 
