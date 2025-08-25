@@ -18,6 +18,7 @@ Type
 
 Procedure enOrden( A: arbol );
 Begin
+    Separador();
     If ( A <> Nil ) Then
         Begin
             enOrden (a^.HI);
@@ -77,6 +78,7 @@ Procedure cargarDestino(Var a:arbol);
 
 Var datos:   datarbol;
 Begin
+    Separador();
     datos.nombre:='';
     while (datos.nombre<>'Fin')and(datos.nombre<>'fin')do
     begin
@@ -95,6 +97,7 @@ End;
 
 Procedure inicializar (Var a:arbol);
 Begin
+    Separador();
     a := Nil;
     writeln;
     writeln('Inicializando estructura...');
@@ -114,6 +117,7 @@ Begin
     writeln('Bienvenido Al Programa De Gestion De Viajes en autobus');
     decision := 999;valor:=9999999;
     While (decision<>0) Do Begin
+          Separador();
           writeln;
           writeln('Menu De Opciones:');writeln;
           writeln('1-Inicializar Estructura De Datos (Necesario para funcionamiento)');
@@ -138,7 +142,7 @@ Begin
 
           if(decision=5)then begin
              verMinRecorrido(a,valor);
-             writeln('')
+             writeln('EL destino mas cercano esta a ',valor,' km y es ',)
           end;
         end;
 End.
