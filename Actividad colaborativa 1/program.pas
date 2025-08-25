@@ -102,7 +102,7 @@ var
 begin
     LeerDestino(datosDestino);
 
-    while (datosDestino.nombre <> 'Fin')and(datos.nombre <> 'fin') do begin
+    while (datosDestino.nombre <> 'Fin')and(datosDestino.nombre <> 'fin') do begin
         InsertarIntegerArbol(A, datosDestino);
         LeerDestino(datosDestino);
     end;
