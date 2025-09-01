@@ -149,9 +149,19 @@ Begin
         InsertarOActualizarVuelo(a^.datos.vuelos, vueloNuevo);
 End;
 
+Procedure CargarArbol(Var A: arbol);
+
+Var
+    v:   venta;
 
 Begin
-    // Imprime el mayor puntaje de los pasajeros cuyo DNI se encuentre entre 40.000.000 y 50.000.000
+    LeerRegistroVentas(v);
+
+    While (v.dni <> 0) Do
+        Begin
+            InsertarOActualizarPasajero(A, v);
+            LeerRegistroVentas(v);
+        End;
 End;
 
 Var
