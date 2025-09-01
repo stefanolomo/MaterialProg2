@@ -234,7 +234,9 @@ Begin
 End;
 
 Var
-    l_inicial:   listaPedidos;
+    l_inicial:    listaPedidos;
+    ArbolArea:    arbol;
+    minimoCodigo, minimaCantidad: longint;
 
 Begin
     Randomize;
@@ -245,9 +247,18 @@ Begin
     writeln('Lista:');
     imprimirLista(l_inicial);
 
-    {Completarelprograma}
+    Separador();
 
-    HallarMenorDemanda()
+    CargarArbolDesdeLista(ArbolArea, l_inicial);
+
+    minimaCantidad := 999999;
+    minimoCodigo := -1;
+    HallarMenorDemanda(ArbolArea, minimaCantidad, minimoCodigo);
+
+    writeln(minimoCodigo);
+
+    if (minimoCodigo <> -1) then
+        writeln('El area con menos solicitantes es la ', minimoCodigo, ' con ', minimaCantidad, ' solicitantes');
 
     writeln('Fin del programa');
 End.
