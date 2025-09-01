@@ -165,13 +165,17 @@ Begin
 End;
 
 Var
-    vuelos:   listaVuelos;
-    arbol:   arbol;
-
+    ArbolDNI: arbol;
+    maxPuntos, dniMax: integer;
 Begin
-    // Programa principal
-    leerVuelos(vuelos);
-    actualizarArbol(arbol, vuelos);
-    writeln('Mayor puntaje:', calcularSumaPuntos(arbol));
-    imprimirMayorPuntaje(arbol);
+    ArbolDNI := nil;
+    CargarArbol(ArbolDNI);
+
+    maxPuntos := -1;
+    dniMax := -1;
+    MejorCliente(ArbolDNI, maxPuntos, dniMax);
+    writeln('El mejor cliente es DNI ', dniMax, ' con ', maxPuntos, ' puntos.');
+
+    writeln('Pasajeros entre 40.000.000 y 50.000.000:');
+    MejoresVuelosEnRango(ArbolDNI);
 End.
