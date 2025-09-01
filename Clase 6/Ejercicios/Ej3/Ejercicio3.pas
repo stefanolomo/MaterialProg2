@@ -148,23 +148,7 @@ Begin
         End;
 End;
 
-function contarNodosListaDni(L: listaDni): integer;
-
-var
-    aux: longint;
-
-begin
-    aux := 0;
-
-    while (L <> nil) do begin
-        aux := aux + 1;
-        L := L^.sig;
-    end;
-
-    contarNodosListaDni := aux;
-end;
-
-Procedure HallarMenorDemanda(a: arbol; var minCant, minCod: longint);
+Procedure HallarMenorDemanda(a: arbol; Var minCant, minCod: longint);
 
 var
     cantidadActual: longint;
