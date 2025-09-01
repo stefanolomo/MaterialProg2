@@ -1,70 +1,83 @@
+
 Program encomiendas;
+
 Type
 
-   encomienda = record
-                  codigo: integer;
-                  peso: integer;
-                end;
+    encomienda =   Record
+        codigo:   integer;
+        peso:   integer;
+    End;
 
-  // Lista de encomiendas
-  lista = ^nodoL;
-  nodoL = record
-    dato: encomienda;
-    sig: lista;
-  end;
+    // Lista de encomiendas
+    lista =   ^nodoL;
+    nodoL =   Record
+        dato:   encomienda;
+        sig:   lista;
+    End;
+
+
 
 
 {-----------------------------------------------------------------------------
 AgregarAdelante - Agrega una encomienda adelante en l}
-procedure agregarAdelante(var l: Lista; enc: encomienda);
-var
-  aux: lista;
-begin
-  new(aux);
-  aux^.dato := enc;
-  aux^.sig := l;
-  l:= aux;
-end;
+Procedure agregarAdelante(Var l: Lista; enc: encomienda);
+
+Var
+    aux:   lista;
+Begin
+    new(aux);
+    aux^.dato := enc;
+    aux^.sig := l;
+    l := aux;
+End;
+
+
 
 
 {-----------------------------------------------------------------------------
 CREARLISTA - Genera una lista con datos de las encomiendas }
-procedure crearLista(var l: Lista);
-var
-  e: encomienda;
-  i: integer;
-begin
- l:= nil;
- for i:= 1 to 20 do begin
-   e.codigo := i;
-   e.peso:= random (10);
-   while (e.peso = 0) do e.peso:= random (10);
-   agregarAdelante(L, e);
- End;
-end;
+Procedure crearLista(Var l: Lista);
+
+Var
+    e:   encomienda;
+    i:   integer;
+Begin
+    l := Nil;
+    For i:= 1 To 20 Do
+        Begin
+            e.codigo := i;
+            e.peso := random (10);
+            While (e.peso = 0) Do
+                e.peso := random (10);
+            agregarAdelante(L, e);
+        End;
+End;
+
+
 
 
 {-----------------------------------------------------------------------------
 IMPRIMIRLISTA - Muestra en pantalla la lista l }
-procedure imprimirLista(l: Lista);
-begin
- While (l <> nil) do begin
-   writeln('Codigo: ', l^.dato.codigo, '  Peso: ', l^.dato.peso);
-   l:= l^.sig;
- End;
-end;
+Procedure imprimirLista(l: Lista);
+Begin
+    While (l <> Nil) Do
+        Begin
+            writeln('Codigo: ', l^.dato.codigo, '  Peso: ', l^.dato.peso);
+            l := l^.sig;
+        End;
+End;
 
 
 Var
 
- l: lista;
+    l:   lista;
 
-begin
- Randomize;
+Begin
+    Randomize;
 
- crearLista(l);
- writeln ('Lista de encomiendas generada: ');
- imprimirLista(l);
+    crearLista(l);
+    writeln ('Lista de encomiendas generada: ');
+    imprimirLista(l);
 
- readln;
-end.
+    readln;
+End.
