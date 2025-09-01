@@ -150,25 +150,25 @@ End;
 
 Procedure HallarMenorDemanda(a: arbol; Var minCant, minCod: longint);
 
-var
-    cantidadActual: longint;
+Begin
+    If (a <> Nil) Then
+        Begin
+            // Busca el mejor cliente de la rama izquierda
+            HallarMenorDemanda(a^.HI, minCant, minCod);
 
-begin
-    minCant := 999999;
+            // Si es un minimo actualiza
+            If (a^.datos.pedidos < minCant) Then
+                Begin
+                    minCant := a^.datos.pedidos;
+                    minCod := a^.datos.codigo;
+                End;
 
-    if (a <> nil) then begin
-        // Busca el mejor cliente de la rama izquierda
-        HallarMenorDemanda(a^.HI, minCant, minCod);
+            // Busca el mejor cliente de la rama derecha
+            HallarMenorDemanda(a^.HD, minCant, minCod);
 
-        // Si es un minimo actualiza
-        cantidadActual := contarNodosListaDni(a^.datos.solicitantes);
-        if (cantidadActual < minCant) then begin
-            minCant := cantidadActual;
-            minCod := a^.datos.codigo;
-        end;
-
-        // Busca el mejor cliente de la rama derecha
-        HallarMenorDemanda(a^.HD, minCant, minCod);
+            // Recorre: Izquierda - Raiz - Derecha (Similar a enOrden)
+        End;
+End;
 
 Procedure AgregarDNI(Var L: listaDni; d: longint);
 
