@@ -190,6 +190,12 @@ begin
     end;
 end;
 
+Procedure CargarArbolDesdeLista(Var A: arbol; Var L: listaPedidos);
+
+Begin
+
+End;
+
 Var
     l_inicial:   listaPedidos;
 
@@ -203,6 +209,8 @@ Begin
     imprimirLista(l_inicial);
 
     {Completarelprograma}
+
+    HallarMenorDemanda()
 
     writeln('Fin del programa');
 End.
