@@ -69,13 +69,43 @@ Begin
         End;
 End;
 
-Procedure actualizarArbol(Var arbol: arbol; vuelos: listaVuelos);
+Procedure LeerRegistroVentas(Var V: venta);
 
 Begin
-    // Actualiza el árbol con los vuelos
-End;
+    // codigo, nombre apellido, dni, millas, clase
+    writeln('Ingresar el DNI del pasajero (0 para terminar):');
+    readln(V.dni);
 
-Function calcularSumaPuntos(arbol: arbol):   integer;
+    While (V.dni < 0) Do
+        Begin
+            writeln('El DNI ingresado no es valido. Ingresar otro:');
+            readln(V.dni);
+        End;
+
+    If (V.dni <> 0) Then
+        Begin
+            writeln('Ingresar el nombre del pasajero:');
+            readln(V.nombre);
+
+            writeln('Ingresar el apellido del pasajero:');
+            readln(V.apellido);
+
+            writeln('Ingresar el codigo de vuelo:');
+            readln(V.codigo);
+
+            writeln('Ingresar las millas recorridas:');
+            readln(V.millas);
+
+            writeln('Ingresar la clase (1: Turista, 2: Ejecutiva):');
+            readln(V.clase);
+
+            While Not (v.clase In [1, 2]) Do
+                Begin
+                    writeln('La clase ingresada no es valida. Ingresar otra (1: Turista, 2: Ejecutiva):');
+                    readln(V.clase);
+                End;
+        End;
+End;
 
 Begin
     // Calcula la suma de puntos de cada nodo y encuentra el máximo
