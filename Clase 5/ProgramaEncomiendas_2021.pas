@@ -42,9 +42,6 @@ Begin
     l := aux;
 End;
 
-
-
-
 {-----------------------------------------------------------------------------
 CREARLISTA - Genera una lista con datos de las encomiendas }
 Procedure crearLista(Var l: ListaEncomiendas);
@@ -101,10 +98,37 @@ begin
         Buscar(A^.HI, ptr, pesoBuscado)
 end;
 
-procedure InsertarCodigoEnArbol(var A: arbol; peso, codigo: integer);
+procedure insertarAlFinalListaCodigos(var ListaNodo: ptrListaCod; codigo: integer);
+
+var
+    ant, act, nuevo: ptrListaCod;
 
 begin
+    ant := nil;
+    act := ListaNodo;
 
+    new(nuevo);
+    nuevo^.codigo := codigo;
+    nuevo^.sig := nil;
+
+    while (act <> nil) do begin
+        ant := act;
+        ListaNodo := ListaNodo^.sig;
+    end;
+
+    ant^.sig := nuevo;
+end;
+
+procedure InsertarCodigoEnArbol(var A: arbol; peso, codigo: integer);
+
+var
+    NodoEncontrado: arbol;
+
+begin
+    Buscar(A, NodoEncontrado, peso);
+
+    if (NodoEncontrado <> nil) then
+        insertarAlFinalListaCodigos(NodoEncontrado^.ListaCodigos, codigo);
 end;
 
 Procedure InsertarArbolDesdeLista(L: ListaEncomiendas; Var A: arbol);
@@ -121,6 +145,7 @@ End;
 Var
 
     l:   ListaEncomiendas;
+    ArbolDePesos: arbol;
 
 Begin
     Randomize;
@@ -130,6 +155,8 @@ Begin
     imprimirLista(l);
 
     Separador();
+
+    InsertarArbolDesdeLista(l, ArbolDePesos);
 
 
 End.
