@@ -25,6 +25,7 @@ Type
         sig:   listaNivel;
     End;
 
+
 {-----------------------------------------------------------------------------
 AgregarAdelante - Agrega nro adelante de l}
 Procedure agregarAdelante(Var l: Lista; nro: integer);
@@ -37,6 +38,7 @@ Begin
     aux^.sig := l;
     l := aux;
 End;
+
 
 {-----------------------------------------------------------------------------
 CREARLISTA - Genera una lista con n�meros aleatorios }
@@ -58,6 +60,7 @@ Begin
         End;
 End;
 
+
 {-----------------------------------------------------------------------------
 IMPRIMIRLISTA - Muestra en pantalla la lista l }
 Procedure imprimirLista(l: Lista);
@@ -68,6 +71,7 @@ Begin
             l := l^.sig;
         End;
 End;
+
 
 {-----------------------------------------------------------------------------
 CONTARELEMENTOS - Devuelve la cantidad de elementos de una lista l }
@@ -84,6 +88,7 @@ Begin
         End;
     contarElementos := c;
 End;
+
 
 {-----------------------------------------------------------------------------
 AGREGARATRAS - Agrega un elemento atr�s en l}
@@ -104,6 +109,7 @@ Begin
 
     ult := nue;
 End;
+
 
 {-----------------------------------------------------------------------------
 IMPRIMIRPORNIVEL - Muestra los datos del �rbol a por niveles }
@@ -184,73 +190,76 @@ Begin
         End;
 End;
 
-procedure Separador();
-begin
+Procedure Separador();
+Begin
     writeln('');
     writeln('');
     writeln('----------------------------------------');
     writeln('');
-end;
+End;
 
 
-procedure verMin(A: arbol; var valor: integer);
+Procedure verMin(A: arbol; Var valor: integer);
 
-begin
-    // El minimo de un arbol binario ordenado siempre va a estar a la izquierda de todos los nodos, es decir, va a ser la hoja mas a la izquierda del arbol
+Begin
 
-    if (A = nil) then // El arbol esta vacio
+// El minimo de un arbol binario ordenado siempre va a estar a la izquierda de todos los nodos, es decir, va a ser la hoja mas a la izquierda del arbol
+
+    If (A = Nil) Then // El arbol esta vacio
         valor := -1
-    else if (A^.HI = nil) then // Estamos en la ultima hoja a la izquierda
-        valor := A^.dato
-    else // Hay que seguir avanzando hacia la izquierda
+    Else If (A^.HI = Nil) Then // Estamos en la ultima hoja a la izquierda
+             valor := A^.dato
+    Else // Hay que seguir avanzando hacia la izquierda
         verMin(A^.HI, valor);
-end;
-procedure BorrarElemento(var a:arbol; dato:integer; var resultado:boolean);
-var borrar:arbol;
-    numero:integer;
-begin
-    if (a=nil) then resultado:=false
-    else
-        if (a^.dato>dato)then
-        BorrarElemento(a^.HI,dato,resultado)
-        else if (a^.dato<dato) then
-        BorrarElemento(a^.HD,dato,resultado)
-             else
-             begin
-                resultado:=true;
-                if (a^.HI=nil) and (a^.HD=nil)then
-                begin
-                    borrar:=a;
-                    a:=nil;
+End;
+Procedure BorrarElemento(Var a:arbol; dato:integer; Var resultado:boolean);
+
+Var borrar:   arbol;
+    numero:   integer;
+Begin
+    If (a=Nil) Then resultado := false
+    Else
+        If (a^.dato>dato)Then
+            BorrarElemento(a^.HI,dato,resultado)
+    Else If (a^.dato<dato) Then
+             BorrarElemento(a^.HD,dato,resultado)
+    Else
+        Begin
+            resultado := true;
+            If (a^.HI=Nil) And (a^.HD=Nil)Then
+                Begin
+                    borrar := a;
+                    a := Nil;
                     dispose(borrar);
-                end
-                else
-                if (a^.HI=nil) and (a^.HD<>nil)then
-                    begin
-                    borrar:=a;
-                    a:=a^.HD;
-                    dispose(borrar);
-                    end
-                else if (a^.HI<>nil) and (a^.HD=nil)then
-                    begin
-                    borrar:=a;
-                    a:=a^.HI;
-                    dispose(borrar);
-                    end
-                    else
-                    begin
-                      verMin(a^.HD,numero);
-                      a^.dato:=numero;
-                      BorrarElemento(a^.HD,numero,resultado);
-                    end;
-             end;
-end;
+                End
+            Else
+                If (a^.HI=Nil) And (a^.HD<>Nil)Then
+                    Begin
+                        borrar := a;
+                        a := a^.HD;
+                        dispose(borrar);
+                    End
+            Else If (a^.HI<>Nil) And (a^.HD=Nil)Then
+                     Begin
+                         borrar := a;
+                         a := a^.HI;
+                         dispose(borrar);
+                     End
+            Else
+                Begin
+                    verMin(a^.HD,numero);
+                    a^.dato := numero;
+                    BorrarElemento(a^.HD,numero,resultado);
+                End;
+        End;
+End;
+
 Var
 
     l:   lista;
     a, punteroBuscado:   arbol;
-    enteroBuscado: integer;
-    resultado:boolean;
+    enteroBuscado:   integer;
+    resultado:   boolean;
 Begin
     Randomize;
 
@@ -268,26 +277,32 @@ Begin
     Separador();
 
 
-    enteroBuscado:=1;
-    while (enteroBuscado<>0)and(a<>nil)do
-    begin
-    writeln('Ingrese el entero que quiere Eliminar en la lista(0 para terminar)');
-    readln(enteroBuscado);
-    while enteroBuscado < 0 do begin
-        writeln('Ingresar un numero valido ( > 0 )');
-        readln(enteroBuscado);
-    end;
+    enteroBuscado := 1;
+    While (enteroBuscado<>0)And(a<>Nil) Do
+        Begin
+            writeln(
+           'Ingrese el entero que quiere Eliminar en la lista (0 para terminar)'
+            );
 
-    BorrarElemento(a, enteroBuscado, resultado);
+            readln(enteroBuscado);
 
-    if (resultado = true) then
-        writeln('Se elimino el valor ',enteroBuscado)
-    else
-        writeln('No se encontro el entero');
-    Separador();
-    imprimirpornivel(a);
+            While enteroBuscado < 0 Do
+                Begin
+                    writeln('Ingresar un numero valido ( > 0 )');
+                    readln(enteroBuscado);
+                End;
 
-    end;
-    if (a=nil)then writeln('no hay mas elementos en la lista');
-    writeln();readln;readln;
+            if (enteroBuscado <> 0) then
+                BorrarElemento(a, enteroBuscado, resultado);
+
+            If (resultado = true) and (enteroBuscado <> 0) Then
+                writeln('Se elimino el valor ',enteroBuscado)
+            Else if (enteroBuscado <> 0) then
+                writeln('No se encontro el entero');
+            Separador();
+            imprimirpornivel(a);
+
+        End;
+    If (a=Nil)Then writeln('no hay mas elementos en la lista');
+    writeln();
 End.
