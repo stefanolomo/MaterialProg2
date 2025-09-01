@@ -186,9 +186,16 @@ begin
         // Busca el mejor cliente de la rama derecha
         HallarMenorDemanda(a^.HD, minCant, minCod);
 
-        // Recorre: Izquierda - Raiz - Derecha (Similar a enOrden)
-    end;
-end;
+Procedure AgregarDNI(Var L: listaDni; d: longint);
+
+Var
+    nue:   listaDni;
+Begin
+    new(nue);
+    nue^.dni := d;
+    nue^.sig := L;
+    L := nue;
+End;
 
 Procedure CargarArbolDesdeLista(Var A: arbol; Var L: listaPedidos);
 
