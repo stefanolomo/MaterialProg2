@@ -9,21 +9,32 @@ Type
     End;
 
     // Lista de encomiendas
-    lista =   ^nodoL;
+    ListaEncomiendas =   ^nodoL;
     nodoL =   Record
         dato:   encomienda;
-        sig:   lista;
+        sig:   ListaEncomiendas;
     End;
 
+    ptrListaCod = ^nodoCod;
+    nodoCod = record
+        codigo: integer;
+        sig: ptrListaCod;
+    end;
 
-
+    // Arbol de pesos
+    arbol = ^nodoArbol;
+    nodoArbol = record
+        peso: integer;
+        ListaCodigos: ptrListaCod;
+        HI, HD: arbol;
+    end;
 
 {-----------------------------------------------------------------------------
 AgregarAdelante - Agrega una encomienda adelante en l}
-Procedure agregarAdelante(Var l: Lista; enc: encomienda);
+Procedure agregarAdelante(Var l: ListaEncomiendas; enc: encomienda);
 
 Var
-    aux:   lista;
+    aux:   ListaEncomiendas;
 Begin
     new(aux);
     aux^.dato := enc;
@@ -36,7 +47,7 @@ End;
 
 {-----------------------------------------------------------------------------
 CREARLISTA - Genera una lista con datos de las encomiendas }
-Procedure crearLista(Var l: Lista);
+Procedure crearLista(Var l: ListaEncomiendas);
 
 Var
     e:   encomienda;
@@ -58,7 +69,7 @@ End;
 
 {-----------------------------------------------------------------------------
 IMPRIMIRLISTA - Muestra en pantalla la lista l }
-Procedure imprimirLista(l: Lista);
+Procedure imprimirLista(l: ListaEncomiendas);
 Begin
     While (l <> Nil) Do
         Begin
@@ -67,10 +78,49 @@ Begin
         End;
 End;
 
+Procedure Separador();
+Begin
+    writeln('');
+    writeln('');
+    writeln('----------------------------------------');
+    writeln('');
+End;
+
+procedure Buscar(A: arbol; var ptr: arbol; pesoBuscado: integer);
+
+begin
+    ptr := nil;
+
+    if (A = nil) then
+        ptr := nil
+    else if (A^.peso = pesoBuscado) then
+        ptr := A
+    else if (A^.peso < pesoBuscado) then
+        Buscar(A^.HD, ptr, pesoBuscado)
+    else
+        Buscar(A^.HI, ptr, pesoBuscado)
+end;
+
+procedure InsertarCodigoEnArbol(var A: arbol; peso, codigo: integer);
+
+begin
+
+end;
+
+Procedure InsertarArbolDesdeLista(L: ListaEncomiendas; Var A: arbol);
+
+Begin
+    While (L <> Nil) Do
+        Begin
+            // InsertarCodigoEnArbol(A, L^.peso, L^.codigo);
+
+            L := L^.sig;
+        End;
+End;
 
 Var
 
-    l:   lista;
+    l:   ListaEncomiendas;
 
 Begin
     Randomize;
@@ -79,5 +129,7 @@ Begin
     writeln ('Lista de encomiendas generada: ');
     imprimirLista(l);
 
-    readln;
+    Separador();
+
+
 End.
