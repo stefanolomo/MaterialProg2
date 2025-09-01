@@ -28,14 +28,6 @@ Type
         HD:   arbol;
     End;
 
-    arbol =   ^nodoA;
-    nodoA =   Record
-        peso:   integer;
-        HI:   arbol;
-        IDlista:   listaid;
-        HD:   arbol;
-    End;
-
 {-----------------------------------------------------------------------------
 AgregarAdelante - Agrega una encomienda adelante en l}
 Procedure agregarAdelante(Var l: Lista; enc: encomienda);
