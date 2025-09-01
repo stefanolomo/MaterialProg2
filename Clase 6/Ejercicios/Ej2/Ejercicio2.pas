@@ -164,6 +164,89 @@ Begin
         End;
 End;
 
+Function SumarPuntosVuelos(L: listaVuelos): longint;
+
+var
+    total: longint;
+
+begin
+    // Para cada vuelo, suma los puntos totales
+    total := 0;
+    while (L <> nil) do begin
+        total := total + L^.datos.puntos;
+        L := L^.sig;
+    end;
+
+    SumarPuntosVuelos := total;
+end;
+
+Procedure MejorCliente(a: arbol; var maxPuntos, dniMax: longint);
+
+var
+    puntos: longint;
+
+begin
+    if (a <> nil) then begin
+        // Busca el mejor cliente de la rama izquierda
+        MejorCliente(a^.HI, maxPuntos, dniMax);
+
+        // Calcula los puntos del pasajero actual
+        puntos := SumarPuntosVuelos(a^.datos.vuelos);
+
+        // Si es un maximo actualiza
+        if (puntos > maxPuntos) then begin
+            maxPuntos := puntos;
+            dniMax := a^.datos.dni;
+        end;
+
+        // Busca el mejor cliente de la rama derecha
+        MejorCliente(a^.HD, maxPuntos, dniMax);
+
+        // Recorre: Izquierda - Raiz - Derecha (Similar a enOrden)
+    end;
+end;
+
+Function HallarMaxEnListaVuelo(L: listaVuelos): longint;
+
+var
+    max: longint;
+
+begin
+    max := -1;
+
+    while (L <> nil) do begin
+        if (L^.datos.puntos > max) then
+            max := L^.datos.puntos;
+
+        L := L^.sig;
+    end;
+
+    HallarMaxEnListaVuelo := max;
+end;
+
+Procedure MejoresVuelosEnRango(a: arbol);
+
+var
+    maxVuelo: longint;
+
+begin
+    if (a <> nil) then begin
+        if (a^.datos.dni > 40000000) then // Si se pasa, se va a la izquierda
+            MejoresVuelosEnRango(a^.HI);
+
+        if (a^.datos.dni >= 40000000) and (a^.datos.dni <= 50000000) then begin // Si esta en el rango, los informa
+            maxVuelo := HallarMaxEnListaVuelo(a^.datos.vuelos);
+
+            writeln('DNI: ', a^.datos.dni,
+                    ' Nombre y apellido: ', a^.datos.nombre, ' ', a^.datos.apellido,
+                    ' El mayor puntaje que tiene es de: ', maxVuelo);
+        end;
+
+        if (a^.datos.dni < 50000000) then
+            MejoresVuelosEnRango(a^.HD);
+    end;
+end;
+
 Var
     ArbolDNI: arbol;
     maxPuntos, dniMax: longint;
