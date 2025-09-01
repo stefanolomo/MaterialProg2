@@ -2,15 +2,29 @@ Program ejercicio3;
 
 Uses sysutils;
 
+// Una empresa de telecomunicaciones procesa los datos de varios pedidos de conexión que llegan telefónicamente. Se dispone de una lista con los datos cargados y listos para ser procesados. Cada pedido posee un código único de seguimiento, fecha y hora del turno de conexión, DNI del cliente, código de área, domicilio del cliente y su número telefónico. Posteriormente al ingreso y almacenamiento de la información, se pide:
+
+// A. Crear una nueva estructura que almacene para cada código de área, el total de pedidos de dicha área y los DNI de los clientes que solicitaron el servicio. Esta estructura debe estar ordenada por código de área y debe ser eficiente para la búsqueda por dicho criterio.
+
+// Al finalizar el procesamiento de A. elija las estructuras adecuadas para:
+
+// B. Implementar un módulo que retorne el código de área con menor cantidad de pedidos de servicio.
+
+// C. Implementar un módulo que imprima los DNI de clientes cuyo código de área se encuentre entre 1000 y 2000, ordenados por código de área.
+
+// D. Implementar un módulo que, dado un código de área, imprima los DNI de los clientes que solicitan conexión.
+
+// E. Implementar un programa principal que utilice los módulos implementados
+
 Type
-     pedido =   Record
-          codSeg:   longint;
-          fechaYhora:   string;
-          dni:   longint;
-          codArea:   longint;
-          domicilio:   string;
-          tel:   string;
-     End;
+    pedido =   Record
+        codSeg:   longint;
+        fechaYhora:   string;
+        dni:   longint;
+        codArea:   longint;
+        domicilio:   string;
+        tel:   string;
+    End;
 
     listaPedidos =   ^nodoLista;
     nodoLista =   Record
@@ -22,6 +36,7 @@ Procedure agregarLista(Var pri:listaPedidos;p:pedido);
 
 Var
     nuevo,anterior,actual:   listaPedidos;
+
 Begin
     new(nuevo);
     nuevo^.dato := p;
@@ -45,12 +60,12 @@ Begin
         End;
 End;
 
-
 Function cargarFecha():   string;{GeneraunaFECHAaleatoria}
 
 Var
     dia,mes,hora,seg:   longint;
     s:   string;
+
 Begin
     dia := random(30)+1;
     mes := random(12)+1;
@@ -73,6 +88,7 @@ Procedure crearLista(Var l:listaPedidos);
 Var
     cant,cod:   longint;
     p:   pedido;
+
 Begin
     cant := random(10);{generahasta100elementos}
     cod := 1;
@@ -91,6 +107,7 @@ Begin
 End;
 
 Procedure imprimirPedido(p:pedido);
+
 Begin
     With (p) Do
         writeln('El pedido: ',codSeg,', del cliente ',dni,
@@ -100,6 +117,7 @@ Begin
 End;
 
 Procedure imprimirLista(l:listaPedidos);
+
 Begin
     While (l<>Nil) Do
         Begin
@@ -113,13 +131,14 @@ Var
 
 Begin
     Randomize;
-{Secrealaestructurainicial}
+
+    {Se crea la estructura inicial}
     l_inicial := Nil;
     crearLista(l_inicial);
     writeln('Lista:');
     imprimirLista(l_inicial);
 
-{Completarelprograma}
+    {Completarelprograma}
 
     writeln('Fin del programa');
     readln;
