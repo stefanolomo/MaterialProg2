@@ -18,13 +18,13 @@ Program Ejercicio2;
 Type
     venta =   Record
         codigo, nombre, apellido:   string;
-        millas, dni:   integer;
-        clase:   integer;
+        millas, dni:   longint;
+        clase:   longint;
     End;
 
     vuelo =   Record
         codigo:   string;
-        puntos:   integer;
+        puntos:   longint;
     End;
 
     listaVuelos =   ^nodoVuelos;
@@ -34,7 +34,7 @@ Type
     End;
 
     pasajero =   Record
-        dni     :   integer;
+        dni     :   longint;
         nombre  :   string;
         apellido:   string;
         vuelos  :   listaVuelos;  { vuelos y sus puntos }
@@ -166,14 +166,16 @@ End;
 
 Var
     ArbolDNI: arbol;
-    maxPuntos, dniMax: integer;
+    maxPuntos, dniMax: longint;
 Begin
     ArbolDNI := nil;
     CargarArbol(ArbolDNI);
 
     maxPuntos := -1;
     dniMax := -1;
+
     MejorCliente(ArbolDNI, maxPuntos, dniMax);
+
     writeln('El mejor cliente es DNI ', dniMax, ' con ', maxPuntos, ' puntos.');
 
     writeln('Pasajeros entre 40.000.000 y 50.000.000:');
