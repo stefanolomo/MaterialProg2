@@ -107,11 +107,48 @@ Begin
         End;
 End;
 
+Procedure InsertarOActualizarPasajero(Var a: arbol; v: venta);
+
+Var
+    vueloNuevo:   vuelo;
+    nuevoNodo:   arbol;
+
 Begin
-    // Calcula la suma de puntos de cada nodo y encuentra el máximo
+    // Calcular los puntos
+    Case (v.clase) Of
+        1:   vueloNuevo.puntos := v.millas * 25;
+        2:   vueloNuevo.puntos := v.millas * 100;
+    End;
+
+    vueloNuevo.codigo := v.codigo;
+
+    If (a = Nil) Then
+        Begin
+            // La lista esta vacia
+            new(nuevoNodo);
+            nuevoNodo^.datos.dni := v.dni;
+            nuevoNodo^.datos.nombre := v.nombre;
+            nuevoNodo^.datos.apellido := v.apellido;
+            nuevoNodo^.datos.vuelos := Nil;
+
+            // Actualizar su lista de vuelos
+            InsertarOActualizarVuelo(nuevoNodo^.datos.vuelos, vueloNuevo);
+
+            // Agregar primero al arbol
+            nuevoNodo^.HI := Nil;
+            nuevoNodo^.HD := Nil;
+            a := nuevoNodo;
+        End
+    Else If (v.dni < a^.datos.dni) Then // Vamos a la rama izquierda
+             InsertarOActualizarPasajero(a^.HI, v)
+
+    Else If (v.dni > a^.datos.dni) Then // Vamos a la rama derecha
+             InsertarOActualizarPasajero(a^.HD, v)
+
+    Else // El pasajero ya existe, actualizar su lista de vuelos
+        InsertarOActualizarVuelo(a^.datos.vuelos, vueloNuevo);
 End;
 
-Procedure imprimirMayorPuntaje(arbol: arbol);
 
 Begin
     // Imprime el mayor puntaje de los pasajeros cuyo DNI se encuentre entre 40.000.000 y 50.000.000
