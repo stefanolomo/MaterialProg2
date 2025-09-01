@@ -46,10 +46,27 @@ Type
         HD:   arbol;
     End;
 
-Procedure leerVuelos(Var vuelos: listaVuelos);
+Procedure InsertarOActualizarVuelo(Var L: listaVuelos; V: vuelo);
+
+Var
+    act, nuevo:   listaVuelos;
 
 Begin
-    // Lee los vuelos y los almacena en la lista
+    act := L;
+    While (act <> Nil) And (act^.datos.codigo <> V.codigo) Do
+        act := act^.sig;
+
+    If (act <> Nil) Then // El vuelo ya existe, se suman los puntos.
+        act^.datos.puntos := act^.datos.puntos + V.puntos
+    Else // Hay que crear el nodo para el vuelo
+        Begin
+            new(nuevo);
+            nuevo^.datos := V;
+            nuevo^.sig := L;
+
+            L := nuevo;
+            // Se inserta adelante
+        End;
 End;
 
 Procedure actualizarArbol(Var arbol: arbol; vuelos: listaVuelos);
