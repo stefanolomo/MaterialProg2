@@ -14,10 +14,18 @@ Type
         sig:   lista;
     End;
 
-    listaid =   ^nodoid;
-    nodoid =   Record
-        id:   integer;
-        sig:   listaid;
+    listaid = ^nodoid;
+    nodoid = Record
+        id:integer;
+        sig:listaid;
+    End;
+
+    arbol =   ^nodoA;
+    nodoA =   Record
+        peso:   integer;
+        HI:   arbol;
+        IDlista: listaid;
+        HD:   arbol;
     End;
 
     arbol =   ^nodoA;
@@ -99,7 +107,7 @@ Var
 Begin
     new(aux);
     aux^.peso := dato.peso;
-    aux^.IDlista := Nil;
+    aux^.IDlista:=nil;
     AgregarId(aux^.IDlista,dato.codigo);
     aux^.HI := Nil;
     aux^.HD := Nil;
@@ -112,10 +120,10 @@ Begin
     If (A = Nil) Then
         InsertarIntegerNodoArbol(A, dato)
     Else If (A^.peso > dato.peso) Then
-            InsertarIntegerArbol(A^.HI, dato)
-    Else If (A^.peso < dato.peso) Then
-            InsertarIntegerArbol(A^.HD, dato)
-    Else agregarId(A^.IDlista,dato.codigo);
+             InsertarIntegerArbol(A^.HI, dato)
+    Else if (A^.peso < dato.peso) then
+        InsertarIntegerArbol(A^.HD, dato)
+         else agregarId(A^.IDlista,dato.codigo);
 End;
 
 Procedure InsertarArbolDesdeLista(L: Lista; Var A: arbol);
@@ -130,7 +138,7 @@ Begin
 End;
 
 Procedure enOrden( A:
-                  arbol );
+                   arbol );
 Begin
     If ( A <> Nil ) Then
         Begin
@@ -144,7 +152,7 @@ End;
 Var
 
     l:   lista;
-    A:   arbol;
+    A:  arbol;
 Begin
     Randomize;
 
@@ -152,11 +160,10 @@ Begin
     writeln ('Lista de encomiendas generada: ');
     imprimirLista(l);
 
-    A := Nil;
+    A:=nil;
     InsertarArbolDesdeLista(l,a);
     writeln;
-    writeln('Lista De Pesos:');
-    writeln;
+    writeln('Lista De Pesos:');writeln;
     enOrden(a);
     readln;
 End.
