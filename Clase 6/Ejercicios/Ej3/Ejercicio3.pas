@@ -26,11 +26,32 @@ Type
         tel:   string;
     End;
 
+    // Lista de pedidos generada automaticamente
     listaPedidos =   ^nodoLista;
     nodoLista =   Record
         dato:   pedido;
         sig:   listaPedidos;
     End;
+
+    // Lista de DNIs de los solicitantes del servicio
+    listaDni = ^NodoDni;
+    NodoDni = record
+        dni: longint;
+        sig: listaDni;
+    end;
+
+    // Arbol ordenado por codigo de area
+    datosArbol = record
+        codigo: longint;
+        pedidos: longint;
+        solicitantes: listaDni;
+    end;
+    arbol = ^Nodo;
+    Nodo = record
+        datos: datosArbol;
+        HI: arbol;
+        HD: arbol;
+    end;
 
 Procedure agregarLista(Var pri:listaPedidos;p:pedido);
 
@@ -60,7 +81,7 @@ Begin
         End;
 End;
 
-Function cargarFecha():   string;{GeneraunaFECHAaleatoria}
+Function cargarFecha():   string; {GeneraunaFECHAaleatoria}
 
 Var
     dia,mes,hora,seg:   longint;
@@ -90,16 +111,16 @@ Var
     p:   pedido;
 
 Begin
-    cant := random(10);{generahasta100elementos}
+    cant := random(15); {genera hasta 100 elementos}
     cod := 1;
     While (cant<>0) Do
         Begin
-            p.codSeg := cod;{codigodeseguimiento}
+            p.codSeg := cod; {codigodeseguimiento}
             p.fechaYhora := cargarFecha();
-            p.dni := random(60000000);{dni}
-            p.codArea := (random(4000));{codigodeárea}
-            p.domicilio := Concat('Domicilio',IntToStr(cod));{domicilio}
-            p.tel := IntToStr(random(999999)+4000000);{telefono}
+            p.dni := random(60000000); {dni}
+            p.codArea := (random(4000)); {codigodeárea}
+            p.domicilio := Concat('Domicilio ',IntToStr(cod)); {domicilio}
+            p.tel := IntToStr(random(999999)+4000000); {telefono}
             agregarLista(l,p);
             cant := cant-1;
             cod := cod+1;
@@ -141,5 +162,4 @@ Begin
     {Completarelprograma}
 
     writeln('Fin del programa');
-    readln;
 End.
