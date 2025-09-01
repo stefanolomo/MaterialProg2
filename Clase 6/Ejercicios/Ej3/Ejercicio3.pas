@@ -148,56 +148,95 @@ Begin
         End;
 End;
 
-function contarNodosListaDni(L: listaDni): integer;
-
-var
-    aux: longint;
-
-begin
-    aux := 0;
-
-    while (L <> nil) do begin
-        aux := aux + 1;
-        L := L^.sig;
-    end;
-
-    contarNodosListaDni := aux;
-end;
-
-Procedure HallarMenorDemanda(a: arbol; var minCant, minCod: longint);
-
-var
-    cantidadActual: longint;
-
-begin
-    minCant := 999999;
-
-    if (a <> nil) then begin
-        // Busca el mejor cliente de la rama izquierda
-        HallarMenorDemanda(a^.HI, minCant, minCod);
-
-        // Si es un minimo actualiza
-        cantidadActual := contarNodosListaDni(a^.datos.solicitantes);
-        if (cantidadActual < minCant) then begin
-            minCant := cantidadActual;
-            minCod := a^.datos.codigo;
-        end;
-
-        // Busca el mejor cliente de la rama derecha
-        HallarMenorDemanda(a^.HD, minCant, minCod);
-
-        // Recorre: Izquierda - Raiz - Derecha (Similar a enOrden)
-    end;
-end;
-
-Procedure CargarArbolDesdeLista(Var A: arbol; Var L: listaPedidos);
+Procedure HallarMenorDemanda(a: arbol; Var minCant, minCod: longint);
 
 Begin
+    If (a <> Nil) Then
+        Begin
+            // Busca el mejor cliente de la rama izquierda
+            HallarMenorDemanda(a^.HI, minCant, minCod);
+
+            // Si es un minimo actualiza
+            If (a^.datos.pedidos < minCant) Then
+                Begin
+                    minCant := a^.datos.pedidos;
+                    minCod := a^.datos.codigo;
+                End;
+
+            // Busca el mejor cliente de la rama derecha
+            HallarMenorDemanda(a^.HD, minCant, minCod);
+
+            // Recorre: Izquierda - Raiz - Derecha (Similar a enOrden)
+        End;
+End;
+
+Procedure AgregarDNI(Var L: listaDni; d: longint);
+
+Var
+    nue:   listaDni;
+Begin
+    new(nue);
+    nue^.dni := d;
+    nue^.sig := L;
+    L := nue;
+End;
+
+Procedure InsertarPorArea(Var A: arbol; codArea, dni: longint);
+
+Begin
+    If (A = Nil) Then // El arbol esta vacio, insertar al principio
+        Begin
+            new(A);
+            A^.datos.codigo := codArea;
+            A^.datos.pedidos := 1;
+            A^.datos.solicitantes := Nil;
+
+            AgregarDNI(A^.datos.solicitantes, dni);
+
+            A^.HI := Nil;
+            A^.HD := Nil;
+
+        End
+    Else If (codArea = A^.datos.codigo) Then // El codigo es el mismo entonces se actualiza
+        Begin
+            A^.datos.pedidos := A^.datos.pedidos + 1; // Se suma un pedido
+            AgregarDNI(A^.datos.solicitantes, dni); // Se suma el DNI a la lista
+        End
+    Else If (codArea < A^.datos.codigo) Then // Si se pasa, busca en la izquierda
+        InsertarPorArea(A^.HI, codArea, dni)
+    Else // Sino, busca en la derecha
+        InsertarPorArea(A^.HD, codArea, dni);
 
 End;
 
+Procedure CargarArbolDesdeLista(Var A: arbol; Var L: listaPedidos);
+
 Var
-    l_inicial:   listaPedidos;
+    aux:   listaPedidos;
+
+Begin
+    A := Nil;
+    aux := L;
+
+    While (aux <> Nil) Do
+        Begin
+            InsertarPorArea(A, aux^.dato.codArea, aux^.dato.dni);
+            aux := aux^.sig;
+        End;
+End;
+
+Procedure Separador();
+Begin
+    writeln('');
+    writeln('');
+    writeln('----------------------------------------');
+    writeln('');
+End;
+
+Var
+    l_inicial:    listaPedidos;
+    ArbolArea:    arbol;
+    minimoCodigo, minimaCantidad: longint;
 
 Begin
     Randomize;
@@ -208,9 +247,18 @@ Begin
     writeln('Lista:');
     imprimirLista(l_inicial);
 
-    {Completarelprograma}
+    Separador();
 
-    HallarMenorDemanda()
+    CargarArbolDesdeLista(ArbolArea, l_inicial);
+
+    minimaCantidad := 999999;
+    minimoCodigo := -1;
+    HallarMenorDemanda(ArbolArea, minimaCantidad, minimoCodigo);
+
+    writeln(minimoCodigo);
+
+    if (minimoCodigo <> -1) then
+        writeln('El area con menos solicitantes es la ', minimoCodigo, ' con ', minimaCantidad, ' solicitantes');
 
     writeln('Fin del programa');
 End.
