@@ -129,17 +129,17 @@ Begin
 End;
 
 Procedure busquedaAcotada(a: arbol; inf:integer; sup:integer);
+
 Begin
     If (a <> Nil) Then
-        If (a^.dato >= inf) Then
-            If (a^.dato <= sup) Then Begin
-                write(a^.dato,' - ');
-                busquedaAcotada(a^.hi, inf, sup);
-                busquedaAcotada (a^.hd, inf, sup);
-            End
-    Else //
-        busquedaAcotada(a^.hi, inf, sup)
-    Else
+        If (a^.dato >= inf) Then // Si el dato es mayor a la cota menor
+            If (a^.dato <= sup) Then Begin // y tambien menor a la cota mayor
+                write(a^.dato,' - '); // Imprimirlo
+                busquedaAcotada(a^.hi, inf, sup); // Seguir en su rama derecha
+                busquedaAcotada (a^.hd, inf, sup); // y seguir en su rama izquierda
+            End Else // El dato es mayor a la cota menor pero se pasa de la cota mayor, entonces seguir a la izquierda donde hay datos menores a el
+                busquedaAcotada(a^.hi, inf, sup)
+        Else // El dato es menor a la cota menor (a ambas) entonce seguir a la derecha donde hay datos mayores a el
         busquedaAcotada(a^.hd, inf, sup);
 End;
 
