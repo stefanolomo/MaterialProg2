@@ -224,17 +224,17 @@ begin
     HallarMaxEnListaVuelo := max;
 end;
 
-Procedure MejoresVuelosEnRango(a: arbol);
+Procedure MejoresVuelosEnRango(a: arbol; maxR, minR: longint);
 
 var
     maxVuelo: longint;
 
 begin
     if (a <> nil) then begin
-        if (a^.datos.dni > 40000000) then // Si se pasa, se va a la izquierda
+        if (a^.datos.dni > minR) then // Si se pasa, se va a la izquierda
             MejoresVuelosEnRango(a^.HI);
 
-        if (a^.datos.dni >= 40000000) and (a^.datos.dni <= 50000000) then begin // Si esta en el rango, los informa
+        if (a^.datos.dni >= minR) and (a^.datos.dni <= maxR) then begin // Si esta en el rango, los informa
             maxVuelo := HallarMaxEnListaVuelo(a^.datos.vuelos);
 
             writeln('DNI: ', a^.datos.dni,
@@ -262,5 +262,5 @@ Begin
     writeln('El mejor cliente es DNI ', dniMax, ' con ', maxPuntos, ' puntos.');
 
     writeln('Pasajeros entre 40.000.000 y 50.000.000:');
-    MejoresVuelosEnRango(ArbolDNI);
+    MejoresVuelosEnRango(ArbolDNI, 40000000, 50000000);
 End.
