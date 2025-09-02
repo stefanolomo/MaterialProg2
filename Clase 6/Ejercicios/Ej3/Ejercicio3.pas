@@ -148,6 +148,18 @@ Begin
         End;
 End;
 
+Procedure imprimirListaDni(l: listaDni);
+
+Begin
+    Begin
+        While (l<>Nil) Do
+            Begin
+                writeln(l^.dni);
+                l := l^.sig;
+            End;
+    End;
+End;
+
 Procedure HallarMenorDemanda(a: arbol; Var minCant, minCod: longint);
 
 Begin
