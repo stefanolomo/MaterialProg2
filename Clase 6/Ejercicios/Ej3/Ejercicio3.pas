@@ -245,6 +245,23 @@ Begin
     writeln('');
 End;
 
+Procedure ImprimirDniEnRangoServicio(a: arbol; inf:longint; sup:longint);
+Begin
+    If (a <> Nil) Then
+        If (a^.datos.codigo >= inf) Then
+            If (a^.datos.codigo <= sup) Then Begin
+                ImprimirDniEnRangoServicio(a^.hi, inf, sup);
+
+                writeln('Para el codigo de zona ', a^.datos.codigo, ' los DNIs de los solicitantes dentro del rango ', inf, ' a ', sup, ' son:');
+                imprimirListaDni(a^.datos.solicitantes);
+
+                ImprimirDniEnRangoServicio (a^.hd, inf, sup);
+            End Else
+                ImprimirDniEnRangoServicio(a^.hi, inf, sup)
+        Else
+            ImprimirDniEnRangoServicio(a^.hd, inf, sup);
+End;
+
 Var
     l_inicial:    listaPedidos;
     ArbolArea:    arbol;
@@ -259,18 +276,19 @@ Begin
     writeln('Lista:');
     imprimirLista(l_inicial);
 
-    Separador();
-
     CargarArbolDesdeLista(ArbolArea, l_inicial);
+
 
     minimaCantidad := 999999;
     minimoCodigo := -1;
     HallarMenorDemanda(ArbolArea, minimaCantidad, minimoCodigo);
 
-    writeln(minimoCodigo);
+    Separador();
 
     if (minimoCodigo <> -1) then
         writeln('El area con menos solicitantes es la ', minimoCodigo, ' con ', minimaCantidad, ' solicitantes');
 
-    writeln('Fin del programa');
+    Separador();
+
+    ImprimirDniEnRangoServicio(ArbolArea, 1000, 2000);
 End.
