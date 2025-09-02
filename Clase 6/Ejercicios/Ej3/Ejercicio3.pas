@@ -129,13 +129,13 @@ Begin
 End;
 
 Procedure imprimirPedido(p:pedido);
-
 Begin
-    With (p) Do
-        writeln('El pedido: ',codSeg,', del cliente ',dni,
-                ' sera atendido en la fecha ',fechaYhora,
-                ' en el codigo de area ',codArea,' y domicilio ',domicilio,
-                ' con telefono de contacto ',tel);
+    writeln('---------------------------------------------------------');
+    writeln('| codSeg | fechaYhora | dni | codArea | domicilio | tel |');
+    writeln('-------------------------------------------------------------------');
+    writeln('| ', p.codSeg, ' | ', p.fechaYhora, ' | ', p.dni, ' | ', p.codArea, ' | ', p.domicilio, ' | ', p.tel, ' |');
+    writeln('-------------------------------------------------------------------');
+    writeln(' ');
 End;
 
 Procedure imprimirLista(l:listaPedidos);
