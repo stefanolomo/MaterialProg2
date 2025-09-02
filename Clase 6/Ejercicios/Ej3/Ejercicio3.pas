@@ -129,13 +129,13 @@ Begin
 End;
 
 Procedure imprimirPedido(p:pedido);
-
 Begin
-    With (p) Do
-        writeln('El pedido: ',codSeg,', del cliente ',dni,
-                ' sera atendido en la fecha ',fechaYhora,
-                ' en el codigo de area ',codArea,' y domicilio ',domicilio,
-                ' con telefono de contacto ',tel);
+    writeln('---------------------------------------------------------');
+    writeln('| codSeg | fechaYhora | dni | codArea | domicilio | tel |');
+    writeln('-------------------------------------------------------------------');
+    writeln('| ', p.codSeg, ' | ', p.fechaYhora, ' | ', p.dni, ' | ', p.codArea, ' | ', p.domicilio, ' | ', p.tel, ' |');
+    writeln('-------------------------------------------------------------------');
+    writeln(' ');
 End;
 
 Procedure imprimirLista(l:listaPedidos);
@@ -146,6 +146,18 @@ Begin
             imprimirPedido(l^.dato);
             l := l^.sig;
         End;
+End;
+
+Procedure imprimirListaDni(l: listaDni);
+
+Begin
+    Begin
+        While (l<>Nil) Do
+            Begin
+                writeln(l^.dni);
+                l := l^.sig;
+            End;
+    End;
 End;
 
 Procedure HallarMenorDemanda(a: arbol; Var minCant, minCod: longint);
@@ -233,6 +245,23 @@ Begin
     writeln('');
 End;
 
+Procedure ImprimirDniEnRangoServicio(a: arbol; inf:longint; sup:longint);
+Begin
+    If (a <> Nil) Then
+        If (a^.datos.codigo >= inf) Then
+            If (a^.datos.codigo <= sup) Then Begin
+                ImprimirDniEnRangoServicio(a^.hi, inf, sup);
+
+                writeln('Para el codigo de zona ', a^.datos.codigo, ' los DNIs de los solicitantes dentro del rango ', inf, ' a ', sup, ' son:');
+                imprimirListaDni(a^.datos.solicitantes);
+
+                ImprimirDniEnRangoServicio (a^.hd, inf, sup);
+            End Else
+                ImprimirDniEnRangoServicio(a^.hi, inf, sup)
+        Else
+            ImprimirDniEnRangoServicio(a^.hd, inf, sup);
+End;
+
 Var
     l_inicial:    listaPedidos;
     ArbolArea:    arbol;
@@ -247,18 +276,19 @@ Begin
     writeln('Lista:');
     imprimirLista(l_inicial);
 
-    Separador();
-
     CargarArbolDesdeLista(ArbolArea, l_inicial);
+
 
     minimaCantidad := 999999;
     minimoCodigo := -1;
     HallarMenorDemanda(ArbolArea, minimaCantidad, minimoCodigo);
 
-    writeln(minimoCodigo);
+    Separador();
 
     if (minimoCodigo <> -1) then
         writeln('El area con menos solicitantes es la ', minimoCodigo, ' con ', minimaCantidad, ' solicitantes');
 
-    writeln('Fin del programa');
+    Separador();
+
+    ImprimirDniEnRangoServicio(ArbolArea, 1000, 2000);
 End.
