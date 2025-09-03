@@ -177,6 +177,54 @@ begin
     imprimirListaEmpleados(ptrEmpleados);
 end;
 
+Procedure CopiarPtr(a:arbol;ID:integer;var Ptr:ListaEmpleados);
+var aux,ant:ListaEmpleados;
+begin
+    aux:=a^.empleados;
+    ant:=a^.empleados;
+    while (aux<>nil)and (aux^.datos.id<>ID)do
+        begin
+        ant:=aux;
+        aux:=aux^.sig;
+        end;
+    if (aux^.datos.id=ID)then
+        begin
+        Ptr:=aux;
+        if (aux=ant)then
+        a^.empleados:=aux^.sig
+        else ant:=aux^.sig;
+        end
+    else Ptr:=nil;
+end;
+
+procedure EnOrdenBuscar (a:arbol; ID:integer; var ptr:ListaEmpleados);
+begin
+  If (A<>nil)and(Ptr=nil)then
+      begin
+          CopiarPtr(a,ID,ptr);
+          EnOrdenBuscar(a^.HI,ID,ptr);
+          EnOrdenBuscar(a^.HD,ID,ptr);
+      end;
+
+end;
+
+Procedure AgregarDesdePuntero(var A:arbol; Salario:real; Ptr:ListaEmpleados);
+begin
+
+end;
+
+Procedure ActualizarSalarios(var A:arbol);
+var ID:longint;
+    Salario:Real;
+    Ptr:ListaEmpleados;
+begin
+  Ptr:=nil;
+  write('Inserte ID del Empleado: ');readln(ID);
+  write('Inserte Salario A Modificar: ');readln(Real);
+  EnOrdenBuscar(a,ID,ptr);
+  AgregarDesdePuntero(a,Salario,Ptr);
+end;
+
 var
     ArbolSalarios: arbol;
     opcion: integer;
