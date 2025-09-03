@@ -63,5 +63,17 @@ begin
 
 end;
 
+Procedure InformarSalarios(a:arbol);
+Begin
+      If ( A <> Nil ) Then
+          Begin
+              writeln (a^.salario, ' ');
+              writeln('Lista de empleados con salario ',a^.salario);
+              ImprimirListaEmpleados(a^.empleados);
+              InformarSalarios (a^.HI);
+              InformarSalarios (a^.HD);
+          End;
+End;
+
 begin
 end.
