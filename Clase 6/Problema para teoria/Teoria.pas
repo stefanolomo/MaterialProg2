@@ -32,7 +32,15 @@ Type
         HD: arbol;
     end;
 
-procedure leerEmpleado(var E: empleado; salario: real);
+procedure Separador();
+begin
+    writeln('');
+    writeln('--------------------');
+    writeln('');
+end;
+
+procedure leerEmpleado(var E: empleado; var salario: real);
+
 begin
     writeln('Ingrese el salario del empleado (cero para terminar): ');
     readln(salario);
