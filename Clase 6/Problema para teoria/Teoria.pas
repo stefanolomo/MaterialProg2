@@ -15,7 +15,7 @@ Program ProblemaTeoria;
 Type
     empleado = record
         id, manager: longint;
-        nombre, string: string;
+        nombre, puesto: string;
     end;
 
     listaEmpleados = ^NodoEmpleados;
@@ -32,5 +32,47 @@ Type
         HD: arbol;
     end;
 
+procedure leerEmpleado(var E: empleado; salario: real);
 begin
+    writeln('Ingrese el salario del empleado (cero para terminar): ');
+    readln(salario);
+    while (salario < 0) do begin
+        writeln('Ingrese un salario valido (mayor a 0, cero para terminar):');
+        readln(salario);
+    end;
+
+If (salario <> 0) Then
+    Begin
+        writeln('Ingrese el ID del empleado');
+        readln(E.id);
+
+        writeln('Ingrese el ID del manager');
+        readln(E.manager);
+
+        writeln('Ingrese el nombre del empleado');
+        readln(E.nombre);
+
+        writeln('Ingrese el puesto del empleado');
+        readln(E.puesto);
+    End;
+end;
+
+procedure CargarArbol(var A: arbol);
+
+var
+    E: empleado;
+    salarioLeido: real;
+
+begin
+    leerEmpleado(E, salarioLeido);
+
+    while (salarioLeido <> 0) do begin
+        // InsertarEmpleadoEnArbol(A, E, salarioLeido);
+
+        leerEmpleado(E, salarioLeido);
+    end;
+end;
+
+begin
+
 end.
