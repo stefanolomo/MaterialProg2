@@ -15,7 +15,7 @@ Program ProblemaTeoria;
 Type
     empleado = record
         id, manager: longint;
-        nombre, Puesto: string;
+        nombre, puesto: string;
     end;
 
     listaEmpleados = ^NodoEmpleados;
@@ -75,5 +75,179 @@ Begin
           End;
 End;
 
+procedure Separador();
 begin
+    writeln('');
+    writeln('--------------------');
+    writeln('');
+end;
+
+procedure leerEmpleado(var E: empleado; var salario: real);
+
+begin
+    writeln('Ingrese el salario del empleado (cero para terminar): ');
+    readln(salario);
+    while (salario < 0) do begin
+        writeln('Ingrese un salario valido (mayor a 0, cero para terminar):');
+        readln(salario);
+    end;
+
+If (salario <> 0) Then
+    Begin
+        writeln('Ingrese el ID del empleado');
+        readln(E.id);
+
+        writeln('Ingrese el ID del manager');
+        readln(E.manager);
+
+        writeln('Ingrese el nombre del empleado');
+        readln(E.nombre);
+
+        writeln('Ingrese el puesto del empleado');
+        readln(E.puesto);
+    End;
+end;
+
+procedure InsertarEmpleadoEnListaEmpleado(var L: listaEmpleados; E: empleado);
+
+var
+    nuevo: listaEmpleados;
+
+begin
+    new(nuevo);
+    nuevo^.datos := E;
+    nuevo^.sig := L;
+
+    L := nuevo;
+end;
+
+procedure InsertarEmpleadoEnArbol(var A: arbol; E: empleado; salario: real);
+
+Begin
+    If (A = Nil) Then // El arbol esta vacio, insertar al principio
+        Begin
+            new(A);
+            A^.salario := salario;
+            InsertarEmpleadoEnListaEmpleado(A^.empleados, E);
+
+            A^.HI := Nil;
+            A^.HD := Nil;
+        End
+    Else If (salario = A^.salario) Then // El salario es el mismo entonces se suma un empleado
+        InsertarEmpleadoEnListaEmpleado(A^.empleados, E)
+    Else If (salario < A^.salario) Then // Si se pasa, busca en la izquierda
+        InsertarEmpleadoEnArbol(A^.HI, E, salario)
+    Else // Sino, busca en la derecha
+        InsertarEmpleadoEnArbol(A^.HD, E, salario);
+
+End;
+
+Procedure CargarArbol(Var A: arbol);
+
+Var
+    E:   empleado;
+    salarioLeido:   real;
+
+Begin
+    salarioLeido := 0;
+    leerEmpleado(E, salarioLeido);
+
+    While (salarioLeido <> 0) Do
+        Begin
+            InsertarEmpleadoEnArbol(A, E, salarioLeido);
+
+            Separador();
+
+            leerEmpleado(E, salarioLeido);
+        End;
+End;
+
+Procedure ImprimirEmpleado(datos:empleado);
+Begin
+    writeln('Datos Empleado ',datos.nombre);
+    writeln('ID: ',datos.id);
+    writeln('Puesto: ',datos.Puesto);
+    writeln('Id de Manager: ',datos.manager);
+End;
+
+Procedure imprimirListaEmpleados(l: listaEmpleados);
+
+Begin
+    While (l <> Nil) Do
+        Begin
+            writeln;
+            imprimirEmpleado(l^.datos);
+            l := l^.sig;
+            writeln;
+        End;
+End;
+
+Procedure EncontrarSegunSalario(a:arbol; salario:real; Var Puntero:
+                                ListaEmpleados);
+Begin
+    If (a<>Nil)Then
+        Begin
+            If (a^.salario>salario)Then
+                EncontrarSegunSalario(a^.HI, salario, Puntero)
+            Else If (a^.salario<salario) Then
+                EncontrarSegunSalario(a^.HD, salario, Puntero)
+            Else Puntero := a^.empleados;
+        End
+    Else Puntero := Nil;
+End;
+
+procedure BuscarSalario(A: arbol);
+
+var
+    salarioABuscar: real;
+    ptrEmpleados: listaEmpleados;
+
+begin
+    writeln('Que salario quiere consultar?');
+    readln(salarioABuscar);
+
+    EncontrarSegunSalario(A, salarioABuscar, ptrEmpleados);
+    imprimirListaEmpleados(ptrEmpleados);
+end;
+
+Procedure InformarSalarios(a:arbol);
+
+Begin
+      If ( A <> Nil ) Then
+          Begin
+              writeln('Lista de empleados con salario ', a^.salario:0:0);
+              ImprimirListaEmpleados(a^.empleados);
+              InformarSalarios (a^.HI);
+              InformarSalarios (a^.HD);
+          End;
+End;
+
+var
+    ArbolSalarios: arbol;
+    opcion: integer;
+
+begin
+
+    opcion := 0;
+
+    While (opcion <> -1) Do Begin
+
+        writeln('Que deseea hacer?');
+
+        writeln('[0] Insertar empleado/s');
+        writeln ('[1] Buscar empleados por salario');
+        writeln('[2] Informar salarios de todos los empleados');
+        writeln('[3] Actualizar salario de un empleado');
+        writeln('[-1] Salir');
+
+        readln(opcion);
+
+        Case opcion Of
+            0:   CargarArbol(ArbolSalarios);
+            1:   BuscarSalario(ArbolSalarios);
+            2:   InformarSalarios(ArbolSalarios);
+            // 3: // ActualizarSalarios(ArbolSalarios);
+        End;
+    End;
+
 end.
