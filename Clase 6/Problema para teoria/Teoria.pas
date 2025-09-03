@@ -169,9 +169,30 @@ end;
 
 var
     ArbolSalarios: arbol;
+    opcion: integer;
 
 begin
-    CargarArbol(ArbolSalarios);
 
+    opcion := 0;
+
+    While (opcion <> -1) Do Begin
+
+        writeln('Que deseea hacer?');
+
+        writeln('[0] Insertar empleado/s');
+        writeln ('[1] Buscar empleados por salario');
+        writeln('[2] Informar salarios de todos los empleados');
+        writeln('[3] Actualizar salario de un empleado');
+        writeln('[-1] Salir');
+
+        readln(opcion);
+
+        Case opcion Of
+            0:   CargarArbol(ArbolSalarios);
+            1:   BuscarSalario(ArbolSalarios);
+            // 2: // InformarSalarios(ArbolSalarios);
+            // 3: // ActualizarSalarios(ArbolSalarios);
+        End;
+    End;
 
 end.
