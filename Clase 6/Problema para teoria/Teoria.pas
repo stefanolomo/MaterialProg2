@@ -15,7 +15,7 @@ Program ProblemaTeoria;
 Type
     empleado = record
         id, manager: longint;
-        nombre, string: string;
+        nombre, Puesto: string;
     end;
 
     listaEmpleados = ^NodoEmpleados;
@@ -31,6 +31,38 @@ Type
         HI: arbol;
         HD: arbol;
     end;
+Procedure ImprimirEmpleado(datos:empleado);
+begin
+    writeln('Datos Empleado ',datos.nombre);
+    writeln('ID: ',datos.id);
+    writeln('Puesto: ',datos.Puesto);
+    writeln('Id de Manager: ',datos.manager);
+end;
+
+procedure imprimirListaEmpleados(l: listaEmpleados;salario:real);
+begin
+     writeln('Lista de los Empleados con Salario ',salario,' : ');
+     while (l <> nil) do begin
+          writeln;
+          imprimirEmpleado(l^.datos);
+          l:= l^.sig;
+          writeln;
+     end;
+end;
+Procedure EncontrarSegunSalario(a:arbol; salario:real);
+begin
+    if (a<>nil)then
+       begin
+       if (a^.salario>salario)then
+         EncontrarSegunSalario(a^.HI,salario)
+       else if (a^.salario<salario) then
+              EncontrarSegunSalario(a^.HD,salario)
+            else ImprimirListaEmpleados(a^.empleados,salario);
+       end
+    else writeln('No se encontro el Salario');
+
+
+end;
 
 begin
 end.
