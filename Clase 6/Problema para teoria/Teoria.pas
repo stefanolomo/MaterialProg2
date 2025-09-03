@@ -167,6 +167,18 @@ begin
     imprimirListaEmpleados(ptrEmpleados);
 end;
 
+Procedure InformarSalarios(a:arbol);
+
+Begin
+      If ( A <> Nil ) Then
+          Begin
+              writeln('Lista de empleados con salario ', a^.salario:0:0);
+              ImprimirListaEmpleados(a^.empleados);
+              InformarSalarios (a^.HI);
+              InformarSalarios (a^.HD);
+          End;
+End;
+
 var
     ArbolSalarios: arbol;
     opcion: integer;
@@ -190,7 +202,7 @@ begin
         Case opcion Of
             0:   CargarArbol(ArbolSalarios);
             1:   BuscarSalario(ArbolSalarios);
-            // 2: // InformarSalarios(ArbolSalarios);
+            2:   InformarSalarios(ArbolSalarios);
             // 3: // ActualizarSalarios(ArbolSalarios);
         End;
     End;
