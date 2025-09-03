@@ -70,6 +70,27 @@ begin
     L := nuevo;
 end;
 
+procedure InsertarEmpleadoEnArbol(var A: arbol; E: empleado; salario: real);
+
+Begin
+    If (A = Nil) Then // El arbol esta vacio, insertar al principio
+        Begin
+            new(A);
+            A^.salario := salario;
+            InsertarEmpleadoEnListaEmpleado(A^.empleados, E);
+
+            A^.HI := Nil;
+            A^.HD := Nil;
+        End
+    Else If (salario = A^.salario) Then // El salario es el mismo entonces se suma un empleado
+        InsertarEmpleadoEnListaEmpleado(A^.empleados, E)
+    Else If (salario < A^.salario) Then // Si se pasa, busca en la izquierda
+        InsertarEmpleadoEnArbol(A^.HI, E, salario)
+    Else // Sino, busca en la derecha
+        InsertarEmpleadoEnArbol(A^.HD, E, salario);
+
+End;
+
 procedure CargarArbol(var A: arbol);
 
 var
