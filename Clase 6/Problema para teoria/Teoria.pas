@@ -99,21 +99,45 @@ Begin
 
 End;
 
-procedure CargarArbol(var A: arbol);
+Procedure CargarArbol(Var A: arbol);
 
-var
-    E: empleado;
-    salarioLeido: real;
+Var
+    E:   empleado;
+    salarioLeido:   real;
 
-begin
+Begin
     salarioLeido := 0;
     leerEmpleado(E, salarioLeido);
 
-    while (salarioLeido <> 0) do begin
-        InsertarEmpleadoEnArbol(A, E, salarioLeido);
+    While (salarioLeido <> 0) Do
+        Begin
+            InsertarEmpleadoEnArbol(A, E, salarioLeido);
 
-        Separador();
+            Separador();
 
+            leerEmpleado(E, salarioLeido);
+        End;
+End;
+
+Procedure ImprimirEmpleado(datos:empleado);
+Begin
+    writeln('Datos Empleado ',datos.nombre);
+    writeln('ID: ',datos.id);
+    writeln('Puesto: ',datos.Puesto);
+    writeln('Id de Manager: ',datos.manager);
+End;
+
+Procedure imprimirListaEmpleados(l: listaEmpleados);
+
+Begin
+    While (l <> Nil) Do
+        Begin
+            writeln;
+            imprimirEmpleado(l^.datos);
+            l := l^.sig;
+            writeln;
+        End;
+End;
 
 Procedure EncontrarSegunSalario(a:arbol; salario:real; Var Puntero:
                                 ListaEmpleados);
