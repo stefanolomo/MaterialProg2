@@ -39,36 +39,23 @@ begin
     writeln('Id de Manager: ',datos.manager);
 end;
 
-procedure imprimirListaEmpleados(l: listaEmpleados);
-begin
-     while (l <> nil) do begin
-          writeln;
-          imprimirEmpleado(l^.datos);
-          l:= l^.sig;
-          writeln;
-     end;
-end;
-Procedure EncontrarSegunSalario(a:arbol; salario:real; var Puntero:ListaEmpleados);
-begin
-    if (a<>nil)then
-       begin
-       if (a^.salario>salario)then
-         EncontrarSegunSalario(a^.HI,salario)
-       else if (a^.salario<salario) then
-              EncontrarSegunSalario(a^.HD,salario)
-            else Puntero:=a^.empleados;
-       end
-    else Puntero:=nil;
+Procedure imprimirListaEmpleados(l: listaEmpleados);
 
-
-end;
+Begin
+    While (l <> Nil) Do
+        Begin
+            writeln;
+            imprimirEmpleado(l^.datos);
+            l := l^.sig;
+            writeln;
+        End;
+End;
 
 Procedure InformarSalarios(a:arbol);
 Begin
       If ( A <> Nil ) Then
           Begin
-              writeln (a^.salario, ' ');
-              writeln('Lista de empleados con salario ',a^.salario);
+              writeln('Lista de empleados con salario ',a^.salario:0:0);
               ImprimirListaEmpleados(a^.empleados);
               InformarSalarios (a^.HI);
               InformarSalarios (a^.HD);
@@ -162,26 +149,6 @@ Begin
         End;
 End;
 
-Procedure ImprimirEmpleado(datos:empleado);
-Begin
-    writeln('Datos Empleado ',datos.nombre);
-    writeln('ID: ',datos.id);
-    writeln('Puesto: ',datos.Puesto);
-    writeln('Id de Manager: ',datos.manager);
-End;
-
-Procedure imprimirListaEmpleados(l: listaEmpleados);
-
-Begin
-    While (l <> Nil) Do
-        Begin
-            writeln;
-            imprimirEmpleado(l^.datos);
-            l := l^.sig;
-            writeln;
-        End;
-End;
-
 Procedure EncontrarSegunSalario(a:arbol; salario:real; Var Puntero:
                                 ListaEmpleados);
 Begin
@@ -210,18 +177,6 @@ begin
     imprimirListaEmpleados(ptrEmpleados);
 end;
 
-Procedure InformarSalarios(a:arbol);
-
-Begin
-      If ( A <> Nil ) Then
-          Begin
-              writeln('Lista de empleados con salario ', a^.salario:0:0);
-              ImprimirListaEmpleados(a^.empleados);
-              InformarSalarios (a^.HI);
-              InformarSalarios (a^.HD);
-          End;
-End;
-
 var
     ArbolSalarios: arbol;
     opcion: integer;
@@ -242,12 +197,16 @@ begin
 
         readln(opcion);
 
+        separador();
+
         Case opcion Of
             0:   CargarArbol(ArbolSalarios);
             1:   BuscarSalario(ArbolSalarios);
             2:   InformarSalarios(ArbolSalarios);
             // 3: // ActualizarSalarios(ArbolSalarios);
         End;
+
+        separador();
     End;
 
 end.
