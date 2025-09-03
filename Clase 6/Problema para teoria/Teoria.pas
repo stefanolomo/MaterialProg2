@@ -99,23 +99,25 @@ Begin
 
 End;
 
-procedure CargarArbol(var A: arbol);
+Procedure CargarArbol(Var A: arbol);
 
-var
-    E: empleado;
-    salarioLeido: real;
+Var
+    E:   empleado;
+    salarioLeido:   real;
 
-begin
+Begin
     salarioLeido := 0;
     leerEmpleado(E, salarioLeido);
 
-    while (salarioLeido <> 0) do begin
-        InsertarEmpleadoEnArbol(A, E, salarioLeido);
+    While (salarioLeido <> 0) Do
+        Begin
+            InsertarEmpleadoEnArbol(A, E, salarioLeido);
 
-        Separador();
+            Separador();
 
-        leerEmpleado(E, salarioLeido);
-    end;
+            leerEmpleado(E, salarioLeido);
+        End;
+End;
 end;
 
 var
