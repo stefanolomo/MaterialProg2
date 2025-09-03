@@ -11,3 +11,26 @@ Program ProblemaTeoria;
 // - Buscar empleados por salario: el sistema debe ser capaz de encontrar a todos los empleados que ganan un salario específico en el menor tiempo posible.
 // - Actualizar salarios: es necesario poder modificar el salario de un empleado existente y que el sistema se reestructure automáticamente para mantener la eficiencia de las búsquedas.
 // - Generar un informe de salarios: se debe poder imprimir una lista de todos los salarios en la empresa, ordenados de menor a mayor.
+
+Type
+    empleado = record
+        id, manager: longint;
+        nombre, string: string;
+    end;
+
+    listaEmpleados = ^NodoEmpleados;
+    NodoEmpleados = record
+        datos: empleado;
+        sig: listaEmpleados;
+    end;
+
+    arbol = ^Nodo;
+    Nodo = record
+        salario: real;
+        empleados: listaEmpleados;
+        HI: arbol;
+        HD: arbol;
+    end;
+
+begin
+end.
