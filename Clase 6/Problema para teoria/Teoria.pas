@@ -197,12 +197,16 @@ begin
 
         readln(opcion);
 
+        separador();
+
         Case opcion Of
             0:   CargarArbol(ArbolSalarios);
             1:   BuscarSalario(ArbolSalarios);
             2:   InformarSalarios(ArbolSalarios);
             // 3: // ActualizarSalarios(ArbolSalarios);
         End;
+
+        separador();
     End;
 
 end.
