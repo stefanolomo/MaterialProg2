@@ -311,7 +311,7 @@ begin
      separador();
      {D) se informa la cantidad de jugadores con una posicion pedida por teclado}
      cant:=0;
-     write('inserte posicion a contar: ');readln(pos);
+     write('inserte posicion a contar(delantero/defensa/mediocampo/arquero): ');readln(pos);
      while (pos<>'delantero')and(pos<>'defensa')and(pos<>'mediocampo')and(pos<>'arquero')do
          begin
              write('inserte posicion valida(delantero/defensa/mediocampo/arquero): ');readln(pos);
