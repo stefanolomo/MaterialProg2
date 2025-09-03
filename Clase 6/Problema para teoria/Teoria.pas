@@ -106,15 +106,23 @@ var
     salarioLeido: real;
 
 begin
+    salarioLeido := 0;
     leerEmpleado(E, salarioLeido);
 
     while (salarioLeido <> 0) do begin
-        // InsertarEmpleadoEnArbol(A, E, salarioLeido);
+        InsertarEmpleadoEnArbol(A, E, salarioLeido);
+
+        Separador();
 
         leerEmpleado(E, salarioLeido);
     end;
 end;
 
+var
+    ArbolSalarios: arbol;
+
 begin
+    CargarArbol(ArbolSalarios);
+
 
 end.
