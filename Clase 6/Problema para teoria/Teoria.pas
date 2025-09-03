@@ -32,15 +32,7 @@ Type
         HD: arbol;
     end;
 
-procedure Separador();
-begin
-    writeln('');
-    writeln('--------------------');
-    writeln('');
-end;
-
-procedure leerEmpleado(var E: empleado; var salario: real);
-
+procedure leerEmpleado(var E: empleado; salario: real);
 begin
     writeln('Ingrese el salario del empleado (cero para terminar): ');
     readln(salario);
@@ -63,6 +55,19 @@ If (salario <> 0) Then
         writeln('Ingrese el puesto del empleado');
         readln(E.puesto);
     End;
+end;
+
+procedure InsertarEmpleadoEnListaEmpleado(var L: listaEmpleados; E: empleado);
+
+var
+    nuevo: listaEmpleados;
+
+begin
+    new(nuevo);
+    nuevo^.datos := E;
+    nuevo^.sig := L;
+
+    L := nuevo;
 end;
 
 procedure CargarArbol(var A: arbol);
