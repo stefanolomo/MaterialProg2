@@ -262,10 +262,21 @@ Begin
             ImprimirDniEnRangoServicio(a^.hd, inf, sup);
 End;
 
+Procedure ImprimirDniEnCodPostal(a: arbol; cod:longint);
+begin
+if (a=nil) then
+    writeln('No se encontro el Codigo Postal ',cod)
+else if (a^.datos.codigo>cod)then
+        ImprimirDniEnCodPostal(a^.HI,cod)
+     else if (a^.datos.codigo<cod)then
+             ImprimirDniEnCodPostal(a^.HD,cod)
+          else ImprimirListaDni(a^.datos.solicitantes);
+end;
+
 Var
     l_inicial:    listaPedidos;
     ArbolArea:    arbol;
-    minimoCodigo, minimaCantidad: longint;
+    minimoCodigo, minimaCantidad,codBuscado: longint;
 
 Begin
     Randomize;
@@ -291,4 +302,10 @@ Begin
     Separador();
 
     ImprimirDniEnRangoServicio(ArbolArea, 1000, 2000);
+
+    separador();
+
+    write('inserte codigo de area para imprimir sus dni: ');readln(codBuscado);
+    ImprimirDniEnCodPostal(ArbolArea,codBuscado);
+    readln;
 End.
