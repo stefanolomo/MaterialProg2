@@ -39,9 +39,8 @@ begin
     writeln('Id de Manager: ',datos.manager);
 end;
 
-procedure imprimirListaEmpleados(l: listaEmpleados;salario:real);
+procedure imprimirListaEmpleados(l: listaEmpleados);
 begin
-     writeln('Lista de los Empleados con Salario ',salario,' : ');
      while (l <> nil) do begin
           writeln;
           imprimirEmpleado(l^.datos);
@@ -49,7 +48,7 @@ begin
           writeln;
      end;
 end;
-Procedure EncontrarSegunSalario(a:arbol; salario:real);
+Procedure EncontrarSegunSalario(a:arbol; salario:real; var Puntero:ListaEmpleados);
 begin
     if (a<>nil)then
        begin
@@ -57,9 +56,9 @@ begin
          EncontrarSegunSalario(a^.HI,salario)
        else if (a^.salario<salario) then
               EncontrarSegunSalario(a^.HD,salario)
-            else ImprimirListaEmpleados(a^.empleados,salario);
+            else Puntero:=a^.empleados;
        end
-    else writeln('No se encontro el Salario');
+    else Puntero:=nil;
 
 
 end;
