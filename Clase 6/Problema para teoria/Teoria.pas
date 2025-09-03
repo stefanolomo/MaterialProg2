@@ -99,25 +99,48 @@ Begin
 
 End;
 
-Procedure CargarArbol(Var A: arbol);
+procedure CargarArbol(var A: arbol);
 
-Var
-    E:   empleado;
-    salarioLeido:   real;
+var
+    E: empleado;
+    salarioLeido: real;
 
-Begin
+begin
     salarioLeido := 0;
     leerEmpleado(E, salarioLeido);
 
-    While (salarioLeido <> 0) Do
+    while (salarioLeido <> 0) do begin
+        InsertarEmpleadoEnArbol(A, E, salarioLeido);
+
+        Separador();
+
+
+Procedure EncontrarSegunSalario(a:arbol; salario:real; Var Puntero:
+                                ListaEmpleados);
+Begin
+    If (a<>Nil)Then
         Begin
-            InsertarEmpleadoEnArbol(A, E, salarioLeido);
-
-            Separador();
-
-            leerEmpleado(E, salarioLeido);
-        End;
+            If (a^.salario>salario)Then
+                EncontrarSegunSalario(a^.HI, salario, Puntero)
+            Else If (a^.salario<salario) Then
+                EncontrarSegunSalario(a^.HD, salario, Puntero)
+            Else Puntero := a^.empleados;
+        End
+    Else Puntero := Nil;
 End;
+
+procedure BuscarSalario(A: arbol);
+
+var
+    salarioABuscar: real;
+    ptrEmpleados: listaEmpleados;
+
+begin
+    writeln('Que salario quiere consultar?');
+    readln(salarioABuscar);
+
+    EncontrarSegunSalario(A, salarioABuscar, ptrEmpleados);
+    imprimirListaEmpleados(ptrEmpleados);
 end;
 
 var
