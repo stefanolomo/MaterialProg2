@@ -101,9 +101,9 @@ Procedure enOrden( A:
 Begin
     If ( A <> Nil ) Then
         Begin
-            enOrden (a^.HI);
+            enOrden (A^.HI);
             ImprimirLibro(A^.datos);
-            enOrden (a^.HD)
+            enOrden (A^.HD)
         End;
 End;
 
@@ -130,8 +130,8 @@ begin
             if (A^.datos.Cod = codBuscado) then // Si es el que buscamos, sumamos 1
                 veces := veces + 1;
 
-            ContarCodClasificador (a^.HI, codBuscado, veces); // Seguir en las dos ramas
-            ContarCodClasificador (a^.HD, codBuscado, veces);
+            ContarCodClasificador (A^.HI, codBuscado, veces); // Seguir en las dos ramas
+            ContarCodClasificador (A^.HD, codBuscado, veces);
         End;
 end;
 
