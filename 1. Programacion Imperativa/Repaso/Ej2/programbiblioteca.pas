@@ -135,6 +135,21 @@ begin
         End;
 end;
 
+procedure buscarNombreEnArbol(A: arbol; tituloBuscado: string; Var exito: boolean);
+
+begin
+    If ( A <> Nil ) Then // Si no esta vacio
+        Begin
+            if (A^.datos.Titulo = tituloBuscado) then // Si es el que buscamos, retornamos true
+                exito := True
+            else begin // Si no, seguir en las dos ramas
+                buscarNombreEnArbol (A^.HI, tituloBuscado, exito);
+                buscarNombreEnArbol (A^.HD, tituloBuscado, exito);
+            end;
+
+        End;
+end;
+
 {PROGRAMA PRINCIPAL}
 
 Var ArbolLibros:   arbol;
