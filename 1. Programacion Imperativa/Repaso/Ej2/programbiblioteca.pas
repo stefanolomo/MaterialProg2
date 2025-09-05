@@ -1,9 +1,11 @@
-program programbiblioteca;
-type
-    Libro = record
-        ISBN,Cod:integer;
-        Titulo: string;
-    end;
+
+Program programbiblioteca;
+
+Type
+    Libro =   Record
+        ISBN,Cod:   integer;
+        Titulo:   string;
+    End;
 
     arbol =   ^nodoA;
     nodoA =   Record
@@ -71,7 +73,7 @@ End;
 Procedure CargarArbol(Var A: arbol);
 
 Var
-    L: libro;
+    L:   libro;
 
 Begin
     leerLibro(L);
@@ -87,15 +89,15 @@ Begin
 End;
 
 Procedure ImprimirLibro(L: Libro);
-begin
+Begin
     writeln('Titulo: ',L.Titulo);
     writeln('ISBN: ',L.ISBN);
     Writeln('Codigo Clasificador: ',L.Cod);
     writeln;
-end;
+End;
 
 Procedure enOrden( A:
-                   arbol );
+                  arbol );
 Begin
     If ( A <> Nil ) Then
         Begin
@@ -105,35 +107,36 @@ Begin
         End;
 End;
 
-procedure Buscar(A: arbol; var Encontrado:boolean; ISBN: integer);
+Procedure Buscar(A: arbol; Var Encontrado:boolean; ISBN: integer);
 
-begin
+Begin
     Encontrado := false;
 
-    if (A = nil) then
+    If (A = Nil) Then
         Encontrado := false
-    else if (A^.datos.ISBN = ISBN) then
-        Encontrado := true
-    else if (A^.datos.ISBN < ISBN) then
-        Buscar(A^.HD, Encontrado, ISBN)
-    else
+    Else If (A^.datos.ISBN = ISBN) Then
+             Encontrado := true
+    Else If (A^.datos.ISBN < ISBN) Then
+             Buscar(A^.HD, Encontrado, ISBN)
+    Else
         Buscar(A^.HI, Encontrado, ISBN)
-end;
+End;
 
 {PROGRAMA PRINCIPAL}
-var ArbolLibros:arbol;
-    Encontrado:boolean;
-    ISBN:integer;
-begin
-ArbolLibros:=nil;
-CargarArbol(ArbolLibros);
-Separador();
-EnOrden(ArbolLibros);
-Separador();
-write('Inserte ISBN a buscar: ');readln(ISBN);
-Buscar(ArbolLibros,Encontrado,ISBN);
-if (Encontrado)then writeln('El ISBN se encontro')
-               else writeln('El ISBN no se encontro/no existe en el arbol');
-readln;
-end.
 
+Var ArbolLibros:   arbol;
+    Encontrado:   boolean;
+    ISBN:   integer;
+Begin
+    ArbolLibros := Nil;
+    CargarArbol(ArbolLibros);
+    Separador();
+    EnOrden(ArbolLibros);
+    Separador();
+    write('Inserte ISBN a buscar: ');
+    readln(ISBN);
+    Buscar(ArbolLibros,Encontrado,ISBN);
+    If (Encontrado)Then writeln('El ISBN se encontro')
+    Else writeln('El ISBN no se encontro/no existe en el arbol');
+    readln;
+End.
