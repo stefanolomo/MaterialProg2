@@ -122,6 +122,19 @@ Begin
         Buscar(A^.HI, Encontrado, ISBN)
 End;
 
+procedure ContarCodClasificador(A: arbol; codBuscado: longint; var veces: longint);
+
+begin
+    If ( A <> Nil ) Then // Si no esta vacio
+        Begin
+            if (A^.datos.Cod = codBuscado) then // Si es el que buscamos, sumamos 1
+                veces := veces + 1;
+
+            ContarCodClasificador (a^.HI, codBuscado, veces); // Seguir en las dos ramas
+            ContarCodClasificador (a^.HD, codBuscado, veces);
+        End;
+end;
+
 {PROGRAMA PRINCIPAL}
 
 Var ArbolLibros:   arbol;
