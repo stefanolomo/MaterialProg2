@@ -155,6 +155,7 @@ end;
 Var ArbolLibros:   arbol;
     Encontrado:   boolean;
     ISBN, n, codABuscar:   longint;
+    nombreABuscar: string;
 Begin
     n := 0;
 
