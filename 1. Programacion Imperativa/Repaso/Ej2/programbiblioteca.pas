@@ -164,5 +164,14 @@ Begin
     readln(codABuscar);
 
     ContarCodClasificador(ArbolLibros, codABuscar, n);
-    writeln('El codigo clasificador ingresado se encontró en ', n, ' libros distintos');
+    writeln('El codigo clasificador ingresado se encontró en ', n, ' libro/s distinto/s');
+
+    writeln('Ingrese el nombre del libro que quiere buscar: ');
+    readln(nombreABuscar);
+
+    buscarNombreEnArbol(ArbolLibros, nombreABuscar, Encontrado);
+    if Encontrado then
+        writeln('Se encontro el libro ', nombreABuscar)
+    else
+        writeln('No se encontro el libro ingresado')
 End.
