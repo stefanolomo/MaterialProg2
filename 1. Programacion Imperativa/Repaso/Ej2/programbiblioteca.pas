@@ -3,7 +3,7 @@ Program programbiblioteca;
 
 Type
     Libro =   Record
-        ISBN,Cod:   integer;
+        ISBN,Cod:   longint;
         Titulo:   string;
     End;
 
@@ -107,7 +107,7 @@ Begin
         End;
 End;
 
-Procedure Buscar(A: arbol; Var Encontrado:boolean; ISBN: integer);
+Procedure Buscar(A: arbol; Var Encontrado:boolean; ISBN: longint);
 
 Begin
     Encontrado := false;
@@ -139,7 +139,7 @@ end;
 
 Var ArbolLibros:   arbol;
     Encontrado:   boolean;
-    ISBN:   integer;
+    ISBN, n, codABuscar:   longint;
 Begin
     ArbolLibros := Nil;
     CargarArbol(ArbolLibros);
