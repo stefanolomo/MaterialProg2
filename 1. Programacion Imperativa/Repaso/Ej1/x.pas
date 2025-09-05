@@ -1,87 +1,92 @@
 Program X;
+
 Uses
-     sysutils;
+sysutils;
+
 Type
-     tweet = record
-	      codigoUsuario: integer;
-	      nombreUsuario: string;
-	      mensaje: string;
-	      esRetweet: boolean;
-     end;
+    tweet =   Record
+        codigoUsuario:   integer;
+        nombreUsuario:   string;
+        mensaje:   string;
+        esRetweet:   boolean;
+    End;
 
-     listaTweets = ^nodoLista;
-     nodoLista = record
-               dato: tweet;
-               sig: listaTweets;
-     end;
+    listaTweets =   ^nodoLista;
+    nodoLista =   Record
+        dato:   tweet;
+        sig:   listaTweets;
+    End;
 
-     {Completar agregando aquí las estructuras de datos necesarias en el ejercicio}
+ {Completar agregando aquí las estructuras de datos necesarias en el ejercicio}
 
 {agregarAdelante - Agrega nro adelante de l}
-Procedure agregarAdelante(var l: listaTweets; t: tweet);
-var
-   aux: listaTweets;
-begin
-     new(aux);
-     aux^.dato := t;
-     aux^.sig := l;
-     l:= aux;
-end;
+Procedure agregarAdelante(Var l: listaTweets; t: tweet);
 
+Var
+    aux:   listaTweets;
+Begin
+    new(aux);
+    aux^.dato := t;
+    aux^.sig := l;
+    l := aux;
+End;
 
 
 {crearLista - Genera una lista con tweets aleatorios}
-procedure crearLista(var l: listaTweets);
-var
-   t: tweet;
-   texto: string;
-begin
-     t.codigoUsuario := random(2000);
-     while (t.codigoUsuario <> 0) do Begin
-          texto:= Concat(IntToStr(t.codigoUsuario), '-mensaje-', IntToStr(random (200)));
-          t.nombreUsuario := Concat('Usuario-',IntToStr(t.codigoUsuario));
-          t.mensaje := texto;
-          t.esRetweet := (random(2)=0);
-          agregarAdelante(l, t);
-          t.codigoUsuario := random(2000);
-     end;
-end;
+Procedure crearLista(Var l: listaTweets);
 
+Var
+    t:   tweet;
+    texto:   string;
+Begin
+    t.codigoUsuario := random(2000);
+    While (t.codigoUsuario <> 0) Do
+        Begin
+            texto := Concat(IntToStr(t.codigoUsuario), '-mensaje-', IntToStr(random (200)));
+            t.nombreUsuario := Concat('Usuario-',IntToStr(t.codigoUsuario));
+            t.mensaje := texto;
+            t.esRetweet := (random(2)=0);
+            agregarAdelante(l, t);
+            t.codigoUsuario := random(2000);
+        End;
+End;
 
 {imprimir - Muestra en pantalla el tweet}
-procedure imprimir(t: tweet);
-begin
-     with (t) do begin
-          write('Tweet del usuario @', nombreUsuario, ' con codigo ',codigoUsuario, ': ', mensaje, ' RT:');
-          if(esRetweet)then
-               writeln(' Si')
-          else
-               writeln('No ');
-     end;
-end;
-
+Procedure imprimir(t: tweet);
+Begin
+    With (t) Do
+        Begin
+            write('Tweet del usuario @', nombreUsuario, ' con codigo ',
+                codigoUsuario, ': ', mensaje, ' RT:');
+            If (esRetweet)Then
+                writeln(' Si')
+            Else
+                writeln('No ');
+        End;
+End;
 
 {imprimirLista - Muestra en pantalla la lista l}
-procedure imprimirLista(l: listaTweets);
-begin
-     while (l <> nil) do begin
-          imprimir(l^.dato);
-          l:= l^.sig;
-     end;
-end;
+Procedure imprimirLista(l: listaTweets);
+Begin
+    While (l <> Nil) Do
+        Begin
+            imprimir(l^.dato);
+            l := l^.sig;
+        End;
+End;
 
-var
-   l: listaTweets;
-begin
-     Randomize;
+Var
+    l:   listaTweets;
+Begin
+    Randomize;
 
-     l:= nil;
-     crearLista(l);
-     writeln ('Lista generada: ');
-     imprimirLista(l);
+    l := Nil;
+    crearLista(l);
+    writeln ('Lista generada: ');
+    imprimirLista(l);
 
-     {Completar el programa}
+    {Completar el programa}
 
-     writeln('Fin del programa');
-     readln;
-end.
+    writeln('Fin del programa');
+    readln;
+End.
