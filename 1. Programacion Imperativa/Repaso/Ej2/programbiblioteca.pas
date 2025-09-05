@@ -141,15 +141,28 @@ Var ArbolLibros:   arbol;
     Encontrado:   boolean;
     ISBN, n, codABuscar:   longint;
 Begin
+    n := 0;
+
     ArbolLibros := Nil;
     CargarArbol(ArbolLibros);
+
     Separador();
+
     EnOrden(ArbolLibros);
+
     Separador();
+
     write('Inserte ISBN a buscar: ');
     readln(ISBN);
+
     Buscar(ArbolLibros,Encontrado,ISBN);
-    If (Encontrado)Then writeln('El ISBN se encontro')
+
+    If (Encontrado)Then writeln('El ISBN esta en el arbol de libros')
     Else writeln('El ISBN no se encontro/no existe en el arbol');
-    readln;
+
+    writeln('Ingrese el codigo clasificador que quiere buscar: ');
+    readln(codABuscar);
+
+    ContarCodClasificador(ArbolLibros, codABuscar, n);
+    writeln('El codigo clasificador ingresado se encontró en ', n, ' libros distintos');
 End.
