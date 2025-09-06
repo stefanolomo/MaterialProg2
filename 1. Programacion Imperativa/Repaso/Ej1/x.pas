@@ -97,6 +97,7 @@ Begin
     If (A = Nil) Then // El arbol esta vacio, insertar al principio
         Begin
             new(A);
+            A^.tweets := nil;
             agregarAdelante(A^.tweets, T);
             A^.codigoUsuario := T.codigoUsuario;
 
