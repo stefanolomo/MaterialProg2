@@ -162,6 +162,28 @@ Begin
         imprimirEnRango(a^.hd, inf, sup);
 End;
 
+procedure verMaxTweetsUser(A: arbol; var maxCant: longint; var maxUser: string);
+
+var
+    cantAct: longint;
+
+begin
+    if (A <> nil) then begin // Si no esta vacia
+        // Procesar el usuario actual
+        cantAct := contarTweets(A^.tweets);
+        // Si es maximo actualiza
+        if (cantAct > maxCant) then begin
+            maxCant := cantAct;
+            maxUser := A^.tweets^.datos.nombreUsuario;
+        end;
+
+        // Seguir en sus ramas
+        verMaxTweetsUser(A^.HI, maxCant, maxUser);
+        verMaxTweetsUser(A^.HD, maxCant, maxUser);
+    end;
+
+end;
+
 Var
     listaPublicaciones:   listaTweets;
     arbolUsers: arbol;
