@@ -35,7 +35,7 @@ Begin
     If (A = Nil) Then // El arbol esta vacio, insertar al principio
         InsertarLibroNodoArbol(A,L)
     Else If (L.ISBN < A^.datos.ISBN) Then // Si se pasa, busca en la izquierda
-             InsertarLibroEnArbol(A^.HI, L)
+        InsertarLibroEnArbol(A^.HI, L)
     Else // Sino, busca en la derecha
         InsertarLibroEnArbol(A^.HD, L);
 
