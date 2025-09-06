@@ -13,7 +13,7 @@ sysutils;
 
 Type
     tweet =   Record
-        codigoUsuario:   integer;
+        codigoUsuario:   longint;
         nombreUsuario:   string;
         mensaje:   string;
         esRetweet:   boolean;
@@ -27,7 +27,7 @@ Type
 
     arbol = ^Usuario;
     Usuario = record
-        codigoUsuario: integer;
+        codigoUsuario: longint;
         tweets: listaTweets;
         HI: arbol;
         HD: arbol;
@@ -138,7 +138,7 @@ begin
     contarTweets := aux;
 end;
 
-Procedure imprimirEnRango(a: arbol; inf:integer; sup:integer);
+Procedure imprimirEnRango(a: arbol; inf:longint; sup:longint);
 
 var
     cantidad: longint;
@@ -164,7 +164,8 @@ End;
 Var
     listaPublicaciones:   listaTweets;
     arbolUsers: arbol;
-    sup, inf: integer;
+    sup, inf: longint;
+    usuarioMasParlante: string;
 
 Begin
     Randomize;
