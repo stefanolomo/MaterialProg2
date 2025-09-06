@@ -122,9 +122,49 @@ Begin
         End;
 End;
 
+function contarTweets(L: listaTweets): longint;
+
+var
+    aux: longint;
+
+begin
+    aux := 0;
+
+    while (L <> nil) do begin
+        aux := aux + 1;
+        L := L^.sig;
+    end;
+
+    contarTweets := aux;
+end;
+
+Procedure imprimirEnRango(a: arbol; inf:integer; sup:integer);
+
+var
+    cantidad: longint;
+
+Begin
+    If (a <> Nil) Then
+        If (a^.codigoUsuario >= inf) Then // Si el dato es mayor o igual a la cota inferior
+            If (a^.codigoUsuario <= sup) Then Begin // Y también menor o igual a la cota superior
+                cantidad := contarTweets(a^.tweets); // Contar
+
+                writeln('El usuario de codigo ', a^.codigoUsuario, ' que esta en el rango ingresado; tiene ', cantidad, ' tweets.');
+
+                imprimirEnRango(a^.hi, inf, sup); // Seguir en su rama derecha
+                imprimirEnRango(a^.hd, inf, sup); // y seguir en su rama izquierda
+            End Else
+                // El dato es mayor o igual la cota menor pero se pasa de la cota superior, entonces seguir a la izquierda donde hay datos menores a el
+                imprimirEnRango(a^.hi, inf, sup)
+        Else
+        // El dato es menor a la cota inferior (a ambas) entonces seguir a la derecha donde hay datos mayores a el
+        imprimirEnRango(a^.hd, inf, sup);
+End;
+
 Var
     listaPublicaciones:   listaTweets;
     arbolUsers: arbol;
+    sup, inf: integer;
 
 Begin
     Randomize;
@@ -137,4 +177,11 @@ Begin
 
     CargarArbolDesdeLista(arbolUsers, listaPublicaciones);
 
+    writeln('Ingrese la cota superior para imprimir tweets: ');
+    readln(sup);
+
+    writeln('Ingrese la cota inferior para imprimir tweets: ');
+    readln(inf);
+
+    imprimirEnRango(arbolUsers, inf, sup);
 End.
