@@ -199,13 +199,19 @@ Begin
     writeln ('Lista generada: ');
     imprimirLista(listaPublicaciones);
 
+    arbolUsers := nil;
     CargarArbolDesdeLista(arbolUsers, listaPublicaciones);
-
-    writeln('Ingrese la cota superior para imprimir tweets: ');
-    readln(sup);
 
     writeln('Ingrese la cota inferior para imprimir tweets: ');
     readln(inf);
 
+    writeln('Ingrese la cota superior para imprimir tweets: ');
+    readln(sup);
+
     imprimirEnRango(arbolUsers, inf, sup);
+
+    sup := -1;
+
+    verMaxTweetsUser(arbolUsers, sup, usuarioMasParlante);
+    writeln('El usuario ', usuarioMasParlante, ' es el que mas tweets tiene, con ', sup, ' tweets totales' );
 End.
