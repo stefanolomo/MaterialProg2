@@ -129,13 +129,12 @@ Var
 Begin
     Randomize;
 
-    l := Nil;
-    crearLista(l);
+    listaPublicaciones := Nil;
+    crearLista(listaPublicaciones);
+
     writeln ('Lista generada: ');
-    imprimirLista(l);
+    imprimirLista(listaPublicaciones);
 
-    {Completar el programa}
+    CargarArbolDesdeLista(arbolUsers, listaPublicaciones);
 
-    writeln('Fin del programa');
-    readln;
 End.
