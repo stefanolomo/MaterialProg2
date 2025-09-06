@@ -3,6 +3,14 @@ Program X;
 Uses
 sysutils;
 
+// X dispone de una lista simple con los tweets realizados durante los últimos 5 segundos. De cada tweet se conoce: el código y nombre de usuario que lo generó, el contenido del mensaje y si el mismo es o no un retweet. Esta información no tiene ningún orden y se debe tener en cuenta que podrían existir en la lista varios tweets del mismo usuario. Se pide:
+
+// A. Realice un módulo que reciba la lista con los tweets y genere una nueva estructura donde para cada usuario se almacene la cantidad de mensajes publicados. Esta estructura debe estar ordenada por código de usuario y debe ser eficiente para la búsqueda por dicho criterio. Una vez generado el árbol:
+
+// B. Informar la cantidad de tweets de los usuarios con código entre 100 y 700.
+// C. Informar el nombre del usuario con mayor cantidad de tweets.
+// D. ¿Qué cambiaría del ejercicio implementado si la lista inicial fuera una lista de listas? (Del usuario y sus tweets)
+
 Type
     tweet =   Record
         codigoUsuario:   integer;
@@ -17,7 +25,7 @@ Type
         sig:   listaTweets;
     End;
 
- {Completar agregando aquí las estructuras de datos necesarias en el ejercicio}
+
 
 {agregarAdelante - Agrega nro adelante de l}
 Procedure agregarAdelante(Var l: listaTweets; t: tweet);
