@@ -21,9 +21,17 @@ Type
 
     listaTweets =   ^nodoLista;
     nodoLista =   Record
-        dato:   tweet;
+        datos:   tweet;
         sig:   listaTweets;
     End;
+
+    arbol = ^Usuario;
+    Usuario = record
+        codigoUsuario: integer;
+        tweets: listaTweets;
+        HI: arbol;
+        HD: arbol;
+    end;
 
 
 
@@ -34,7 +42,7 @@ Var
     aux:   listaTweets;
 Begin
     new(aux);
-    aux^.dato := t;
+    aux^.datos := t;
     aux^.sig := l;
     l := aux;
 End;
@@ -60,7 +68,7 @@ Begin
 End;
 
 {imprimir - Muestra en pantalla el tweet}
-Procedure imprimir(t: tweet);
+Procedure imprimirTweet(t: tweet);
 Begin
     With (t) Do
         Begin
@@ -78,13 +86,46 @@ Procedure imprimirLista(l: listaTweets);
 Begin
     While (l <> Nil) Do
         Begin
-            imprimir(l^.dato);
+            imprimirTweet(l^.datos);
             l := l^.sig;
         End;
 End;
 
+Procedure InsertarPublicacionAlArbol(Var A: arbol; T: tweet);
+
+Begin
+    If (A = Nil) Then // El arbol esta vacio, insertar al principio
+        Begin
+            new(A);
+            agregarAdelante(A^.tweets, T);
+            A^.codigoUsuario := T.codigoUsuario;
+
+            A^.HI := Nil;
+            A^.HD := Nil;
+        End
+    Else If (T.codigoUsuario = A^.codigoUsuario) Then // El codigo es el mismo entonces se agrega el tweet
+        agregarAdelante(A^.tweets, T)
+    Else If (T.codigoUsuario < A^.codigoUsuario) Then // Si se pasa, busca en la izquierda
+        InsertarPublicacionAlArbol(A^.HI, T)
+    Else // Sino, busca en la derecha
+        InsertarPublicacionAlArbol(A^.HD, T);
+
+End;
+
+Procedure CargarArbolDesdeLista(Var A: arbol; L: listaTweets);
+
+Begin
+    While (L <> Nil) Do
+        Begin
+            InsertarPublicacionAlArbol(A, L^.datos);
+            L := L^.sig;
+        End;
+End;
+
 Var
-    l:   listaTweets;
+    listaPublicaciones:   listaTweets;
+    arbolUsers: arbol;
+
 Begin
     Randomize;
 
