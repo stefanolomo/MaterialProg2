@@ -18,6 +18,68 @@ type
         infectados: listaDni;
         HI, HD: arbol;
     end;
+
+procedure insertarAlPrincipioListaDNI(var L: listaDni; P: paciente);
+
+var
+    aux: listaDni;
+
+begin
+    new(aux);
+    aux^.dni := P.dni;
+    aux^.sig := L;
+    L := aux;
+end;
+
+procedure LeerPaciente(var P:paciente);
+
+begin
+    writeln('Ingrese el DNI del paciente (0 para terminar): ');
+    readln(P.dni);
+
+    while (P.dni < 0) do begin
+        writeln('Ingrese un DNI valido (mayor a cero): ');
+        readln(P.dni);
+    end;
+
+    if (P.dni <> 0) then begin
+        writeln('Ingrese el codigo postal de la ciudad del paciente');
+        readln(P.codPostal);
+
+        writeln('Ingrese el nombre de la ciudad del paciente: ');
+        readln(P.ciudad);
+    end;
+
+end;
+
+procedure cargarArbolCiudad(var A: arbol);
+
+var
+    pacienteLeido: paciente;
+
+begin
+    LeerPaciente(pacienteLeido);
+
+    while (pacienteLeido.dni <> 0) do begin
+        InsertarDniAlArbol(A, pacienteLeido);
+
+        LeerPaciente(pacienteLeido);
+    end;
+end;
+procedure imprimirArbol(A: arbol);
+
+begin
+    if (A <> nil) then begin
+        imprimirArbol(A^.HI);
+
+        writeln('Codigo postal: ', A^.codPostal);
+        writeln('Lista de DNIs de personas infectadas: ');
+        imprimirListaDni(A^.infectados);
+
+        imprimirArbol(A^.HD);
+    end;
+end;
+
 procedure Separador();
 
 begin
