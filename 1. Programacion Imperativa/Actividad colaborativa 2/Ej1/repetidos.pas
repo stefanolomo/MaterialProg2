@@ -102,6 +102,14 @@ begin
     end;
 end;
 
+procedure Separador();
+
+begin
+    writeln('');
+    writeln('--------------------');
+    writeln('');
+end;
+
 var
     ArbolPorCodPostal: arbol;
 
