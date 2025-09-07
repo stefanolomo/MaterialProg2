@@ -166,4 +166,22 @@ var
     cantidadInfectadosEnRango: longint;
 
 begin
+    ArbolPorCodPostal := nil;
+
+    cargarArbolCiudad(ArbolPorCodPostal);
+
+    Separador();
+
+    imprimirArbol(ArbolPorCodPostal);
+
+    Separador();
+
+    cantidadInfectadosEnRango := 0;
+    ImprimirEnRango(ArbolPorCodPostal, 1800, 1900, cantidadInfectadosEnRango);
+
+    if cantidadInfectadosEnRango > 0 then begin
+        Separador();
+
+        writeln('La cantidad de infectados en el rango ingresado es ', cantidadInfectadosEnRango);
+    end;
 end.
