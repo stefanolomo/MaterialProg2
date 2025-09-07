@@ -135,6 +135,24 @@ begin
     contarInfectados := aux;
 end;
 
+procedure ImprimirEnRango(a: arbol; inf, sup: longint; var cant: longint);
+
+begin
+    if (a <> nil) then begin
+        if (a^.codPostal > inf) then
+            ImprimirEnRango(a^.HI, inf, sup, cant);  // Solo puede haber menores a la izquierda
+
+        if (a^.codPostal >= inf) and (a^.codPostal <= sup) then begin // Esta en el rango
+            writeln('Para el codigo postal ', a^.codPostal, ' que se encuentra en el rango ingresado, los infectados son: ');
+            imprimirListaDni(a^.infectados);
+            cant := cant + contarInfectados(a^.infectados);
+        end;
+
+        if (a^.codPostal < sup) then
+            ImprimirEnRango(a^.HD, inf, sup, cant);  // Solo puede haber mayores a la derecha
+    end;
+end;
+
 procedure Separador();
 
 begin
