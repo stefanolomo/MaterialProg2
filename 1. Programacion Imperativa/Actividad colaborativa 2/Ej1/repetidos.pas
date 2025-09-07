@@ -85,18 +85,20 @@ begin
     end;
 end;
 
-procedure ImprimirEnRango(a: arbol; inf, sup: longint);
+procedure ImprimirEnRango(a: arbol; inf, sup: longint; var cant: longint);
 
 begin
     if (a <> nil) then begin
         if (a^.datos.codPostal > inf) then
-            ImprimirEnRango(a^.HI, inf, sup);  // Solo puede haber menores a la izquierda
+            ImprimirEnRango(a^.HI, inf, sup, cant);  // Solo puede haber menores a la izquierda
 
-        if (a^.datos.codPostal >= inf) and (a^.datos.codPostal <= sup) then // Esta en el rango
+        if (a^.datos.codPostal >= inf) and (a^.datos.codPostal <= sup) then begin // Esta en el rango
             writeln('La localidad con codigo postal ', a^.datos.codPostal, ' tiene ', a^.datos.cantidad, ' infectados.');
+            cant := cant + a^.datos.cantidad;
+        end;
 
         if (a^.datos.codPostal < sup) then
-            ImprimirEnRango(a^.HD, inf, sup);  // Solo puede haber mayores a la derecha
+            ImprimirEnRango(a^.HD, inf, sup, cant);  // Solo puede haber mayores a la derecha
     end;
 end;
 
