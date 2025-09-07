@@ -118,6 +118,23 @@ begin
     end;
 end;
 
+function contarInfectados(L: listaDni): longint;
+
+var
+    aux: longint;
+
+begin
+    aux := 0;
+
+    while L <> nil do begin
+        aux := aux + 1;
+
+        L := L^.sig;
+    end;
+
+    contarInfectados := aux;
+end;
+
 procedure Separador();
 
 begin
