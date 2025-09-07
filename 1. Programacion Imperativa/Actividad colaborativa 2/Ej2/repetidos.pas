@@ -52,6 +52,27 @@ begin
 
 end;
 
+Procedure InsertarDniAlArbol(Var A: arbol; P: paciente);
+
+Begin
+    If (A = Nil) Then // El arbol esta vacio, insertar al principio
+        Begin
+            new(A);
+            A^.codPostal := P.codPostal;
+            A^.infectados := nil;
+            insertarAlPrincipioListaDNI(A^.infectados, P);
+
+            A^.HI := Nil;
+            A^.HD := Nil;
+        End
+    Else If (P.codPostal = A^.codPostal) Then // El codigo es el mismo entonces se actualiza
+        insertarAlPrincipioListaDNI(A^.infectados, P)
+    Else If (P.codPostal < A^.codPostal) Then // Si se pasa, busca en la izquierda
+        InsertarDniAlArbol(A^.HI, P)
+    Else // Sino, busca en la derecha
+        InsertarDniAlArbol(A^.HD, P)
+End;
+
 procedure cargarArbolCiudad(var A: arbol);
 
 var
