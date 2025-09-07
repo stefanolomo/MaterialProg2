@@ -87,6 +87,23 @@ begin
         LeerPaciente(pacienteLeido);
     end;
 end;
+
+procedure imprimirListaDni(L: listaDni);
+
+var
+    i: longint;
+
+begin
+    i := 1;
+
+    while (L <> nil) do begin
+        writeln('[', i, '] ', L^.dni);
+
+        L := L^.sig;
+        i := i + 1;
+    end;
+end;
+
 procedure imprimirArbol(A: arbol);
 
 begin
