@@ -1,10 +1,16 @@
 **
 
 !*/
+
+!*.java
+
 !*.pas
+!*.lpr
+
 !*.pdf
-!.gitignore
 !*.md
+
 !*.pptx
 !*.zip
-!*.lpr
+
+!.gitignore
