@@ -284,6 +284,7 @@ Begin
 End;
 
 Procedure InsertarNodoArbol(Var A: arbol; P: paquete; Ptr: lista);
+
 Var
     aux:   arbol;
 Begin
@@ -308,9 +309,9 @@ Begin
     If (A = Nil) Then
         InsertarNodoArbol(A, P, Ptr)
     Else If (A^.datos.nombre > Ptr^.dato.nombre) Then
-        insertarDestinoAlArbol(A^.HI, P, Ptr)
+             insertarDestinoAlArbol(A^.HI, P, Ptr)
     Else If (A^.datos.nombre < Ptr^.dato.nombre) Then
-        insertarDestinoAlArbol(A^.HD, P, Ptr)
+             insertarDestinoAlArbol(A^.HD, P, Ptr)
     Else InsertarEnListaPaqueteArbol(A^.datos.paquetes, P);
     {agrega mas datos a la lista (ya hay 1ero)}
 End;
@@ -339,10 +340,10 @@ Begin
         End;
 End;
 
-function FechaAInt(f: fecha): LongInt;
-begin
-  FechaAInt := (f.anio * 10000) + (f.mes * 100) + f.dia;
-end;
+Function FechaAInt(f: fecha):   LongInt;
+Begin
+    FechaAInt := (f.anio * 10000) + (f.mes * 100) + f.dia;
+End;
 
 
 Procedure contarListaPaquetesArbol(L: listaPaquetesArbol; Var cant: integer);
@@ -375,16 +376,18 @@ Begin
         End;
 End;
 
-Procedure iterarContarPaquete(L: listaPaquetesArbol; inf, sup: fecha; Var exito: boolean);
-var val: LongInt;
-begin
-  while (L <> Nil) and not exito do
-  begin
-    val := FechaAInt(L^.datos.fecha);
-    exito := (val >= FechaAInt(inf)) and (val <= FechaAInt(sup));
-    L := L^.sig;
-  end;
-end;
+Procedure iterarContarPaquete(L: listaPaquetesArbol; inf, sup: fecha; Var exito:
+                              boolean);
+
+Var val:   LongInt;
+Begin
+    While (L <> Nil) And Not exito Do
+        Begin
+            val := FechaAInt(L^.datos.fecha);
+            exito := (val >= FechaAInt(inf)) And (val <= FechaAInt(sup));
+            L := L^.sig;
+        End;
+End;
 
 
 Procedure contarAcotadoPorFecha(a: arbol; inf, sup: fecha; Var cant: integer);
@@ -415,146 +418,153 @@ Begin
         End;
 End;
 
-Function verMinNodo(A: arbol): arbol;
+Function verMinNodo(A: arbol):   arbol;
 Begin
     If (A = Nil) Then
         verMinNodo := Nil
     Else If (A^.HI = Nil) Then
-        verMinNodo := A
+             verMinNodo := A
     Else
         verMinNodo := verMinNodo(A^.HI);
 End;
 
 { Libera todos los nodos de la lista de paquetes (listaPaquetesArbol) }
-procedure LiberarListaPaquetesArbol(var L: listaPaquetesArbol);
-var
-  tmp: listaPaquetesArbol;
-begin
-  while L <> Nil do
-  begin
-    tmp := L;
-    L := L^.sig;
-    dispose(tmp);
-  end;
-end;
+Procedure LiberarListaPaquetesArbol(Var L: listaPaquetesArbol);
+
+Var
+    tmp:   listaPaquetesArbol;
+Begin
+    While L <> Nil Do
+        Begin
+            tmp := L;
+            L := L^.sig;
+            dispose(tmp);
+        End;
+End;
 
 { Elimina del árbol el nodo cuya clave (nombre) coincide con 'nombre' }
-procedure EliminarPorNombre(var A: arbol; nombre: str70);
-var
-  nodoAEliminar, succ, succParent: arbol;
-begin
-  if A = Nil then
-    Exit;
+Procedure EliminarPorNombre(Var A: arbol; nombre: str70);
 
-  if nombre < A^.datos.nombre then
-  begin
-    EliminarPorNombre(A^.HI, nombre);
-    Exit;
-  end
-  else if nombre > A^.datos.nombre then
-  begin
-    EliminarPorNombre(A^.HD, nombre);
-    Exit;
-  end;
+Var
+    nodoAEliminar, succ, succParent:   arbol;
+Begin
+    If A = Nil Then
+        Exit;
+
+    If nombre < A^.datos.nombre Then
+        Begin
+            EliminarPorNombre(A^.HI, nombre);
+            Exit;
+        End
+    Else If nombre > A^.datos.nombre Then
+             Begin
+                 EliminarPorNombre(A^.HD, nombre);
+                 Exit;
+             End;
 
   { Aquí A apunta al nodo a eliminar }
-  nodoAEliminar := A;
+    nodoAEliminar := A;
 
   { Caso 1: hoja (sin hijos) }
-  if (A^.HI = Nil) and (A^.HD = Nil) then
-  begin
-    LiberarListaPaquetesArbol(A^.datos.paquetes);
-    dispose(A);
-    A := Nil;
-    Exit;
-  end;
+    If (A^.HI = Nil) And (A^.HD = Nil) Then
+        Begin
+            LiberarListaPaquetesArbol(A^.datos.paquetes);
+            dispose(A);
+            A := Nil;
+            Exit;
+        End;
 
   { Caso 2: solo hijo derecho }
-  if (A^.HI = Nil) and (A^.HD <> Nil) then
-  begin
-    A := A^.HD;
-    LiberarListaPaquetesArbol(nodoAEliminar^.datos.paquetes);
-    dispose(nodoAEliminar);
-    Exit;
-  end;
+    If (A^.HI = Nil) And (A^.HD <> Nil) Then
+        Begin
+            A := A^.HD;
+            LiberarListaPaquetesArbol(nodoAEliminar^.datos.paquetes);
+            dispose(nodoAEliminar);
+            Exit;
+        End;
 
   { Caso 3: solo hijo izquierdo }
-  if (A^.HI <> Nil) and (A^.HD = Nil) then
-  begin
-    A := A^.HI;
-    LiberarListaPaquetesArbol(nodoAEliminar^.datos.paquetes);
-    dispose(nodoAEliminar);
-    Exit;
-  end;
+    If (A^.HI <> Nil) And (A^.HD = Nil) Then
+        Begin
+            A := A^.HI;
+            LiberarListaPaquetesArbol(nodoAEliminar^.datos.paquetes);
+            dispose(nodoAEliminar);
+            Exit;
+        End;
 
   { Caso 4: dos hijos -> sucesor inorder (mínimo en subárbol derecho) }
-  succParent := A;
-  succ := A^.HD;
-  while succ^.HI <> Nil do
-  begin
-    succParent := succ;
-    succ := succ^.HI;
-  end;
+    succParent := A;
+    succ := A^.HD;
+    While succ^.HI <> Nil Do
+        Begin
+            succParent := succ;
+            succ := succ^.HI;
+        End;
 
-  { Liberar la lista de paquetes actual del nodo A (vamos a sobrescribir datos) }
-  LiberarListaPaquetesArbol(A^.datos.paquetes);
+
+ { Liberar la lista de paquetes actual del nodo A (vamos a sobrescribir datos) }
+    LiberarListaPaquetesArbol(A^.datos.paquetes);
 
   { Copiamos el registro 'datos' del sucesor al nodo A }
-  A^.datos := succ^.datos;
+    A^.datos := succ^.datos;
 
   { Evitamos doble-free: el sucesor ya no "posee" la lista de paquetes }
-  succ^.datos.paquetes := Nil;
+    succ^.datos.paquetes := Nil;
 
   { Ahora eliminamos físicamente el nodo 'succ' del árbol }
-  if succParent = A then
-    succParent^.HD := succ^.HD
-  else
-    succParent^.HI := succ^.HD;
+    If succParent = A Then
+        succParent^.HD := succ^.HD
+    Else
+        succParent^.HI := succ^.HD;
 
-  dispose(succ);
-end;
+    dispose(succ);
+End;
+
 
 { Cuenta localmente los nodos de la lista de paquetes y devuelve el resultado en 'cant' }
-procedure contarNodosListaPaquetesLocal(L: listaPaquetesArbol; Var cant: integer);
-begin
-  cant := 0;
-  while L <> Nil do
-  begin
-    cant := cant + 1;
-    L := L^.sig;
-  end;
-end;
+Procedure contarNodosListaPaquetesLocal(L: listaPaquetesArbol; Var cant: integer
+);
+Begin
+    cant := 0;
+    While L <> Nil Do
+        Begin
+            cant := cant + 1;
+            L := L^.sig;
+        End;
+End;
+
 
 { Recorre el árbol y devuelve en minCnt la menor cantidad encontrada
   y en minNombre el nombre del destino correspondiente. }
-procedure BuscarMinimo(A: arbol; Var minCnt: integer; Var minNombre: str70);
-var
-  cnt: integer;
-begin
-  if A = Nil then Exit;
+Procedure BuscarMinimo(A: arbol; Var minCnt: integer; Var minNombre: str70);
+
+Var
+    cnt:   integer;
+Begin
+    If A = Nil Then Exit;
 
   { recorrer izquierda }
-  BuscarMinimo(A^.HI, minCnt, minNombre);
+    BuscarMinimo(A^.HI, minCnt, minNombre);
 
   { contar paquetes en este nodo (sin modificar la lista original) }
-  contarNodosListaPaquetesLocal(A^.datos.paquetes, cnt);
+    contarNodosListaPaquetesLocal(A^.datos.paquetes, cnt);
 
-  if cnt < minCnt then
-  begin
-    minCnt := cnt;
-    minNombre := A^.datos.nombre;
-  end;
+    If cnt < minCnt Then
+        Begin
+            minCnt := cnt;
+            minNombre := A^.datos.nombre;
+        End;
 
   { recorrer derecha }
-  BuscarMinimo(A^.HD, minCnt, minNombre);
-end;
+    BuscarMinimo(A^.HD, minCnt, minNombre);
+End;
 
 
 
 Procedure ImprimirArbol(A: arbol);
 
-var
-    aux: listaPaquetesArbol;
+Var
+    aux:   listaPaquetesArbol;
 
 Begin
     If (A <> Nil) Then
@@ -562,26 +572,27 @@ Begin
             ImprimirArbol(A^.HI);
 
             aux := A^.datos.paquetes;
-writeln('PAIS: ', A^.datos.pais);
-writeln('DESTINO: ', A^.datos.nombre);
-while aux <> Nil do
-begin
-  writeln('El paquete del destino es: ');
-  writeln('  ID: ', aux^.datos.identificador);
+            writeln('PAIS: ', A^.datos.pais);
+            writeln('DESTINO: ', A^.datos.nombre);
+            While aux <> Nil Do
+                Begin
+                    writeln('El paquete del destino es: ');
+                    writeln('  ID: ', aux^.datos.identificador);
 
   { imprimir hotel como Si/No en vez de TRUE/FALSE }
-  if aux^.datos.hotel then
-    writeln('  Hotel: Si')
-  else
-    writeln('  Hotel: No');
+                    If aux^.datos.hotel Then
+                        writeln('  Hotel: Si')
+                    Else
+                        writeln('  Hotel: No');
 
-  writeln('  Equipaje: ', aux^.datos.cant_equipaje);
-  writeln('  Aerolinea: ', aux^.datos.aerolinea);
+                    writeln('  Equipaje: ', aux^.datos.cant_equipaje);
+                    writeln('  Aerolinea: ', aux^.datos.aerolinea);
 
-  writeln('  Fecha del paquete: ', aux^.datos.fecha.dia, '/', aux^.datos.fecha.mes, '/', aux^.datos.fecha.anio);
+                    writeln('  Fecha del paquete: ', aux^.datos.fecha.dia, '/',
+                            aux^.datos.fecha.mes, '/', aux^.datos.fecha.anio);
 
-  aux := aux^.sig;
-end;
+                    aux := aux^.sig;
+                End;
 
 
             ImprimirArbol(A^.HD);
@@ -593,7 +604,7 @@ Var
     ArbolPrincipal:   arbol;
     sup, inf:   fecha;
     cantidad, min, minCnt:   integer;
-    minNombre: str70;
+    minNombre:   str70;
 
 Begin
     Randomize;
