@@ -1,4 +1,4 @@
-
+import java.util.Scanner;
 /**
  * Write a description of class Programa here.
  * 
@@ -14,10 +14,14 @@ public class Ej05Jugadores
     public static void main(String[] args)
     {
         //Paso 1: Declarar la variable vector de alturas
+        int [] vAlturas;
         
         //Paso 2: Declarar indice y promedio (iniciarlo)
+        vAlturas = new int[10];
         
         //Paso 3: Declarar y crear el scanner
+        Scanner in = new Scanner(System.in);
+        
         
         //Paso 4: Crear el vector para 15 valores
         
@@ -26,5 +30,8 @@ public class Ej05Jugadores
         //Paso 6: Calcular el promedio
         
         //Paso 7: Recorrer el vector, contar los números que son mayores que el promedio
+        
+        // No se lee mas
+        in.close();
     }
 }
