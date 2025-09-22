@@ -66,12 +66,11 @@ public class Act4 {
         }
 
         if (jugados > 0) {
-            porc = (double) jugadosEmp / jugados * 100;    
+            return (double) jugadosEmp / jugados * 100;
         } else {
             porc = 0;
+            return 0;
         }
-
-        return porc;
     }
 
     public static Partido leerPartido(Scanner in) {
