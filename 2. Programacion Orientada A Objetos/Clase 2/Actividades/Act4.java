@@ -53,17 +53,13 @@ public class Act4 {
     }
 
     public static double porcPartidosEmpatados(Partido[] vector, String equipo) {
-        double porc = 0; int jugados = 0; int jugadosEmp = 0;
-        int i;
+        int jugados = 0;
+        int jugadosEmp = 0;
 
-        for (i = 0; i <= 4; i++) {
-            if ((vector[i].getLocal().equals(equipo)) | (vector[i].getVisitante().equals(equipo))) {
-
-                jugados++; // Sumar 1 a los partidos jugados
-
+        for (int i = 0; i < vector.length; i++) {
             if (vector[i].getLocal().equals(equipo) || vector[i].getVisitante().equals(equipo)) {
+                jugados++;
                 if (vector[i].hayEmpate()) {
-                    // Si fue empatado, sumar 1 a los partidos empatados
                     jugadosEmp++;
                 }
             }
