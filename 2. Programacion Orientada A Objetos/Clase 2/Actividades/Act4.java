@@ -31,8 +31,12 @@ public class Act4 {
 
     public static int cantPartidosGanados(Partido[] vector, String equipo) {
         int ganados = 0;
-
+        for (int i = 0; i < vector.length; i++) {
             if ((vector[i].getLocal().equals(equipo) || vector[i].getVisitante().equals(equipo))
+            && vector[i].getGanador().equals(equipo)) {
+                ganados++;
+            }
+        }
         return ganados;
     }
 
