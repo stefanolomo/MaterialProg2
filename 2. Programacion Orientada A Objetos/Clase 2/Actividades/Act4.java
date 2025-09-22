@@ -71,24 +71,24 @@ public class Act4
         return porc;
     }
 
-    public static Partido leerPartido(){
-        Scanner in = new Scanner(System.in);
-
+    public static Partido leerPartido(Scanner in) {
         Partido p1 = new Partido();
 
-        System.out.println("Ingrese el nombre del equipo local: ");
-        p1.setLocal(in.next());
+        System.out.println("Ingrese el nombre del equipo local:");
+        p1.setLocal(in.nextLine());
 
-        System.out.println("Ingrese la cantidad de goles que metio el equipo local: ");
+        System.out.println("Ingrese la cantidad de goles que metió el equipo local:");
         p1.setGolesLocal(in.nextInt());
+        in.nextLine(); // limpiar buffer
 
-        System.out.println("Ingrese el nombre del equipo visitante: ");
-        p1.setVisitante(in.next());
+        System.out.println("Ingrese el nombre del equipo visitante:");
+        p1.setVisitante(in.nextLine());
 
         System.out.println("Ingrese la cantidad de goles que metio el equipo visitante: ");
+        System.out.println("Ingrese la cantidad de goles que metió el equipo visitante:");
         p1.setGolesVisitante(in.nextInt());
+        in.nextLine(); // limpiar buffer
 
         return p1;
-
     }
 }
