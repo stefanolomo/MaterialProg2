@@ -6,7 +6,7 @@ public class Persona {
     public Persona(String unNombre, int unDNI, int unaEdad){
         nombre = unNombre;
         DNI = unDNI;
-        edad = unaEdad; 
+        edad = unaEdad;
     }
 
     public Persona(){
