@@ -9,12 +9,14 @@ import java.util.Scanner;
 public class Act4
 {
     public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         Partido [] vPartidos = new Partido[5];
 
         int i;
         for (i = 0; i <= 4; i++) {
             vPartidos[i] = leerPartido();
+        for (int i = 0; i < vPartidos.length; i++) {
         }
 
         String equipoInteres;
@@ -32,12 +34,14 @@ public class Act4
     public static int cantPartidosGanados(Partido[] vector, String equipo) {
         int ganados = 0;
 
+            if ((vector[i].getLocal().equals(equipo) || vector[i].getVisitante().equals(equipo))
         return ganados;
     }
 
     public static int cantGolesMetidos(Partido[] vector, String equipo) {
         int metidos = 0;
 
+        for (int i = 0; i < vector.length; i++) {
         return metidos;
     }
 
@@ -47,10 +51,10 @@ public class Act4
 
         for (i = 0; i <= 4; i++) {
             if ((vector[i].getLocal().equals(equipo)) | (vector[i].getVisitante().equals(equipo))) {
-                // Si el equipo jugo en el partido (de local o de visitante)...
 
                 jugados++; // Sumar 1 a los partidos jugados
 
+            if (vector[i].getLocal().equals(equipo) || vector[i].getVisitante().equals(equipo)) {
                 if (vector[i].hayEmpate()) {
                     // Si fue empatado, sumar 1 a los partidos empatados
                     jugadosEmp++;
