@@ -1,22 +1,13 @@
 import java.util.Scanner;
 
-/**
- * Write a description of class Act4 here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-public class Act4
-{
-    public static void main(String[] args){
+public class Act4 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        Partido [] vPartidos = new Partido[5];
+        Partido[] vPartidos = new Partido[3];
 
-        int i;
-        for (i = 0; i <= 4; i++) {
-            vPartidos[i] = leerPartido();
+        // Leer partidos
         for (int i = 0; i < vPartidos.length; i++) {
+            vPartidos[i] = leerPartido(in);
         }
 
         String equipoInteres;
