@@ -42,8 +42,13 @@ public class Act4 {
 
     public static int cantGolesMetidos(Partido[] vector, String equipo) {
         int metidos = 0;
-
         for (int i = 0; i < vector.length; i++) {
+            if (vector[i].getLocal().equals(equipo)) {
+                metidos += vector[i].getGolesLocal();
+            } else if (vector[i].getVisitante().equals(equipo)) {
+                metidos += vector[i].getGolesVisitante();
+            }
+        }
         return metidos;
     }
 
