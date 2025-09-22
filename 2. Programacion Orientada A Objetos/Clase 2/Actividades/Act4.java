@@ -12,14 +12,21 @@ public class Act4 {
 
         String equipoInteres;
 
-        System.out.println("Ingrese el equipo que tiene interes saber cuantos partidos empato (en % sobre partidos jugados)");
+        // Porcentaje de empates
+        System.out.println("Ingrese el equipo para saber cuántos partidos empató (en % sobre partidos jugados):");
+        equipoInteres = in.nextLine();
+        System.out.println("El equipo " + equipoInteres + " empató el " + porcPartidosEmpatados(vPartidos, equipoInteres) + "% de los partidos que jugó.");
+
+        // Cantidad de partidos ganados
+        System.out.println("Ingrese el equipo para saber cuántos partidos ganó (en cantidad de partidos ganados):");
         equipoInteres = in.nextLine();
 
-        System.out.println("El equipo " + equipoInteres + " empato el " + porcPartidosEmpatados(vPartidos, equipoInteres) + "% de los partidos que jugo.");
-        
-        // Agregar cantidad de partidos ganados
-        
-        // Agregar cantidad de goles metidos
+        System.out.println("El equipo " + equipoInteres + " ganó " + cantPartidosGanados(vPartidos, equipoInteres) + " de los partidos que jugó.");
+
+        // Cantidad de goles metidos
+        System.out.println("Ingrese el equipo para saber cuántos goles metió (en cantidad de goles metidos):");
+        equipoInteres = in.nextLine();
+        System.out.println("El equipo " + equipoInteres + " metió " + cantGolesMetidos(vPartidos, equipoInteres) + " goles.");
     }
 
     public static int cantPartidosGanados(Partido[] vector, String equipo) {
