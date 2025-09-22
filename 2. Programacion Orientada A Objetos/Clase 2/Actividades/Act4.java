@@ -68,7 +68,6 @@ public class Act4 {
         if (jugados > 0) {
             return (double) jugadosEmp / jugados * 100;
         } else {
-            porc = 0;
             return 0;
         }
     }
@@ -86,7 +85,6 @@ public class Act4 {
         System.out.println("Ingrese el nombre del equipo visitante:");
         p1.setVisitante(in.nextLine());
 
-        System.out.println("Ingrese la cantidad de goles que metio el equipo visitante: ");
         System.out.println("Ingrese la cantidad de goles que metió el equipo visitante:");
         p1.setGolesVisitante(in.nextInt());
         in.nextLine(); // limpiar buffer
