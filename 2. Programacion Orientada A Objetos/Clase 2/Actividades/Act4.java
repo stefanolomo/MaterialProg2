@@ -23,6 +23,10 @@ public class Act4
         equipoInteres = in.nextLine();
 
         System.out.println("El equipo " + equipoInteres + " empato el " + porcPartidosEmpatados(vPartidos, equipoInteres) + "% de los partidos que jugo.");
+        
+        // Agregar cantidad de partidos ganados
+        
+        // Agregar cantidad de goles metidos
     }
 
     public static int cantPartidosGanados(Partido[] vector, String equipo) {
