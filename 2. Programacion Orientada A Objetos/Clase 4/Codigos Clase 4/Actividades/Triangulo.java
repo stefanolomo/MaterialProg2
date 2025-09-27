@@ -20,6 +20,14 @@ public class Triangulo
         // Tamaño de 3 lados, color de linea, color de relleno 
     }
 
+    public Triangulo(String colorLinea, String colorRelleno, double lado1, double lado2, double lado3) {
+        this.colorLinea = colorLinea;
+        this.colorRelleno = colorRelleno;
+        this.lado1 = lado1;
+        this.lado2 = lado2;
+        this.lado3 = lado3;
+    }
+
     /**
      * Clase que crea un triangulo con el largo de sus 3 lados, color de linea y color de relleno.
      * Sus metodos son para setear las 3 propiedades, gettear las 3 propiedades, devolver el area, y devolver el perimetro.
@@ -42,7 +50,7 @@ public class Triangulo
         this.lado3 =  lado3;
     }
 
-    public String getColorRelleno(String color)
+    public String getColorRelleno()
     {
         return this.colorRelleno;
     }
@@ -52,7 +60,7 @@ public class Triangulo
         return this.colorLinea;
     }
 
-    public double getPerimetro(String color)
+    public double getPerimetro()
     {
         return (this.lado1 + this.lado2 + this.lado3);
     }
