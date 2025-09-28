@@ -165,38 +165,30 @@ public class Micro {
     public void setDestino (String destino) {this.destino = destino;}
 
     public void setHoraDeSalida(int horaDeSalida) {this.horaDeSalida = horaDeSalida;}
-    
+
     public String getPatente () {return this.patente;}
-    
+
     public String getDestino () {return this.destino;}
-    
+
     public int getHoraDeSalida() {return this.horaDeSalida;}
 
     // |          Constructores          |
-    
-    public Micro (String patente, String destino, int horaDeSalida) {
-        // Constructor sin pasajeros
-        this.estadoAsientos = new boolean [20];
 
+    public Micro (String patente, String destino, int horaDeSalida) {
+        this.estadoAsientos = new boolean [20];
         this.patente = patente;
         this.destino = destino;
         this.horaDeSalida = horaDeSalida;
         this.asientosTotales = 20;
         this.asientosOcupados = 0;
-        inicializarEstadoAsientos(this.estadoAsientos);
     }
 
-    public Micro () {
         // Constructor nulo
     }
 
-    public static boolean[] inicializarEstadoAsientos(boolean[] asientos) {
-        int i;
-
-        for (i = 0; i < asientos.length; i++) {
-            asientos[i] = false;
-        }
-
-        return asientos;
+    public Micro () {
+        this.estadoAsientos = new boolean[20];
+        this.asientosTotales = 20;
+        this.asientosOcupados = 0;
     }
 }
