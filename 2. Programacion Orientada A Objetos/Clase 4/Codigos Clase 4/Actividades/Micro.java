@@ -183,7 +183,13 @@ public class Micro {
         this.asientosOcupados = 0;
     }
 
-        // Constructor nulo
+    public Micro (String patente, String destino, int horaDeSalida, boolean[] estadoAsientos) {
+        this.patente = patente;
+        this.destino = destino;
+        this.horaDeSalida = horaDeSalida;
+        this.estadoAsientos = estadoAsientos; 
+        this.asientosTotales = 20;
+        this.asientosOcupados = this.recalcularOcupados();
     }
 
     public Micro () {
