@@ -1,8 +1,10 @@
+import java.util.Scanner;
+
 public class Micro {
 
     /*
 
-    3) Definir una clase para representar micros. Un micro se caracteriza por su patente, destino,
+    3) Definir una clase para representar micros. Un micro se c.aracteriza por su patente, destino,
     hora salida, una cantidad de asientos fija (20) para los que debe registrar su estado (es decir si
     está o no ocupado) y cantidad de asientos ocupados. El micro puede ocuparse total o
     parcialmente.
@@ -13,20 +15,19 @@ public class Micro {
     destino y una hora de salida (recibidas como parámetro) y sin pasajeros.
 
     c) Implemente métodos para:
-    i. devolver la cantidad de asientos ocupados
-    ii. devolver si el micro está lleno
-    iii. validar un número de asiento recibido como parámetro
-    iv. devolver el estado de un nro. de asiento válido recibido como parámetro
-    v. ocupar un nro. de asiento válido recibido como parámetro
-    vi. liberar un nro. de asiento válido recibido como parámetro
-    vii. devolver el nro. del primer asiento libre
+    i. devolver la cantidad de asientos ocupados [x]
+    ii. devolver si el micro está lleno [x] 
+    iii. validar un número de asiento recibido como parámetro [x]
+    iv. devolver el estado de un nro. de asiento válido recibido como parámetro [x]
+    v. ocupar un nro. de asiento válido recibido como parámetro [x]
+    vi. liberar un nro. de asiento válido recibido como parámetro [x]
+    vii. devolver el nro. del primer asiento libre [x]
 
      */
 
     private int asientosTotales, asientosOcupados, horaDeSalida;
     private String destino, patente;
     private boolean [] estadoAsientos;
-    
     // |           Getters y setters          |
 
     public void setPatente (String patente) {this.patente = patente;}
