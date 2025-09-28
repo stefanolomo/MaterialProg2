@@ -29,7 +29,7 @@ public class Micro {
     private String destino, patente;
     private boolean [] estadoAsientos;
 
-    // |           Metodos                    |
+    // |          Metodos          |
 
     public int primerDesocupado () {
         for (int i = 0; i < this.estadoAsientos.length; i++) {
@@ -158,7 +158,7 @@ public class Micro {
         return contador;
     }
 
-    // |           Getters y setters          |
+    // |          Getters y Setters          |
 
     public void setPatente (String patente) {this.patente = patente;}
 
