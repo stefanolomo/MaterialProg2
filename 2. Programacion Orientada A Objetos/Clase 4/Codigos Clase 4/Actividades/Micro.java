@@ -90,37 +90,37 @@ public class Micro {
 
         System.out.println("\n--- Asistente de Creación de Micros ---");
         System.out.println("¿Cómo desea crear el micro?");
-        
+
         System.out.println("  1. Nuevo para un viaje (vacío)");
         System.out.println("  2. Cargar desde un estado existente (full)");
         System.out.println("  Cualquier otro número: Crear micro por defecto (nulo)");
-        
+
         System.out.print("Seleccione una opción: ");
         int opcion = in.nextInt();
 
         if (opcion == 1) {
             System.out.print("Ingrese la patente: ");
             String patente = in.next();
-            
+
             in.nextLine();
             System.out.print("Ingrese el destino: ");
             String destino = in.nextLine();
-            
+
             System.out.print("Ingrese la hora de salida (formato 24hs, ej: 22): ");
-            
+
             int hora = in.nextInt();
             microCreado = new Micro(patente, destino, hora);
         } else if (opcion == 2) {
             System.out.print("Ingrese la patente: ");
             String patente = in.next();
-            
+
             in.nextLine();
             System.out.print("Ingrese el destino: ");
             String destino = in.nextLine();
-            
+
             System.out.print("Ingrese la hora de salida: ");
             int hora = in.nextInt();
-            
+
             boolean[] estadoAsientos = leerEstadoDeAsientos(in);
             microCreado = new Micro(patente, destino, hora, estadoAsientos);
         } else {
