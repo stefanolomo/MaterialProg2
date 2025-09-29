@@ -43,7 +43,7 @@ public class FlotaMicros {
 
     public boolean agregarMicro (Micro microAgregar) {
         if (cantidadDeMicros < 20) {
-            this.microsDeFlota[cantidadDeMicros - 1] = microAgregar;
+            this.microsDeFlota[cantidadDeMicros] = microAgregar;
             return true;
         }
 
@@ -61,7 +61,7 @@ public class FlotaMicros {
     }
     
     public Micro buscarPorDestino (String destino) {
-        for (int i = 0; i < (cantidadDeMicros - 1); i++) {
+        for (int i = 0; i < cantidadDeMicros; i++) {
             if (microsDeFlota[i].getDestino().equals(destino)) {
                 return microsDeFlota[i];           
             }
