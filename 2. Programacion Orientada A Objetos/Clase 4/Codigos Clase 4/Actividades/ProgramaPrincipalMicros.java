@@ -16,9 +16,11 @@ public class ProgramaPrincipalMicros {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         
-        Micro MicroMarDelPlata= Micro.leerMicro(in);
+        Micro MicroMarDelPlata = Micro.leerMicro(in);
         
+        gestionarCargaInteractiva(MicroMarDelPlata, in);
         
+        System.out.println("La cantidad de asientos ocupados en el micro es de: " + MicroMarDelPlata.cantidadDeOcupados());
     }
     
     public static void gestionarCargaInteractiva(Micro microACargar, Scanner in) {
