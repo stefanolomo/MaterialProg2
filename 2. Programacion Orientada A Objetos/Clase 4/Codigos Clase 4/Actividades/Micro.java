@@ -102,10 +102,10 @@ public class Micro {
             System.out.print("Ingrese la patente: ");
             String patente = in.next();
             
-            System.out.print("Ingrese el destino: ");
-            String destino = in.next();
-            
             in.nextLine();
+            System.out.print("Ingrese el destino: ");
+            String destino = in.nextLine();
+            
             System.out.print("Ingrese la hora de salida (formato 24hs, ej: 22): ");
             
             int hora = in.nextInt();
@@ -114,8 +114,9 @@ public class Micro {
             System.out.print("Ingrese la patente: ");
             String patente = in.next();
             
+            in.nextLine();
             System.out.print("Ingrese el destino: ");
-            String destino = in.next();
+            String destino = in.nextLine();
             
             System.out.print("Ingrese la hora de salida: ");
             int hora = in.nextInt();
