@@ -5,7 +5,7 @@ public class VisorFiguras {
     }
 
     public void mostrar(Figura f){
-        f.toString();
+        System.out.println(f.dibujar());
         mostradas++;
     }
 

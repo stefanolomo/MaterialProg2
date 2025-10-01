@@ -38,8 +38,7 @@ public abstract class Figura {
     }
 
     public String dibujar(){
-        return ("Color de Linea: " + this.getColorLinea() + "Color de Relleno: " + this.getColorRelleno() +"Ubicación: " + this.getPunto().toString());
-
+        return ("Color de Linea: " + this.getColorLinea() + ", Color de Relleno: " + this.getColorRelleno() +", Ubicación: " + this.getPunto().toString());
     }
 
     abstract double calcularArea();
