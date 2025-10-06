@@ -9,8 +9,8 @@
 
 !*.pdf
 !*.md
-
 !*.pptx
+
 !*.zip
 
 !.gitignore
