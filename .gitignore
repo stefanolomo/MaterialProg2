@@ -3,6 +3,7 @@
 !*/
 
 !*.java
+!*.jar
 
 !*.pas
 !*.lpr
