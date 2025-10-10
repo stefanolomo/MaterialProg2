@@ -7,6 +7,8 @@
 !*.pas
 !*.lpr
 
+!*.rinfo
+
 !*.pdf
 !*.md
 !*.pptx

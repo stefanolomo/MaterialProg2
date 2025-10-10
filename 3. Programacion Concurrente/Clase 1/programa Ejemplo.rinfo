@@ -1,0 +1,56 @@
+programa Ejemplo
+
+procesos
+    proceso juntarPapeles (ES papeles : numero)
+    comenzar
+        mientras (HayPapelEnLaEsquina)
+            tomarPapel
+            papeles := papeles + 1
+    fin
+    
+    proceso juntarFlores (ES flores : numero)
+    comenzar
+        mientras (HayPapelEnLaEsquina)
+            tomarFlor
+            flores := flores + 1
+    fin
+    
+    proceso devolverFlores (E flores : numero)
+    comenzar
+        repetir numero
+            depositarFlor
+    fin
+    
+    proceso devolverPapeles (E papeles : numero)
+    comenzar
+        repetir papeles
+            depositarPapeles
+    fin
+    
+    proceso hacerCalle1 (ES pasos : numero)
+    variables
+        flores, papeles : numero
+        cumple : boolean
+    comenzar
+        cumple := F
+        mientras (~cumple) & (PosAv < 100)
+            flores := 0
+            papeles := 0
+            juntarFlores(flores)
+            juntarPapeles(papeles)
+            devolverFlores(flores)
+            devolverPaples(papeles)
+        
+        si ((flores * 2) <> papeles)
+            pasos := pasos + 1
+            mover
+    fin
+    
+areas
+    ciudad : AreaC(1, 1, 100, 100)
+    
+robots
+    robot robot1
+    variables
+    comenzar
+    fin
