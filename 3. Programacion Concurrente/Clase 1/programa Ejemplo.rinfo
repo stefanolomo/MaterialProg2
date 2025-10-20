@@ -1,66 +1,106 @@
-programa Ejemplo
+{Bienvenidos al entorno CMRE.
+Lo siguiente es un código de ejemplo que implementa un
+proceso que recibe un número de avenida como parámetro,
+se posiciona en esa avenida y la recorre.}
 
+programa ejemplo
 procesos
+{Proceso para recolectar todos los papeles de la esquina y retornar la cantidad total recolectada.}
   proceso juntarPapeles (ES papeles : numero)
   comenzar
-    mientras (HayPapelEnLaEsquina)
+    papeles := 0 {Inicialización del contador local}
+    mientras (HayPapelEnLaEsquina) {Condición correcta para papeles [3, 4]}
       tomarPapel
       papeles := papeles + 1
   fin
 
+  {Proceso para recolectar todas las flores de la esquina
+  y retornar la cantidad total recolectada.}
   proceso juntarFlores (ES flores : numero)
   comenzar
-    mientras (HayPapelEnLaEsquina)
+    flores := 0 {Inicialización del contador local}
+    mientras (HayFlorEnLaEsquina) {Condición correcta para flores [4, 7]}
       tomarFlor
       flores := flores + 1
   fin
 
+  {Proceso para devolver flores a la esquina, usando el valor de 'flores' (E: Entrada)
+  como el número fijo de repeticiones.}
   proceso devolverFlores (E flores : numero)
   comenzar
     repetir flores
       depositarFlor
   fin
 
+  {Proceso para devolver papeles a la esquina.}
   proceso devolverPapeles (E papeles : numero)
   comenzar
     repetir papeles
-      depositarPapeles
+      depositarPapel
   fin
 
+{Proceso principal que recorre la Avenida 1 (desde la Calle 1 hasta la Calle 100).}
   proceso hacerCalle1 (ES pasos : numero)
   variables
     flores, papeles : numero
-    cumple : boolean
   comenzar
-    cumple := F
-    mientras (~cumple) & (PosAv < 100)
-      flores := 0
-      papeles := 0
-      juntarFlores(flores)
-      juntarPapeles(papeles)
-      devolverFlores(flores)
-      devolverPaples(papeles)
+    {El robot comienza en (1,1) orientado al Norte por Iniciar.
+    Recorrerá Av 1 hasta la calle 100.}
 
+    { Inicializar el contador de pasos, asumimos que viene inicializado o se usa PosCa.
+    { Usaremos PosCa como guía para saber que terminamos.
+    
+    { Procesamos la Avenida 1, desde Calle 1 (donde inicia) hasta Calle 100.
+    { Iteración principal (Calle 1 a 99)
+    mientras (PosCa < 100)
+      
+      {Reiniciar contadores para la esquina actual}
+      { Note: 'juntarFlores/Papeles' ya inicializan a 0 internamente si usamos la modificación anterior,
+      { pero si queremos que sean claros contadores ES, se inicializan localmente ANTES de la llamada.
+      { Aquí utilizaremos la versión corregida de juntarFlores/Papeles que retorna el valor recolectado.
+      
+      juntarFlores(flores) // Recoge y cuenta
+      juntarPapeles(papeles) // Recoge y cuenta
+
+      { Evaluar la condición del problema
+      si ((flores * 2) <> papeles)
+        pasos := pasos + 1
+        
+      devolverFlores(flores) // Restaura la esquina
+      devolverPapeles(papeles)
+
+      mover { Avanzar a la siguiente calle [8]
+
+    { Procesar la última esquina (1, 100)
+    
+    juntarFlores(flores)
+    juntarPapeles(papeles)
+    
+    { Evaluar la condición
     si ((flores * 2) <> papeles)
       pasos := pasos + 1
-      mover
-  fin
+      
+    devolverFlores(flores)
+    devolverPapeles(papeles)
+    
+  fin // Fin proceso hacerCalle1
 
 areas
-  ciudad : AreaC(1, 1, 100, 100)
-
+  ciudad: AreaC (1,1,100,100) [11-13]
+  
 robots
   robot robot1
   variables
-    rinfo: robot1
-
+    pasos : numero {Declaración de la variable 'pasos' a nivel de robot [14, 15]}
   comenzar
-    derecha
+    pasos := 12 {Inicialización de 'pasos' [16, 17]}
+    hacerCalle1(pasos)
   fin
 
 variables
-  R_info: robot1
+  R_info: robot1 {Declaración de la variable que representa al robot [2]}
+
 comenzar
-  AsignarArea(R_info, ciudad)
-  Iniciar(R_info, 1,1)
+  AsignarArea(R_info, ciudad) [2, 18]
+  Iniciar(R_info, 1, 1) {Posiciona en (1,1) orientado al Norte [19, 20]}
 fin
