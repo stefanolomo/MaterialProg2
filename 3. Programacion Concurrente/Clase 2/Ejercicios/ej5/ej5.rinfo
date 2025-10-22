@@ -1,0 +1,112 @@
+programa ejemplo
+procesos
+  proceso TomarTodasLasFlores(ES tomadas: numero)
+  comenzar
+    tomadas := 0
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      tomadas := tomadas + 1
+  fin
+ 
+  proceso TomarTodosLosPapeles(ES tomados: numero)
+  comenzar
+    tomados := 0
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      tomados := tomados + 1
+  fin
+  
+  proceso DepositarTodosLosPapeles(ES recuento: numero)
+  comenzar
+    mientras HayPapelEnLaBolsa
+      depositarPapel
+      recuento := recuento - 1
+  fin
+  
+  proceso DepositarTodasLasFlores(ES recuento: numero)
+  comenzar
+    mientras HayFlorEnLaBolsa
+      depositarFlor
+      recuento := recuento - 1
+  fin
+  
+  proceso RecorrerTomarFloresYDepositarAlFinal(E largo: numero)
+  variables
+    recuento: numero
+  comenzar
+    recuento := 0
+    repetir largo
+      TomarTodasLasFlores(recuento)
+      mover
+    Informar(recuento)
+    DepositarTodasLasFlores(recuento)
+  fin
+  
+  proceso RecorrerTomarPapelesYDepositarAlFinal(E largo: numero)
+  variables
+    recuento: numero
+  comenzar
+    recuento := 0
+    repetir largo
+      TomarTodosLosPapeles(recuento)
+      mover
+    Informar(recuento)
+    DepositarTodosLosPapeles(recuento)
+  fin
+areas
+  Strip1R1: AreaP(1,80,16,80)
+  Strip2R1: AreaP(1,75,16,75)
+  
+  Strip1R2: AreaP(75,80,75,100)
+  Strip2R2: AreaP(80,80,80,100)
+  
+  Strip1R3: AreaP(70,15,100,15)
+  Strip2R3: AreaP(70,10,100,10)
+  
+  Strip1R4: AreaP(10,1,10,10)
+  Strip2R4: AreaP(15,1,15,10)
+robots
+  robot R1
+  comenzar
+    derecha
+    RecorrerTomarFloresYDepositarAlFinal(15)
+  fin
+  
+  robot R2
+  comenzar
+    RecorrerTomarPapelesYDepositarAlFinal(20)
+  fin
+  
+  robot R3
+  comenzar
+    derecha
+    RecorrerTomarFloresYDepositarAlFinal(30)
+  fin
+  
+  robot R4
+  comenzar
+    RecorrerTomarPapelesYDepositarAlFinal(9)
+  fin
+variables
+  Robot1: R1
+  Robot2: R2
+  Robot3: R3
+  Robot4: R4
+comenzar
+  AsignarArea(Robot1, Strip1R1)
+  AsignarArea(Robot1, Strip2R1)
+  
+  AsignarArea(Robot2, Strip1R2)
+  AsignarArea(Robot2, Strip2R2)
+  
+  AsignarArea(Robot3, Strip1R3)
+  AsignarArea(Robot3, Strip2R3)
+  
+  AsignarArea(Robot4, Strip1R4)
+  AsignarArea(Robot4, Strip2R4)
+  
+  Iniciar(Robot1, 1,80)
+  Iniciar(Robot2, 75,80)
+  Iniciar(Robot3, 70,10)
+  Iniciar(Robot4, 10,1)
+fin

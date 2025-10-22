@@ -1,0 +1,77 @@
+programa ej3
+procesos
+  proceso recorrerCuadradoSentidoHorario(E lado: numero; ES papelesJuntados : numero)
+  {variables}
+    {cantPapeles : numero}
+  comenzar
+  {Asume que empieza en un vertice y apuntando a la direccion a seguir}
+    papelesJuntados := 0
+    repetir lado
+      {HayPapelEnLaEsquina}
+      {HayFlorEnLaEsquina}
+      {tomarFlor}
+      {tomarPapel}
+      mientras HayPapelEnLaEsquina
+        papelesJuntados := papelesJuntados + 1
+        tomarPapel
+      mover
+  fin
+areas
+  StripR1: AreaP (10,10,10,29)
+  StripR2: AreaP (10,30,29,30)
+  StripR3: AreaP (30,11,30,30)
+  StripR4: AreaP (11,10,30,10)
+robots
+  robot robot1
+  variables
+    cantPapelesJuntados : numero
+  comenzar
+    cantPapelesJuntados := 0
+    recorrerCuadradoSentidoHorario(19, cantPapelesJuntados)
+    Informar(cantPapelesJuntados)
+  fin
+  robot robot2
+  variables
+    cantPapelesJuntados : numero
+  comenzar
+    cantPapelesJuntados := 0
+    derecha
+    recorrerCuadradoSentidoHorario(19, cantPapelesJuntados)
+    Informar(cantPapelesJuntados)
+  fin
+  robot robot3
+  variables
+    cantPapelesJuntados : numero
+  comenzar
+    cantPapelesJuntados := 0
+    derecha
+    derecha
+    recorrerCuadradoSentidoHorario(19, cantPapelesJuntados)
+    Informar(cantPapelesJuntados)
+  fin
+  robot robot4
+  variables
+    cantPapelesJuntados : numero
+  comenzar
+    cantPapelesJuntados := 0
+    derecha
+    derecha
+    derecha
+    recorrerCuadradoSentidoHorario(19, cantPapelesJuntados)
+    Informar(cantPapelesJuntados)
+  fin
+variables
+  R1: robot1
+  R2: robot2
+  R3: robot3
+  R4: robot4
+comenzar
+  AsignarArea(R1, StripR1)
+  AsignarArea(R2, StripR2)
+  AsignarArea(R3, StripR3)
+  AsignarArea(R4, StripR4)
+  Iniciar(R1, 10,10)
+  Iniciar(R2, 10,30)
+  Iniciar(R3, 30,30)
+  Iniciar(R4, 30,10)
+fin
