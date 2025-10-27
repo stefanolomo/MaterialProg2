@@ -1,0 +1,139 @@
+programa ejemplo
+procesos
+  proceso tomarPapeles(ES recuento: numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      recuento := recuento + 1
+  fin
+  
+  proceso tomarFlores(ES recuento: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      recuento := recuento + 1
+  fin
+
+  proceso recorrerAvenidaTomandoFlores(E variacion: numero; ES recuento: numero)
+  variables
+    caIni, avIni: numero
+  comenzar
+    repetir 99
+      tomarFlores(recuento)
+      caIni := PosCa
+      avIni := PosAv
+      BloquearEsquina(avIni, caIni + variacion)
+      mover
+      LiberarEsquina(avIni, caIni)
+  fin
+  
+  proceso recorrerCalleTomandoFlores(E variacion: numero; ES recuento: numero)
+  variables
+    caIni, avIni: numero
+  comenzar
+    repetir 99
+      tomarFlores(recuento)
+      caIni := PosCa
+      avIni := PosAv
+      BloquearEsquina(avIni + variacion, caIni)
+      mover
+      LiberarEsquina(avIni, caIni)
+  fin
+  
+  proceso recorrerAvenidaTomandoPapeles(E variacion: numero; ES recuento: numero)
+  variables
+    caIni, avIni: numero
+  comenzar
+    repetir 99
+      tomarPapeles(recuento)
+      caIni := PosCa
+      avIni := PosAv
+      BloquearEsquina(avIni, caIni + variacion)
+      mover
+      LiberarEsquina(avIni, caIni)
+  fin
+  
+  proceso recorrerCalleTomandoPapeles(E variacion: numero; ES recuento: numero)
+  variables
+    caIni, avIni: numero
+  comenzar
+    repetir 99
+      tomarPapeles(recuento)
+      caIni := PosCa
+      avIni := PosAv
+      BloquearEsquina(avIni + variacion, caIni)
+      mover
+      LiberarEsquina(avIni, caIni)
+  fin
+  
+areas
+  Tira1: AreaC(1,1,1,100)
+  Tira2: AreaC(2,100,100,100)
+  Tira3: AreaC(100,1,100,99)
+  Tira4: AreaC(2,1,100,1)
+  InicioFlorero: AreaP(49,50,49,50)
+  InicioPapelero: AreaP(50,49,50,49)
+ 
+robots
+  robot papelero
+  variables
+    recuentoPapeles: numero
+    valor: numero
+  comenzar
+    BloquearEsquina(1,1)
+    Pos(1,1)
+    
+    valor := 1
+    recuentoPapeles := 0
+
+    repetir 2
+      recorrerAvenidaTomandoPapeles(valor, recuentoPapeles)
+      derecha
+      recorrerCalleTomandoPapeles(valor, recuentoPapeles)
+      derecha
+      valor := -1
+      LiberarEsquina(1,1)
+    Pos(50,49)
+  fin
+  
+  robot florero
+  variables
+    recuentoFlores: numero
+    valor: numero
+  comenzar
+    BloquearEsquina(1,1)
+    Pos(1,1)
+    
+    valor := 1
+    recuentoFlores := 0
+
+    repetir 2
+      recorrerAvenidaTomandoFlores(valor, recuentoFlores)
+      derecha
+      recorrerCalleTomandoFlores(valor, recuentoFlores)
+      derecha
+      valor := -1
+      LiberarEsquina(1,1)
+    Pos(49,50)
+  fin
+variables
+  R1: florero
+  R2: papelero
+comenzar
+  AsignarArea(R1, InicioFlorero)  
+  AsignarArea(R2, InicioPapelero)  
+  
+  AsignarArea(R1, Tira1)
+  AsignarArea(R1, Tira2)
+  AsignarArea(R1, Tira3)
+  AsignarArea(R1, Tira4)
+ 
+  AsignarArea(R2, Tira1)
+  AsignarArea(R2, Tira2)
+  AsignarArea(R2, Tira3)
+  AsignarArea(R2, Tira4)
+  
+  Iniciar(R1, 49,50)
+  Iniciar(R2, 50,49)
+fin
+
