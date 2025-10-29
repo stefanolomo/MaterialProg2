@@ -1,20 +1,5 @@
 programa ejemplo
-procesos
-  proceso irDepositarVolver(E av: numero; E ca: numero)
-  variables
-    av0, ca0: numero
-  comenzar
-    ca0 := PosCa
-    av0 := PosAv
-    
-    BloquearEsquina(av, ca)
-    Pos(av, ca)
-    {depositarFlores()}
-    
-    Pos(av0, ca0)
-    LiberarEsquina(av, ca)
-  fin
-  
+{ [1-a] Realice un programa para que 2 robots junten todas las flores de los perímetros (15,15)-(30,35) y (40,40)-(55,60) respectivamente. Luego, deben posicionarse en la esquina (10,10) y depositar todas las flores juntadas.}
 areas
   {El robot 1 tiene el perimetro: (15,15) ->> (30,35)}
   a1: AreaP (15,15,15,34)
@@ -28,26 +13,51 @@ areas
   b3: AreaP (55,41,55,60)
   b4: AreaP (41,40,55,40)
   
+  R1Inicial: AreaP (2,2,2,2)
+  R2Inicial: AreaP (6,6,6,6)
+  JefeInicial: AreaP (1,1,1,1)
+  
+  AreaDeposito: AreaC (10,10,10,10)
 robots
   robot robot1
   comenzar
     derecha
   fin
   
+  robot robotJefe
+  comenzar
+    derecha      
+  fin
+  
 variables
   R1: robot1
+  R2: robot1
+  Boss: robotJefe
   
 comenzar
+  {Areas del Robot 2}
   AsignarArea(R1, a1)
   AsignarArea(R1, a2)
   AsignarArea(R1, a3)
   AsignarArea(R1, a4)
 
+  {Areas del Robot 1}
   AsignarArea(R2, b1)
   AsignarArea(R2, b2)
   AsignarArea(R2, b3)
   AsignarArea(R2, b4)
   
-  Iniciar(R1, 15,15)
-  Iniciar(R1, 40,40)
-finl
+  {Area del deposito}
+  AsignarArea(R1, AreaDeposito)
+  AsignarArea(R2, AreaDeposito)
+
+  {Areas iniciales}  
+  AsignarArea(R1, R1Inicial)
+  AsignarArea(R2, R2Inicial)
+  AsignarArea(Boss, JefeInicial)
+  
+  {Inicializar a los robots}
+  Iniciar(R1, 2,2)
+  Iniciar(R2, 6,6)
+  Iniciar(Boss, 1,1)
+fin
