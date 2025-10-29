@@ -1,63 +1,87 @@
 programa ejemplo
 { [1-a] Realice un programa para que 2 robots junten todas las flores de los perímetros (15,15)-(30,35) y (40,40)-(55,60) respectivamente. Luego, deben posicionarse en la esquina (10,10) y depositar todas las flores juntadas.}
+
+procesos
+  proceso recogerFlores(ES cantF:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantF := cantF + 1
+  fin
+
+  proceso recorrerLado(E lado:numero; ES cantF:numero)
+  comenzar
+    recogerFlores(cantF)
+    repetir lado
+      mover
+      recogerFlores(cantF)
+  fin
+
+  proceso FloresEnDeposito(ES cantF:numero)
+  variables
+    miAv, miCa: numero
+  comenzar
+    BloquearEsquina(10,10)
+    miAv := PosAv
+    miCa := PosCa
+    Pos(10,10)
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+      cantF := cantF - 1
+    Pos(miAv, miCa)
+    LiberarEsquina(10,10)
+  fin
+
 areas
-  {El robot 1 tiene el perimetro: (15,15) ->> (30,35)}
+  {Perímetro del robot 1: (15,15) -> (30,35)}
   a1: AreaP (15,15,15,34)
   a2: AreaP (15,35,29,35)
   a3: AreaP (30,16,30,35)
   a4: AreaP (16,15,30,15)
-  
-  {El robot 2 tiene el perimetro: (40,40) ->> (55,60)}
+
+  {Perímetro del robot 2: (40,40) -> (55,60)}
   b1: AreaP (40,40,40,59)
   b2: AreaP (40,60,54,60)
   b3: AreaP (55,41,55,60)
   b4: AreaP (41,40,55,40)
-  
-  R1Inicial: AreaP (2,2,2,2)
-  R2Inicial: AreaP (6,6,6,6)
-  JefeInicial: AreaP (1,1,1,1)
-  
+
   AreaDeposito: AreaC (10,10,10,10)
 robots
   robot robot1
+  variables
+    alto, ancho, cantF: numero
   comenzar
-    derecha
+    cantF := 0
+    alto := 20
+    ancho := 15
+    repetir 2
+      recorrerLado(alto, cantF)
+      derecha
+      recorrerLado(ancho, cantF)
+      derecha
+    FloresEnDeposito(cantF)
   fin
-  
-  robot robotJefe
-  comenzar
-    derecha      
-  fin
-  
+
 variables
-  R1: robot1
-  R2: robot1
-  Boss: robotJefe
-  
+  R1, R2: robot1
+
 comenzar
-  {Areas del Robot 2}
+  {Áreas del robot 1}
   AsignarArea(R1, a1)
   AsignarArea(R1, a2)
   AsignarArea(R1, a3)
   AsignarArea(R1, a4)
+  AsignarArea(R1, AreaDeposito)
 
-  {Areas del Robot 1}
+  {Áreas del robot 2}
   AsignarArea(R2, b1)
   AsignarArea(R2, b2)
   AsignarArea(R2, b3)
   AsignarArea(R2, b4)
-  
-  {Area del deposito}
-  AsignarArea(R1, AreaDeposito)
   AsignarArea(R2, AreaDeposito)
 
-  {Areas iniciales}  
-  AsignarArea(R1, R1Inicial)
-  AsignarArea(R2, R2Inicial)
-  AsignarArea(Boss, JefeInicial)
-  
-  {Inicializar a los robots}
-  Iniciar(R1, 2,2)
-  Iniciar(R2, 6,6)
-  Iniciar(Boss, 1,1)
+  {Iniciar robots en los vértices de sus perímetros}
+  Iniciar(R1, 15,15)
+  Iniciar(R2, 40,40)
 fin
+
