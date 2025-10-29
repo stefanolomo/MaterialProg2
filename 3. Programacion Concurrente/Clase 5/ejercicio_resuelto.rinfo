@@ -6,6 +6,7 @@ procesos
       tomarFlor 
       flores:= flores + 1 
   fin
+  
   proceso recorrerAvenida(E avenida:numero; ES flores:numero) 
   comenzar  
     Pos(avenida,1) 
@@ -13,7 +14,8 @@ procesos
       JuntarFlores(flores) 
       mover 
     JuntarFlores(flores)  
-  fin 
+  fin
+  
   proceso competencia(E ganador:numero) 
   comenzar 
     si (ganador=1)
@@ -22,7 +24,8 @@ procesos
       Pos(60,1)
     repetir 99
       mover
-  fin 
+  fin
+  
   proceso maximo(E id: numero; E flores:numero; ES max1:numero; ES max2:numero; ES ganador1:numero; ES ganador2:numero)
   comenzar
     si(flores > max1)
@@ -35,41 +38,52 @@ procesos
         max2:= flores
         ganador2:= id
   fin
+  
 areas 
   avenidas: AreaPC(97,1,100,100) 
   areaAdm: AreaP(1,1,1,1)
+  
   areaEj1: AreaP(1,2,1,2)
   areaEj2: AreaP(1,3,1,3)
   areaEj3: AreaP(1,4,1,4)
   areaEj4: AreaP(1,5,1,5)
+  
   area50: AreaPC(50,1,50,100)
   area60: AreaPC(60,1,60,100)
+  
 robots  
   robot ejecutor 
   variables  
-    flores, avenida, ganador1,ganador2: numero  
+    flores,avenida,ganador1,ganador2: numero  
     id: numero
-    dato:numero
-    ok:numero
+    dato: numero
+    ok: numero
   comenzar 
-    flores:=0
+    flores := 0
     {Recibir el identificador de robot del administrador}
     RecibirMensaje(id,a1)
+    
     {Pedir una avenida al administrador}
     EnviarMensaje(id,a1)
+    
     {Recibir avenida a recorrer}
-    RecibirMensaje(avenida,a1)  
+    RecibirMensaje(avenida,a1)
+    
     {Recorrer la avenida}
     recorrerAvenida(avenida, flores)
+    
     {Sincronizar con administrador}
     EnviarMensaje(id,a1)
+    
     {Enviar cantidad de flores juntadas}
-    EnviarMensaje(flores,a1) 
+    EnviarMensaje(flores,a1)
+    
     {Esperar resultado de ganadores}
     RecibirMensaje(ganador1,a1) 
     RecibirMensaje(ganador2,a1)
     Informar('GanadoresRecibidos', ganador1, ganador2)
-    {Verificar si gan�}
+    
+    {Verificar si gano}
     si (ganador1=id) 
       competencia(1)
       EnviarMensaje(id,a1)
@@ -78,29 +92,35 @@ robots
         competencia(2)
         EnviarMensaje(id,a1)  
       sino 
-        Informar('TermineTrabajo_NoGane',V)   
+        Informar('TermineTrabajo_NoGane',V)
+        
     {Volver al inicio}
     Pos(1,id+1)   
-  fin 
+  fin
+  
   robot administrador 
   variables  
     avenida,id: numero
-    flores,totalFlores:numero
-    ganador1,ganador2,max1,max2:numero 
+    flores,totalFlores: numero
+    ganador1,ganador2,max1,max2: numero 
   comenzar
-    {Inicializar m�ximos y total de flores}
+    {Inicializar maximos y total de flores}
     max1:= -1
     max2:= -1
+    
     {Enviar id a los ejecutores}
     EnviarMensaje(1,e1) 
     EnviarMensaje(2,e2) 
     EnviarMensaje(3,e3) 
     EnviarMensaje(4,e4)
+    
     avenida:=97
+    
     repetir 4
       {Recepcion y envio de avenida al ejecutor que solicite}
-      RecibirMensaje(id,*) 
-      Informar('PideAvenida',id)
+      RecibirMensaje(id,*)
+      Informar('ElRobotPideAvenida',id)
+      
       si(id=1) 
         EnviarMensaje(avenida,e1) 
       sino 
@@ -114,14 +134,15 @@ robots
               EnviarMensaje(avenida,e4)
             sino
               Informar('error',00)
-      avenida:= avenida+1
+      avenida := avenida + 1
     Informar('TerminoRepartoDeAvenidas',V)
+    
     {Recibir las flores juntadas de los ejecutores}
     totalFlores:=0
-    repetir 4 
-      {Envio de n�mero de avenida a cada ejecutor}
+    
+    repetir 4
       RecibirMensaje(id,*) 
-      Informar('RecepcionFlores',id)
+      Informar('RecepcionFloresDelRobot',id)
       si (id=1)
         RecibirMensaje(flores,e1)
       sino
@@ -132,39 +153,57 @@ robots
             RecibirMensaje(flores,e3)
           sino
             RecibirMensaje(flores,e4)
-      maximo(id,flores,max1,max2,ganador1,ganador2)
+            
+      maximo(id,flores,max1,max2,ganador1,ganador2) {Actualiza el maximo}
+    
+      {Suma al total de flores de todos los robots}
       totalFlores:= totalFlores + flores
-    Informar('TotalDeFlores', totalFlores)
-    Informar('Ganadores', ganador1, ganador2)
-    {Enviar resultado a los ejecutores}
+    {fin repetir 4}
+    
+    {Informa el total de flores de todos los robots}
+    Informar('EnConjuntoTodosLosRobotsJuntaron', totalFlores)
+    
+    {Informa los robots ganadores}
+    Informar('LosRobotsGanadoresSon', ganador1, ganador2)
+    
+    {Les avisa a cada robot los dos ganadores}
     EnviarMensaje(ganador1,e1)
     EnviarMensaje(ganador2,e1)
+    
     EnviarMensaje(ganador1,e2)
     EnviarMensaje(ganador2,e2)
+    
     EnviarMensaje(ganador1,e3)
     EnviarMensaje(ganador2,e3)
+    
     EnviarMensaje(ganador1,e4)
     EnviarMensaje(ganador2,e4)
-    Informar('Ganador1',ganador1)
-    Informar('Ganador2',ganador2)
-    {Esperar respuesta del supercampeon}
+    {}
+    
+    Informar('ElGanador1EsElRobot',ganador1)
+    Informar('ElGanador2EsElRobot',ganador2)
+    
+    {Esperar respuesta del supercampeon del rematch}
     RecibirMensaje(id,*)
+    
     {Informar supercampeon}
-    si(id=1) 
-      Informar('Supercampeon_e1', V) 
+    si(id=1)
+      Informar('ElSuperCampeonEsElRobot1', V)
     sino   
       si(id=2) 
-        Informar('Supercampeon_e2', V) 
+        Informar('ElSuperCampeonEsElRobot2', V) 
       sino 
         si(id=3) 
-          Informar('Supercampeon_e3', V) 
+          Informar('ElSuperCampeonEsElRobot3', V) 
         sino
           si(id=4)
-            Informar('Supercampeon_e4', V)
+            Informar('ElSuperCampeonEsElRobot4', V)
   fin
+  
 variables 
   e1,e2,e3,e4: ejecutor 
-  a1: administrador 
+  a1: administrador
+  
 comenzar 
   AsignarArea(e1,avenidas) 
   AsignarArea(e2,avenidas) 
@@ -184,6 +223,7 @@ comenzar
   AsignarArea(e3,area60)
   AsignarArea(e4,area50)
   AsignarArea(e4,area60)
+  
   Iniciar(a1,1,1) 
   Iniciar(e1,1,2) 
   Iniciar(e2,1,3) 

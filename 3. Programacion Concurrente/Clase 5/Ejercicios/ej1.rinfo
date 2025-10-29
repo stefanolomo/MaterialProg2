@@ -1,0 +1,53 @@
+programa ejemplo
+procesos
+  proceso irDepositarVolver(E av: numero; E ca: numero)
+  variables
+    av0, ca0: numero
+  comenzar
+    ca0 := PosCa
+    av0 := PosAv
+    
+    BloquearEsquina(av, ca)
+    Pos(av, ca)
+    {depositarFlores()}
+    
+    Pos(av0, ca0)
+    LiberarEsquina(av, ca)
+  fin
+  
+areas
+  {El robot 1 tiene el perimetro: (15,15) ->> (30,35)}
+  a1: AreaP (15,15,15,34)
+  a2: AreaP (15,35,29,35)
+  a3: AreaP (30,16,30,35)
+  a4: AreaP (16,15,30,15)
+  
+  {El robot 2 tiene el perimetro: (40,40) ->> (55,60)}
+  b1: AreaP (40,40,40,59)
+  b2: AreaP (40,60,54,60)
+  b3: AreaP (55,41,55,60)
+  b4: AreaP (41,40,55,40)
+  
+robots
+  robot robot1
+  comenzar
+    derecha
+  fin
+  
+variables
+  R1: robot1
+  
+comenzar
+  AsignarArea(R1, a1)
+  AsignarArea(R1, a2)
+  AsignarArea(R1, a3)
+  AsignarArea(R1, a4)
+
+  AsignarArea(R2, b1)
+  AsignarArea(R2, b2)
+  AsignarArea(R2, b3)
+  AsignarArea(R2, b4)
+  
+  Iniciar(R1, 15,15)
+  Iniciar(R1, 40,40)
+finl
