@@ -1,0 +1,151 @@
+programa ejemplo
+procesos
+
+  proceso tomarPapeles(ES recuento: numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      recuento := recuento + 1
+      tomarPapel
+  fin
+  
+  proceso tomarFlores(ES recuento: numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      recuento := recuento + 1
+      tomarFlor
+  fin
+
+  proceso recorrerCalleAgarrandoTodo(ES recuentoFlores: numero ; ES recuentoPapeles: numero)
+  variables
+    CaOrigen, AvOrigen: numero
+  comenzar
+    {Acordarse la posicion inicial}
+    CaOrigen := PosCa
+    AvOrigen := PosAv
+    {Hasta el final de la ciudad, tomar todo lo que haya en cada esquina}
+    repetir 99
+      mientras HayPapelEnLaEsquina | HayFlorEnLaEsquina
+        mientras HayPapelEnLaEsquina
+          tomarPapeles(recuentoPapeles)
+        mientras HayFlorEnLaEsquina
+          tomarFlores(recuentoFlores)
+
+      mover
+    {Volver a la posicion de inicio}
+    Pos(AvOrigen, CaOrigen)
+  fin
+  
+  proceso actualizarMax(E idR: numero; E elemR: numero; ES idMax1: numero; ES elemMax1: numero; ES idMax2: numero; ES elemMax2: numero)
+  comenzar
+    si elemR > elemMax1
+      idMax2 := idMax1
+      elemMax2 := elemMax1
+      
+      idMax1 := idR
+      elemMax1 := elemR
+    sino
+      si elemR > elemMax2
+        idMax2 := idR
+        elemMax2 := elemR
+  fin
+  
+areas
+  areaRecorrer: AreaPC (1,60,100,80)
+  
+  areaInicialJefe: AreaP (1,1,1,1)
+  areaInicial1: AreaP (2,2,2,2)
+  areaInicial2: AreaP (3,3,3,3)
+  areaInicial3: AreaP (4,4,4,4)
+robots
+  robot ejecutor
+  variables
+    MiCa, Id: numero
+    recuentoFlores, recuentoPapeles, totalElementos: numero
+  comenzar
+    derecha {Se orienta para recorrer calles}
+    RecibirMensaje(MiCa, Rjefe) {Recibe la calle que le toca recorrer}
+    RecibirMensaje(Id, Rjefe) {Recibe la ID del robot}
+    
+    {Informar('Empiezo en la calle', MiCa)}
+    Pos(1, MiCa) {Se posiciona al principio}
+    
+    recuentoFlores := 0
+    recuentoPapeles := 0
+    recorrerCalleAgarrandoTodo(recuentoFlores, recuentoPapeles)
+    
+    totalElementos := recuentoFlores + recuentoPapeles
+    EnviarMensaje(Id, Rjefe)
+    EnviarMensaje(totalElementos, Rjefe)
+  fin
+  
+  robot jefe
+  variables
+    calleRnd: numero
+    contadorRobots: numero
+    idRecibida, idMax1, idMax2: numero
+    elementosRecibidos, elementosMax1, elementosMax2: numero
+  comenzar
+    contadorRobots := 1
+    repetir 3
+      Random(calleRnd, 60,80) {Crea el numero random que va a ser la calle de los robots}
+      
+      {Condicionales de acuerdo a en que iteracion se esta, le manda el nro de calle a los robots}
+      si contadorRobots = 1
+        EnviarMensaje(calleRnd, Rejecutor1)
+        EnviarMensaje(1, Rejecutor1)
+      si contadorRobots = 2
+        EnviarMensaje(calleRnd, Rejecutor2)
+        EnviarMensaje(2, Rejecutor2)
+      si contadorRobots = 3
+        EnviarMensaje(calleRnd, Rejecutor3)
+        EnviarMensaje(3, Rejecutor3)
+        
+      {Suma 1 para la siguiente iteracion}
+      contadorRobots := contadorRobots + 1
+      
+      { EnviarMensaje(variable, robot)  Instrucción que permite a un robot enviar un dato a otro. Recibe dos parámetros, el dato o variable a enviar y el robot que va a recibir el mensaje. }
+      { RecibirMensaje(variable, robot)  Instrucción que permite a un robot recibir un dato de otro. Recibe dos parámetros, la variable donde va a recibir el dato, y el robot de quien espera el mensaje. Si el parámetro del robot destinatario es *, el mensaje puede ser recibido de cualquier robot por orden de llegada.}
+      
+    {Inicializa los maximos y los ids}
+    idMax1 := 0
+    idMax2 := 0
+    elementosMax1 := -1
+    elementosMax2 := -1
+     
+    repetir 3
+      RecibirMensaje(idRecibida, *) {Recibe una id del aire}
+      
+      {Filtra el robot que le mandó el mensaje}
+      si idRecibida = 1
+        RecibirMensaje(elementosRecibidos, Rejecutor1)
+      si idRecibida = 2
+        RecibirMensaje(elementosRecibidos, Rejecutor2)
+      si idRecibida = 3
+        RecibirMensaje(elementosRecibidos, Rejecutor3)
+        
+      actualizarMax(idRecibida, elementosRecibidos, idMax1, elementosMax1, idMax2, elementosMax2)
+
+    Informar('El Robot Que Mas Elementos Junto Fue El', idMax1)
+    Informar('El Segundo Robot Que Mas Elementos Junto Fue El', idMax2)
+  fin
+variables
+  Rejecutor1: ejecutor
+  Rejecutor2: ejecutor
+  Rejecutor3: ejecutor
+  Rjefe: jefe
+comenzar
+  AsignarArea(Rejecutor1, areaInicial1)
+  AsignarArea(Rejecutor2, areaInicial2)
+  AsignarArea(Rejecutor3, areaInicial3)
+  
+  AsignarArea(Rejecutor1, areaRecorrer)
+  AsignarArea(Rejecutor2, areaRecorrer)
+  AsignarArea(Rejecutor3, areaRecorrer)
+  
+  AsignarArea(Rjefe, areaInicialJefe)
+  
+  Iniciar(Rjefe, 1,1)
+  Iniciar(Rejecutor1, 2,2)
+  Iniciar(Rejecutor2, 3,3)
+  Iniciar(Rejecutor3, 4,4)
+fin
