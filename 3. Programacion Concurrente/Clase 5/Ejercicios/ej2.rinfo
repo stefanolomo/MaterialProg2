@@ -59,7 +59,7 @@ areas
 robots
   robot ejecutor
   variables
-    MiCa, Id: numero
+    MiCa, Id, puesto: numero
     recuentoFlores, recuentoPapeles, totalElementos: numero
   comenzar
     derecha {Se orienta para recorrer calles}
@@ -76,6 +76,24 @@ robots
     totalElementos := recuentoFlores + recuentoPapeles
     EnviarMensaje(Id, Rjefe)
     EnviarMensaje(totalElementos, Rjefe)
+    
+    {Proceso para determinar si es ganador y en que puesto}
+    
+    RecibirMensaje(puesto, Rjefe)
+    {Si gano el 1er o segundo puesto, va a dejar todo en la calle 50}    
+    si puesto = 1 
+      {dejarFloresPorEsquina(50, recuentoFlores, recuentoPapeles)}
+      Informar('El Robot Gana El Primero Puesto', Id)
+    sino
+      si puesto = 2
+        {dejarFloresPorEsquina(50, recuentoFlores, recuentoPapeles)}
+        Informar('El Robot Gana El Primero Puesto', Id)
+      sino
+        Informar('El Robot No Gana Ninguno', V)
+        {DepositarPerdedor(recuentoFlores, recuentoPapeles)}
+    
+    {Vuelve a la posicion inicial}
+    Pos(Id + 1, Id + 1)
   fin
   
   robot jefe
@@ -125,8 +143,34 @@ robots
         
       actualizarMax(idRecibida, elementosRecibidos, idMax1, elementosMax1, idMax2, elementosMax2)
 
-    Informar('El Robot Que Mas Elementos Junto Fue El', idMax1)
-    Informar('El Segundo Robot Que Mas Elementos Junto Fue El', idMax2)
+    {Informar('El Robot Que Mas Elementos Junto Fue El', idMax1)}
+    {Informar('El Segundo Robot Que Mas Elementos Junto Fue El', idMax2)}
+  
+    {Informar a todos los ejecutores el estado despues de la competicion}
+    
+    si idMax1 = 1
+      EnviarMensaje(1, Rejecutor1)
+    sino
+      si idMax2 = 1
+        EnviarMensaje(2, Rejecutor1)
+      sino
+        EnviarMensaje(0, Rejecutor1)
+        
+    si idMax1 = 2
+      EnviarMensaje(1, Rejecutor2)
+    sino
+      si idMax2 = 2
+        EnviarMensaje(2, Rejecutor2)
+      sino
+        EnviarMensaje(0, Rejecutor2)
+    
+    si idMax1 = 3
+      EnviarMensaje(1, Rejecutor3)
+    sino
+      si idMax2 = 3
+        EnviarMensaje(2, Rejecutor3)
+      sino
+        EnviarMensaje(0, Rejecutor3)
   fin
 variables
   Rejecutor1: ejecutor
