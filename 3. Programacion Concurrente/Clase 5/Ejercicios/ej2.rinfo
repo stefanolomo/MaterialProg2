@@ -56,6 +56,8 @@ areas
   areaInicial1: AreaP (2,2,2,2)
   areaInicial2: AreaP (3,3,3,3)
   areaInicial3: AreaP (4,4,4,4)
+  areaDepositoGanador: AreaPC (1,50,100,50)
+  areaDepositoPerdedor: AreaPC(100,100,100,100)
 robots
   robot ejecutor
   variables
@@ -181,10 +183,18 @@ comenzar
   AsignarArea(Rejecutor1, areaInicial1)
   AsignarArea(Rejecutor2, areaInicial2)
   AsignarArea(Rejecutor3, areaInicial3)
+
+  AsignarArea(Rejecutor1, areaDepositoPerdedor)
+  AsignarArea(Rejecutor2, areaDepositoPerdedor)
+  AsignarArea(Rejecutor3, areaDepositoPerdedor)
   
   AsignarArea(Rejecutor1, areaRecorrer)
   AsignarArea(Rejecutor2, areaRecorrer)
   AsignarArea(Rejecutor3, areaRecorrer)
+  
+  AsignarArea(Rejecutor1, areaDepositoGanador)
+  AsignarArea(Rejecutor2, areaDepositoGanador)
+  AsignarArea(Rejecutor3, areaDepositoGanador)
   
   AsignarArea(Rjefe, areaInicialJefe)
   
