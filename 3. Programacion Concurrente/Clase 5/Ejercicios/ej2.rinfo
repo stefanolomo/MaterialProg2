@@ -49,6 +49,56 @@ procesos
         elemMax2 := elemR
   fin
   
+  proceso DepositarGanador
+  variables
+    AvActual: numero
+  comenzar
+    {Posicionarse al inicio de la calle 50}
+    BloquearEsquina(1, 50)
+    Pos(1, 50)
+    
+    {Recorrer la calle 50 depositando y usando bloqueo en cadena}
+    mientras (PosAv < 100) & (HayFlorEnLaBolsa | HayPapelEnLaBolsa)
+      {Depositar en la esquina actual}
+      si HayFlorEnLaBolsa
+        depositarFlor
+      sino
+        si HayPapelEnLaBolsa
+          depositarPapel
+          
+      {Guardar la avenida actual antes de moverse}
+      AvActual := PosAv
+      BloquearEsquina(AvActual + 1, 50)
+      mover
+      LiberarEsquina(AvActual, 50)
+      
+    {Manejar la última esquina (100, 50) fuera del bucle}
+    si (PosAv = 100) & (HayFlorEnLaBolsa | HayPapelEnLaBolsa)
+      si HayFlorEnLaBolsa
+        depositarFlor
+      sino
+        si HayPapelEnLaBolsa
+          depositarPapel
+    LiberarEsquina(100, 50)
+    LiberarEsquina(PosAv, 50)
+  fin
+  
+  proceso dejarTodo
+  comenzar
+    mientras HayPapelEnLaBolsa
+      depositarPapel
+    mientras HayFlorEnLaBolsa
+      depositarFlor
+  fin
+
+  proceso DepositarPerdedor(E recuentoFlores: numero; E recuentoPapeles:numero)
+  comenzar
+    Informar('La Cantidad De Elementos De La Bolsa Es', recuentoFlores + recuentoPapeles)
+    si (recuentoFlores + recuentoPapeles) > 0
+      Pos(100,100)
+      dejarTodo
+  fin  
+  
 areas
   areaRecorrer: AreaPC (1,60,100,80)
   
@@ -83,16 +133,16 @@ robots
     
     RecibirMensaje(puesto, Rjefe)
     {Si gano el 1er o segundo puesto, va a dejar todo en la calle 50}    
-    si puesto = 1 
-      {dejarFloresPorEsquina(50, recuentoFlores, recuentoPapeles)}
-      Informar('El Robot Gana El Primero Puesto', Id)
+    si puesto = 1
+      {Informar('El Robot Gana El Primero Puesto', Id)}
+      DepositarGanador
     sino
       si puesto = 2
-        {dejarFloresPorEsquina(50, recuentoFlores, recuentoPapeles)}
-        Informar('El Robot Gana El Primero Puesto', Id)
+        DepositarGanador
+        {Informar('El Robot Gana El Primero Puesto', Id)}
       sino
         Informar('El Robot No Gana Ninguno', V)
-        {DepositarPerdedor(recuentoFlores, recuentoPapeles)}
+        DepositarPerdedor(recuentoFlores, recuentoPapeles)
     
     {Vuelve a la posicion inicial}
     Pos(Id + 1, Id + 1)
