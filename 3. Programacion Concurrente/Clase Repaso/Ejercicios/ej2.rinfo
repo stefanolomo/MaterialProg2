@@ -1,54 +1,103 @@
-programa ej1Repaso
+programa ej2Repaso
 procesos
-  proceso juntarFlores(ES recuento: numero)
+  proceso JuntarFlores(ES recuento: numero)
   comenzar
     mientras HayFlorEnLaEsquina
       tomarFlor
       recuento := recuento + 1
   fin
-
-  proceso JuntarPapeles(ES cantP:numero)
+  
+  proceso JuntarPapeles(ES recuento:numero)
   comenzar
     mientras (HayPapelEnLaEsquina)
       tomarPapel
-      cantP := cantP + 1
+      recuento := recuento + 1
   fin
+  
+  proceso RecorrerTramo10(ES recuento: numero)
+  comenzar
+    repetir 10
+      JuntarPapeles(recuento)
+      mover
+    JuntarPapeles(recuento)
+  fin
+  
+  proceso RecorrerTramo9(ES recuento: numero)
+  comenzar
+    repetir 9
+      JuntarPapeles(recuento)
+      mover
+    JuntarPapeles(recuento)
+  fin
+  
 areas
   areaF: AreaP (1,4,1,4)
   areaR1: AreaP (1,1,100,1)
   areaR2: AreaP (1,2,100,2)
   areaR3: AreaP (1,3,100,3)
-  
   areaDeposito: AreaC (50,50,50,50)
 
-robots  
+robots
   robot recolector
+  variables
+    recuento: numero
+    listo: boolean
   comenzar
     derecha
+    recuento := 0
+   
+    {Realiza 10 tramos de 9 movimientos cada uno, cubriendo 90 movimientos}
+    {y llegando a la avenida 91. Hay un error conceptual en el total.}
+    {Para llegar a la 100, son 99 movimientos.}
+    {La solución más simple es 9 tramos de 10 y uno de 9.}
+
+    { --- CORRECCIÓN PROPUESTA --- }
+  
+    {Realiza 10 tramos en total}
+    repetir 9
+      RecorrerTramo10(recuento)
+      Informar(recuento)
+    
+      {Sincronización de barrera}
+      EnviarMensaje(V, RF)
+      RecibirMensaje(listo, RF)
+      
+    RecorrerTramo9(recuento)
+    Informar(recuento)
+  
+    {Sincronización de la última barrera}
+    EnviarMensaje(V, RF)
+    RecibirMensaje(listo, RF)
+
   fin
   
   robot fiscal
+  variables
+    seguir:boolean
   comenzar
-    derecha
+    repetir 10
+      repetir 3
+        RecibirMensaje(seguir, *)
+    
+      EnviarMensaje(seguir, R1)
+      EnviarMensaje(seguir, R2)
+      EnviarMensaje(seguir, R3)
   fin
 variables
   R1: recolector
   R2: recolector
   R3: recolector
-  
   RF: fiscal
 comenzar
   AsignarArea(R1, areaR1)
   AsignarArea(R2, areaR2)
   AsignarArea(R3, areaR3)
+  AsignarArea(RF, areaF)
   
   AsignarArea(R1, areaDeposito)
   AsignarArea(R2, areaDeposito)
   AsignarArea(R3, areaDeposito)
   AsignarArea(RF, areaDeposito)
-  
-  AsignarArea(RF, areaF)
-  
   
   Iniciar(R1, 1,1)
   Iniciar(R2, 1,2)
