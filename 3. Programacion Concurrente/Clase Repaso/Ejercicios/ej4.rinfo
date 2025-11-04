@@ -1,0 +1,108 @@
+programa Actividad
+procesos
+  proceso recogerFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso dejarFlores
+  comenzar
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+  proceso contarFlores(ES flores:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1   
+  fin
+areas
+  Cuadrante: AreaPC (40,40,60,60)
+  Deposito: AreaC (10,10,10,10)
+  Esquina1: AreaP(1,1,1,1)
+  Esquina2: AreaP(2,1,2,1)
+  Esquina3: AreaP(3,1,3,1)
+  Esquina4: AreaP(4,1,4,1)
+robots
+  robot Florero
+  variables
+    num,ca,av,miAv,miCa:numero
+  comenzar
+    num:=0
+    miAv:=PosAv
+    miCa:=PosCa
+    RecibirMensaje(num,jefe)
+    mientras ~(num=99)
+      RecibirMensaje(num,jefe)
+      av:=num
+      RecibirMensaje(num,jefe)
+      ca:=num
+      Pos(av,ca)
+      recogerFlores
+      Pos(miAv,miCa)
+      EnviarMensaje(1,jefe)
+      RecibirMensaje(num,jefe)
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    dejarFlores
+    Pos(miAv,miCa)
+    LiberarEsquina(10,10)
+    EnviarMensaje(1,jefe)
+  fin
+  robot Fiscalizador
+  variables
+    num,flores:numero
+  comenzar
+    repetir 8
+      Random(num,1,3)
+      si (num=1)
+        EnviarMensaje(1,f1)
+        repetir 2
+          Random(num,40,60)
+          EnviarMensaje(num,f1)
+      si (num=2)
+        EnviarMensaje(1,f2)
+        repetir 2
+          Random(num,40,60)
+          EnviarMensaje(num,f2)
+      si (num=3)
+        EnviarMensaje(1,f3)
+        repetir 2
+          Random(num,40,60)
+          EnviarMensaje(num,f3)
+      RecibirMensaje(num,*)
+    EnviarMensaje(99,f1)
+    EnviarMensaje(99,f2)
+    EnviarMensaje(99,f3)
+    repetir 3
+      RecibirMensaje(num,*)
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    contarFlores(flores)
+    Pos(4,1)
+    LiberarEsquina(10,10)
+    Informar(flores)
+  fin
+variables
+  f1,f2,f3: Florero
+  jefe: Fiscalizador
+comenzar
+  AsignarArea(f1, Esquina1)
+  AsignarArea(f2, Esquina2)
+  AsignarArea(f3, Esquina3)
+  AsignarArea(jefe, Esquina4)
+
+  AsignarArea(f1, Cuadrante)
+  AsignarArea(f2, Cuadrante)
+  AsignarArea(f3, Cuadrante)
+
+  AsignarArea(f1, Deposito)
+  AsignarArea(f2, Deposito)
+  AsignarArea(f3, Deposito)
+  AsignarArea(jefe, Deposito)
+
+  Iniciar(f1, 1,1)
+  Iniciar(f2, 2,1)
+  Iniciar(f3, 3,1)
+  Iniciar(jefe, 4,1)
+fin

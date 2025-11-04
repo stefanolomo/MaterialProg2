@@ -1,0 +1,97 @@
+programa Repaso3
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+    Pos(1,5)
+    LiberarEsquina(10,10)
+  fin
+  proceso vaciarBolsa
+  variables 
+    miCa,miAv:numero
+  comenzar
+    miCa:= PosCa
+    miAv:= PosAv
+    BloquearEsquina(10,10)
+    Pos(10,10)
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+    Pos(miAv,miCa)
+    LiberarEsquina(10,10)
+    EnviarMensaje(1,cos)
+  fin
+  proceso recorrerCalle
+  variables
+    flores,pasos:numero
+  comenzar
+    flores:=0
+    pasos:=0
+    repetir 99
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+        flores:=flores+1
+      si (flores=10)
+        vaciarBolsa
+        flores:=0
+      mover
+      pasos:=pasos + 1
+      si (pasos=15)
+        vaciarBolsa
+        flores:=0
+        pasos:=0
+    
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+    si (flores=10)
+      vaciarBolsa
+      flores:=0
+    EnviarMensaje(2,cos)
+    
+  fin
+areas
+  Deposito: AreaC (10,10,10,10)
+  Calle3: AreaP (1,3,100,3)
+  Calle4: AreaP (1,4,100,4)
+  EsquinaCos: AreaP (1,5,1,5)
+robots
+  robot Recolector
+  comenzar
+    derecha
+    recorrerCalle
+  fin
+  robot Cosechador
+  variables
+    num,flores:numero
+    termino1,termino2:boolean
+  comenzar
+    flores:=0
+    mientras(termino2=F)
+      RecibirMensaje(num,*)
+      si (num=1)
+        juntarFlores(flores) 
+      sino
+        si (termino1=F)
+          termino1:=V
+        sino 
+          termino2:=V 
+    Informar(flores)
+  fin
+variables
+  rec1,rec2: Recolector
+  cos: Cosechador 
+comenzar
+  AsignarArea(rec1, Deposito)
+  AsignarArea(rec2, Deposito)
+  AsignarArea(cos, Deposito)
+  AsignarArea(rec1, Calle3)
+  AsignarArea(rec2, Calle4)
+  AsignarArea(cos, EsquinaCos)
+  Iniciar(rec1, 1,3)
+  Iniciar(rec2, 1,4)
+  Iniciar(cos, 1,5)
+fin
