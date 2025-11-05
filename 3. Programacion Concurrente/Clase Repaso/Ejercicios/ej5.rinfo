@@ -1,0 +1,117 @@
+programa ejemplo
+procesos
+  proceso recorrerAvenida(E numAv: numero)
+  comenzar
+    Pos(numAv, 1)
+    repetir 99
+      mover
+  fin
+  proceso DejarEnDeposito(ES dejar: numero)
+  variables
+    AvenidaInicial, CalleInicial: numero
+  comenzar
+    {Guardar posicion al inicar el modulo}
+    AvenidaInicial := PosAv    
+    CalleInicial := PosCa
+    
+    {Bloquear el deposito}
+    BloquearEsquina(100,1)
+    
+    {Ir al deposito}
+    Pos(100, 1)
+    
+    {Dejar la cantidad de papeles en variable "dejar"}
+    repetir dejar
+      depositarPapel
+    
+    {Volver a la posicion inicial}
+    Pos(AvenidaInicial, CalleInicial)
+    
+    {DesbloquearEsquinaDeposito}
+    LiberarEsquina(100, 1)
+  fin
+  
+  proceso TomarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+areas
+  AreaDeposito: AreaC(100,1,100,1)
+  AreaR1: AreaP(10, 1, 10, 1)
+  AreaR2: AreaP(11, 1, 11, 1)
+  AreaR3: AreaP(12, 1, 12, 1)
+  AreaRJ: AreaP(13, 1, 13, 1)
+  
+robots
+  robot cliente
+  variables
+    depositadas, id: numero
+  comenzar
+    {La id es su avenida}
+    id := PosAv
+    
+    repetir 4
+      depositadas := 0
+      
+      {Hace un intento}
+      {Envia su id al jefe}
+      EnviarMensaje(id, RJ)
+      {Recibe la cantidad de papeles depositadas}
+      RecibirMensaje(depositadas, RJ)
+      Informar(depositadas)
+      {Trae 1 por 1 a su posicion}
+      {TraerDelDeposito(depositadas)}
+      
+  fin
+  
+  robot jefe
+  variables
+    idRecibida: numero
+    papelesADejar: numero
+  comenzar
+    {Tomar todos los papeles que tiene}
+    TomarPapeles
+    
+    repetir 12
+      {Genera la cantidad de papeles a dejar en el deposito}
+      Random(papelesADejar, 1,5)
+      Informar(papelesADejar)
+      
+      {Recibe una id}
+      idRecibida := 0
+      RecibirMensaje(idRecibida ,*)
+      
+      {Deja las papeles en el deposito}
+      DejarEnDeposito(papelesADejar)
+      
+      {Le manda a el robor de la id, las papeles que depositó}
+      si idRecibida = 10
+        EnviarMensaje(papelesADejar , R1)
+      si idRecibida = 11
+        EnviarMensaje(papelesADejar , R2)
+      si idRecibida = 12
+        EnviarMensaje(papelesADejar , R3)
+    
+  fin
+variables
+  R1: cliente
+  R2: cliente
+  R3: cliente
+  RJ: jefe
+comenzar
+  AsignarArea(R1, AreaR1)
+  AsignarArea(R2, AreaR2)
+  AsignarArea(R3, AreaR3)
+  AsignarArea(RJ, AreaRJ)
+  
+  AsignarArea(R1, AreaDeposito)
+  AsignarArea(R2, AreaDeposito)
+  AsignarArea(R3, AreaDeposito)
+  AsignarArea(RJ, AreaDeposito)
+  
+  Iniciar(R1, 10,1)
+  Iniciar(R2, 11,1)
+  Iniciar(R3, 12,1)
+  Iniciar(RJ, 13,1)
+fin
