@@ -94,7 +94,6 @@ Function contarAberCom(l: listaProductos): integer;
 
 var
    count: integer;
-   siguiente: listaProductos;
 
 begin
     count := 0;
@@ -108,6 +107,42 @@ begin
     end;
 
     contarAberCom := count;
+end;
+
+Procedure imprimirAnio(p: producto);
+Begin
+    With (p) Do
+        Begin
+            writeln('Producto', nombre, ' con codigo ',codigo, ' Precio: ', precio:2:2);
+        End;
+End;
+
+Procedure ImprimirReporte(l: listaProductos);
+
+var
+   totalAnio, anioActual, totalMarca: integer;
+   marcaAct: string;
+
+begin
+     while (l <> nil) do begin
+         marcaAct := l^.dato.marca;
+         totalMarca := 0;
+        while (l^.dato.marca = marcaAct) do begin
+              writeln('Para la marca ', marcaAct, ': ');
+              anioActual:=l^.dato.anio;
+              totalAnio := 0;
+              while (l^.dato.anio = anioActual) do begin
+                  writeln('Para el año ', anioActual, ': ');
+                  imprimirAnio(l^.dato);
+                  totalAnio := totalAnio + 1;
+
+              end;
+              totalMarca := totalMarca + totalAnio;
+              writeln('Para el anio ', anioActual, ' hay, ', totalAnio, ' productos');
+              l := l^.sig;
+        end;
+        writeln('Para la marca ', marcaAct, ' hay, ', totalMarca, ' productos');
+    end;
 end;
 
 Var 
@@ -126,4 +161,8 @@ Begin
     cantidad := 0;
     cantidad := contarAberCom(l);
     writeln(cantidad);
+
+    writeln('--------');
+
+    ImprimirReporte(l);
 End.
