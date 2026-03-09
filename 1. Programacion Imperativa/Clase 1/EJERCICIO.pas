@@ -8,7 +8,7 @@ Type
         codigo:   integer;
         nombre:   string;
         marca:   string;
-        anio:   2000..2022;
+        anio:   integer;
         precio:   real;
     End;
 
@@ -38,7 +38,7 @@ Var
 
     v :   array [1..10] Of string;
 Begin
-    v[1] := 'Abercom';
+    v[1] := 'AberCom';
     v[2] := 'Aluminium';
     v[3] := 'ClearWindows';
     v[4] := 'IndArg';
@@ -52,7 +52,7 @@ Begin
     For i:=random(10) Downto 1 Do {for de marca}
         Begin
             p.marca := v[i];
-            For j:=random(5) Downto 1 Do {for de anio}
+            For j:=random(10) Downto 1 Do {for de anio}
                 Begin
                     p.anio := 2016+j;
                     p.codigo := random(10);
@@ -90,8 +90,29 @@ Begin
         End;
 End;
 
+Function contarAberCom(l: listaProductos): integer;
+
+var
+   count: integer;
+   siguiente: listaProductos;
+
+begin
+    count := 0;
+    while (l <> nil) and (l^.dato.marca <= 'AberCom') do begin
+        if (l^.dato.marca = 'AberCom') then begin
+          if (l^.dato.anio <= 2023) and (l^.dato.anio >= 2020) then
+             if (l^.dato.precio > 100000) then
+                count := count + 1;
+        end;
+        l := l^.sig;
+    end;
+
+    contarAberCom := count;
+end;
+
 Var 
     l:   listaProductos;
+    cantidad: integer;
 Begin
     Randomize;
 
@@ -99,5 +120,10 @@ Begin
     crearLista(l);
     writeln ('Lista generada: ');
     imprimirLista(l);
-    readln;
+
+    writeln('La cantidad de productos de aber com pedidos es:');
+
+    cantidad := 0;
+    cantidad := contarAberCom(l);
+    writeln(cantidad);
 End.
