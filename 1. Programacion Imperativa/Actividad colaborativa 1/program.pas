@@ -149,7 +149,7 @@ begin
 
     if exito then begin
         writeln('Se encontro el destino. A continuacion se informara sus caracteristicas.');
-        InfromarDestino(PtrD^.datos);
+        InformarDestino(PtrD^.datos);
     end;
 end;
 
@@ -162,7 +162,7 @@ begin
     verMinRecorrido(A, DestinoCercano);
     if (DestinoCercano.distancia <> -1) then begin
         writeln('El destino mas cercano es el siguiente');
-        InfromarDestino(DestinoCercano);
+        InformarDestino(DestinoCercano);
     end;
 end;
 
