@@ -124,24 +124,34 @@ var
    marcaAct: string;
 
 begin
-     while (l <> nil) do begin
-         marcaAct := l^.dato.marca;
-         totalMarca := 0;
-        while (l^.dato.marca = marcaAct) do begin
-              writeln('Para la marca ', marcaAct, ': ');
-              anioActual:=l^.dato.anio;
-              totalAnio := 0;
-              while (l^.dato.anio = anioActual) do begin
-                  writeln('Para el año ', anioActual, ': ');
-                  imprimirAnio(l^.dato);
-                  totalAnio := totalAnio + 1;
+    while (l <> nil) do begin // Si la lista no esta vacia...
+        marcaAct := l^.dato.marca; // Guarda la marca
+        totalMarca := 0; // Setea el total en 0
+        writeln('Para la marca ', marcaAct, ': '); // Imprime el nombre de la marca
 
-              end;
-              totalMarca := totalMarca + totalAnio;
-              writeln('Para el anio ', anioActual, ' hay, ', totalAnio, ' productos');
-              l := l^.sig;
+        while (l <> nil) and (l^.dato.marca = marcaAct) do begin // si no esta vacia y ademas la marca es la misma que venia procesando...
+            anioActual := l^.dato.anio; // Guarda el año
+            totalAnio := 0; // Setea el total de ese año en 0
+            writeln('  Para el año ', anioActual, ': '); // Imprime el año
+
+            while (l <> nil) and (l^.dato.marca = marcaAct) and (l^.dato.anio = anioActual) do begin
+                  // Si la lista:
+                  // - No esta vacia
+                  // - Es de la misma marca que veniamos procesando
+                  // - Es del mismo año que veniamos procesando
+                imprimirAnio(l^.dato); // Imprime los datos del producto
+                totalAnio := totalAnio + 1; // Le suma a el total de productos de ese año
+
+                l := l^.sig; // Pasamos al siguiente producto (Avanza el puntero)
+            end;
+            // Cuando terminó, estamos en un nuevo año
+            totalMarca := totalMarca + totalAnio; // Se guarda el total del año que ya procesó en el total de la marca
+            writeln('  Para el año ', anioActual, ' hay ', totalAnio, ' productos.'); // Imprime el total para el año procesado
         end;
-        writeln('Para la marca ', marcaAct, ' hay, ', totalMarca, ' productos');
+        // Cuando terminó, estamos en una nueva marca
+        writeln('Para la marca ', marcaAct, ' en total hay ', totalMarca, ' productos.');
+        // Imprime el total de la la marca que fuimos actualizando cada año.
+        writeln('------------------------------------------------');
     end;
 end;
 
