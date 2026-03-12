@@ -170,9 +170,26 @@ begin
   end;
 end;
 
+Procedure ImprimirEnRango(A: Arbol; inf, sup: integer);
+
+begin
+  if (A <> nil) then begin
+    if (A^.data.dni >= inf) then begin
+      if (A^.data.dni <= sup) then begin
+        // Esta en el rango
+        ImprimirEnRango(A^.HI, inf, sup);
+        ImprimirData(A^.data);
+        ImprimirEnRango(A^.HD, inf, sup);
+      end else
+        ImprimirEnRango(A^.HI, inf, sup);
+    end else
+      ImprimirEnRango(A^.HD, inf, sup);
+  end;
+end;
+
 var
   ArbolPersonas, NodoDni: Arbol;
-  DniBuscar, DniBorrar: integer;
+  DniBuscar, DniBorrar, limiteInf, limiteSup: integer;
   ApellidoBuscar: string;
 
 begin
@@ -218,6 +235,13 @@ begin
   
   writeln('Se va a imprimir el arbol final: ');
   ImprimirArbol(ArbolPersonas);
+  
+  Separador();
+  writeln('--- BUSQUEDA POR RANGO DE DNI ---');
+  write('Ingrese el limite inferior: '); readln(limiteInf);
+  write('Ingrese el limite superior: '); readln(limiteSup);
+  writeln('Resultados en el rango [', limiteInf, ' - ', limiteSup, ']:');
+  ImprimirEnRango(ArbolPersonas, limiteInf, limiteSup);
   
   LiberarArbol(ArbolPersonas);
 end.
