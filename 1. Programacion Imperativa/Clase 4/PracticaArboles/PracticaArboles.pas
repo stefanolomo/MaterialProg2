@@ -80,14 +80,66 @@ begin
   end;
 end;
 
+function BuscarDNI(var A: Arbol; DniBuscar: integer): Arbol;
+
+begin
+  BuscarDNI := nil;
+  
+  if (A = nil) then // Si esta vacio, devuelve nil
+    BuscarDNI := nil
+  else if (A^.data.dni = DniBuscar) then // Si lo encontramos, lo devolvemos
+    BuscarDNI := A
+  else if (A^.data.dni < DniBuscar) then // Si el nodo es menor, buscamos a la derecha
+    BuscarDNI := BuscarDNI(A^.HD, DniBuscar)
+  else if (A^.data.dni > DniBuscar) then // Si el nodo es mayor, buscamos a la izquierda
+    BuscarDNI := BuscarDNI(A^.HI, DniBuscar)
+end;
+
+Procedure ImprimirData(D: data);
+
+begin
+  writeln('Nombre: ', D.nombre, ', ', 'Apellido: ', D.apellido, ', ', 'DNI: ', D.dni);
+end;
+
+Procedure BuscarApellidoEnArbol(A: Arbol; Apellido: string);
+
+begin
+  if (A <> nil) then begin // Si no esta vacio...
+    BuscarApellidoEnArbol(A^.HI, Apellido);
+    if (A^.data.apellido = Apellido) then // Si lo encontramos, lo imprimimos
+      ImprimirData(A^.data);
+    BuscarApellidoEnArbol(A^.HD, Apellido);
+  end;
+end;
+
 var
-  ArbolPersonas: Arbol;
+  ArbolPersonas, NodoDni: Arbol;
+  DniBuscar: integer;
+  ApellidoBuscar: string;
 
 begin
   ArbolPersonas := nil;
 
   CargarArbol(ArbolPersonas);
   
+  Separador();
+  
+  writeln('Ingrese un DNI para buscarlo en el arbol: ');
+  readln(DniBuscar);
+  
+  NodoDni := BuscarDNI(ArbolPersonas, DniBuscar);
+  
+  if (NodoDni <> nil) then
+    writeln('Se encontró el dni ingresado para la persona: ', NodoDni^.data.nombre, ' ', NodoDni^.data.apellido)
+  else
+    writeln('No se encontró ese DNI en el arbol');
+    
+  Separador();
+  
+  writeln('Ingrese un apellido para imprimir los datos de todos los que lo tienen: ');
+  readln(ApellidoBuscar);
+  
+  BuscarApellidoEnArbol(ArbolPersonas, ApellidoBuscar);
   
   LiberarArbol(ArbolPersonas);
 end.
