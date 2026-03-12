@@ -112,15 +112,78 @@ begin
   end;
 end;
 
+procedure Reemplazar(var A: Arbol; var Aux: Arbol);
+var
+  nodoEliminar: Arbol;
+begin
+  if (Aux^.HD <> nil) then
+    { Seguimos bajando a la derecha para buscar el valor más grande }
+    Reemplazar(A, Aux^.HD)
+  else begin
+    { Encontramos el mayor de los menores }
+    A^.data := Aux^.data; { Copiamos el contenido (DNI, etc.) }
+    nodoEliminar := Aux;   { Guardamos el nodo para borrarlo }
+    Aux := Aux^.HI;       { Enganchamos el subárbol izquierdo que pudiera tener }
+    dispose(nodoEliminar); { Liberamos memoria }
+  end;
+end;
+
+procedure EliminarNodo(var A: Arbol);
+var aux: Arbol;
+begin
+  if (A^.HI = nil) then begin        { Caso 1 y 2: Sin hijo izquierdo }
+    aux := A;
+    A := A^.HD;
+    dispose(aux);
+  end 
+  else if (A^.HD = nil) then begin   { Caso 2: Sin hijo derecho }
+    aux := A;
+    A := A^.HI;
+    dispose(aux);
+  end 
+  else begin                         { Caso 3: Dos hijos }
+    Reemplazar(A, A^.HI);            { Buscamos el mayor de los menores }
+  end;
+end;
+
+function BorrarDni(var A: Arbol; Dni: integer): boolean;
+
+begin
+  if (A = nil) then
+    BorrarDni := False
+  else if (A^.data.dni = Dni) then begin
+    EliminarNodo(A);
+    BorrarDni := True;
+  end else if (A^.data.dni < Dni) then
+    BorrarDni := BorrarDni(A^.HD, Dni)
+  else if (A^.data.dni > Dni) then
+    BorrarDni := BorrarDni(A^.HI, Dni);
+end;
+
+Procedure ImprimirArbol(A: Arbol);
+
+begin
+  if (A <> nil) then begin
+    ImprimirArbol(A^.HI);
+    ImprimirData(A^.data);
+    ImprimirArbol(A^.HD);
+  end;
+end;
+
 var
   ArbolPersonas, NodoDni: Arbol;
-  DniBuscar: integer;
+  DniBuscar, DniBorrar: integer;
   ApellidoBuscar: string;
 
 begin
   ArbolPersonas := nil;
 
   CargarArbol(ArbolPersonas);
+  
+  Separador();
+  
+  writeln('El arbol quedó como: ');
+  ImprimirArbol(ArbolPersonas);
   
   Separador();
   
@@ -140,6 +203,21 @@ begin
   readln(ApellidoBuscar);
   
   BuscarApellidoEnArbol(ArbolPersonas, ApellidoBuscar);
+  
+  Separador();
+  
+  writeln('Ingrese un DNI para borrar');
+  readln(DniBorrar);
+  
+  if BorrarDni(ArbolPersonas, DniBorrar) then
+    writeln('La persona con dni ', DniBorrar, ' fue borrada del arbol.')
+  else
+    writeln('No se encontró a nadie con el dni ingresado.');
+  
+  Separador();
+  
+  writeln('Se va a imprimir el arbol final: ');
+  ImprimirArbol(ArbolPersonas);
   
   LiberarArbol(ArbolPersonas);
 end.
