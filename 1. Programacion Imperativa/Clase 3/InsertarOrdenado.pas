@@ -107,6 +107,16 @@ begin // El minimo de un arbol esta siempre a la izquierda de todas las ramas
   else if (A^.HI <> nil) then // Si sigue habiendo camino hacia la derecha, seguimos para ahi
     verMin := verMin(A^.HI);
 end;
+
+procedure LiberarArbol(var A: Arbol);
+begin
+  if (A <> nil) then begin
+    LiberarArbol(A^.HI);
+    LiberarArbol(A^.HD);
+    dispose(A);
+    A := nil;
+  end;
+end;
   
 var
   ArbolParaInsertar, maximo, minimo: arbol;
@@ -146,4 +156,5 @@ begin
     writeln('El minimo numero en el arbol es: ', minimo^.dato)
   else writeln('El arbol esta vacio, no hay minimo');
   
+  LiberarArbol(ArbolParaInsertar);
 end.
