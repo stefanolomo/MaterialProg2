@@ -39,6 +39,7 @@ Type
   
   ArbolCodigos = ^NodoArbolCodigos;
   
+  NodoArbolCodigos = record
     codigo: integer;
     HI, HD: ArbolCodigos;
   end;
@@ -271,6 +272,48 @@ begin
   end;
 end;
 
+procedure liberarArbolCodigos(var AC: ArbolCodigos);
+begin
+  if (AC <> nil) then begin
+    liberarArbolCodigos(AC^.HI);
+    liberarArbolCodigos(AC^.HD);
+    dispose(AC);
+    AC := nil;
+  end;
+end;
+
+procedure liberarArbolDeArboles(var A: ArbolDeArboles);
+begin
+  if (A <> nil) then begin
+    liberarArbolDeArboles(A^.HI);
+    liberarArbolDeArboles(A^.HD);
+    liberarArbolCodigos(A^.data.arbolCodigos); // Liberamos el árbol interno
+    dispose(A);
+    A := nil;
+  end;
+end;
+
+procedure ImprimirInterno(AC: ArbolCodigos);
+begin
+  if (AC <> nil) then begin
+    ImprimirInterno(AC^.HI);
+    write(AC^.codigo, ' | ');
+    ImprimirInterno(AC^.HD);
+  end;
+end;
+
+procedure ImprimirArbolDeArboles(A: ArbolDeArboles);
+begin
+  if (A <> nil) then begin
+    ImprimirArbolDeArboles(A^.HI);
+    writeln('--- Peso: ', A^.data.peso, ' ---');
+    write('Codigos (en ABO): ');
+    ImprimirInterno(A^.data.arbolCodigos);
+    writeln;
+    ImprimirArbolDeArboles(A^.HD);
+  end;
+end;
+
 Var
 
  l: lista;
@@ -314,4 +357,16 @@ begin
   
   writeln('Se va a cargar la lista generada a un arbol de arboles para procesamiento por peso y luego por codigo mas eficiente.');
   ArbolPesosDeArboles := GenerarArbolDeArboles(l);
+  
+  if ArbolPesosDeArboles <> nil then writeln('Se genero el arbol con exito.');
+  
+  Separador();
+  
+  
+  writeln('Se imprimirá el arbol de arboles a continuacion:');
+  
+  ImprimirArbolDeArboles(ArbolPesosDeArboles);
+  
+  LiberarArbolDeArboles(ArbolPesosDeArboles);
+  LiberarLista(l);
 end.
