@@ -35,6 +35,26 @@ Type
     HI, HD: Arbol; 
   end;
   
+  {-------------------- Arbol de Arboles, adentro tiene arbol de códigos --------------------}
+  
+  ArbolCodigos = ^NodoArbolCodigos;
+  
+    codigo: integer;
+    HI, HD: ArbolCodigos;
+  end;
+  
+  data2 = record
+    peso: integer;
+    arbolCodigos: ArbolCodigos;
+  end;
+  
+  ArbolDeArboles = ^NodoArbolDeArboles;
+  
+  NodoArbolDeArboles = record
+    data: data2;
+    HI, HD: ArbolDeArboles;
+  end;
+  
 {-----------------------------------------------------------------------------
 AgregarAdelante - Agrega una encomienda adelante en l}
 procedure agregarAdelante(var l: Lista; enc: encomienda);
@@ -196,16 +216,72 @@ begin
   end;
 end;
 
+procedure InsertarEnArbolCodigos(var A: Arbolcodigos; codigo: integer);
+
+begin
+  if (A = nil) then begin
+    new(A);
+    A^.HI := nil;
+    A^.HD := nil;
+    A^.codigo := codigo;
+    
+  end else if (A^.codigo < codigo) then // Si el valor era mayor, sigue por la rama derecha
+    InsertarEnArbolCodigos(A^.HD, codigo)
+  else if (A^.codigo > codigo) then // Si el valor era menor, sigue por la rama 
+    InsertarEnArbolCodigos(A^.HI, codigo)  
+end;
+
+procedure InsertarEnArbolDeArboles(codigo, peso: integer; var A: ArbolDeArboles);
+
+begin
+  if (A = nil) then begin
+    new(A);
+    A^.HI := nil;
+    A^.HD := nil;
+    A^.data.peso := peso;
+    A^.data.arbolCodigos := nil;
+    InsertarEnArbolCodigos(A^.data.arbolCodigos, codigo);
+    
+  end else if (A^.data.peso < peso) then // Si el valor era mayor, sigue por la rama derecha
+    InsertarEnArbolDeArboles(codigo, peso, A^.HD)
+  else if (A^.data.peso > peso) then // Si el valor era menor, sigue por la rama 
+    InsertarEnArbolDeArboles(codigo, peso, A^.HI)
+  else
+    InsertarEnArbolCodigos(A^.data.arbolCodigos, codigo);
+end;
+
+
+function GenerarArbolDeArboles(l: lista): ArbolDeArboles;
+
+var
+  ArbolGenerado: ArbolDeArboles;
+
+begin
+  if (l = nil) then
+    GenerarArbolDeArboles := nil
+  else begin
+    ArbolGenerado := nil;
+    
+    while (l <> nil) do begin
+      InsertarEnArbolDeArboles(l^.dato.codigo, l^.dato.peso, ArbolGenerado);
+      l := l^.sig;
+    end;
+    
+    GenerarArbolDeArboles := ArbolGenerado;
+  end;
+end;
+
 Var
 
  l: lista;
  ArbolPesos: Arbol;
+ ArbolPesosDeArboles: ArbolDeArboles;
 
 begin
  Randomize;
 
  crearLista(l);
- writeln ('[x] Lista de encomiendas generada.');
+ writeln ('Lista de encomiendas generada.');
  writeln ('Se imprimirá la lista de encomiendas a continuacion: ');
  imprimirLista(l);
  
@@ -215,7 +291,7 @@ begin
   
   ArbolPesos := GenerarArbol(l);
   
-  if ArbolPesos <> nil then writeln('[x] Se genero el arbol con exito.');
+  if ArbolPesos <> nil then writeln('Se genero el arbol con exito.');
   
   Separador();
   
@@ -224,5 +300,18 @@ begin
   ImprimirArbol(ArbolPesos);
   
   LiberarLista(l);
-  LiberarArbol(ArbolPesos)
+  LiberarArbol(ArbolPesos);
+  
+  Separador();
+  writeln('Se va a hacer lo mismo, pero con la estructura arbol de arboles.');
+  
+  crearLista(l);
+  writeln ('Lista de encomiendas generada.');
+  writeln ('Se imprimirá la lista de encomiendas a continuacion: ');
+  imprimirLista(l);
+ 
+  Separador();
+  
+  writeln('Se va a cargar la lista generada a un arbol de arboles para procesamiento por peso y luego por codigo mas eficiente.');
+  ArbolPesosDeArboles := GenerarArbolDeArboles(l);
 end.
