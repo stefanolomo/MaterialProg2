@@ -133,6 +133,69 @@ begin
   end;
 end;
 
+procedure ImprimirArbol(A: Arbol);
+var
+  aux: listaCodigos;
+begin
+  if (A <> nil) then begin
+    { 1. Visitamos el hijo izquierdo (Pesos menores) }
+    ImprimirArbol(A^.HI);
+
+    { 2. Procesamos el nodo actual }
+    writeln('--- Peso: ', A^.data.peso, ' ---');
+    write('Codigos: ');
+    
+    { RECORRIDO DE LA LISTA INTERNA }
+    aux := A^.data.codigos;
+    while (aux <> nil) do begin
+      write(aux^.codigo, ' | ');
+      aux := aux^.sig;
+    end;
+    writeln; { Salto de línea para el próximo peso }
+
+    { 3. Visitamos el hijo derecho (Pesos mayores) }
+    ImprimirArbol(A^.HD);
+  end;
+end;
+
+procedure liberarListaCodigos(var L: listaCodigos);
+var
+  aux: listaCodigos;
+begin
+  while (L <> nil) do begin
+    aux := L;
+    L := L^.sig;
+    dispose(aux);
+  end;
+end;
+
+procedure liberarLista(var L: lista);
+var
+  aux: lista;
+begin
+  while (L <> nil) do begin
+    aux := L;
+    L := L^.sig;
+    dispose(aux);
+  end;
+end;
+
+procedure liberarArbol(var A: Arbol);
+begin
+  if (A <> nil) then begin
+    { 1. Ir hasta el fondo de las ramas }
+    liberarArbol(A^.HI);
+    liberarArbol(A^.HD);
+    
+    { 2. Liberar la lista de códigos de este nodo }
+    liberarListaCodigos(A^.data.codigos);
+    
+    { 3. Liberar el nodo actual del árbol }
+    dispose(A);
+    A := nil; // Buena práctica para evitar punteros colgantes
+  end;
+end;
+
 Var
 
  l: lista;
@@ -142,7 +205,8 @@ begin
  Randomize;
 
  crearLista(l);
- writeln ('Lista de encomiendas generada: ');
+ writeln ('[x] Lista de encomiendas generada.');
+ writeln ('Se imprimirá la lista de encomiendas a continuacion: ');
  imprimirLista(l);
  
  Separador();
@@ -151,5 +215,14 @@ begin
   
   ArbolPesos := GenerarArbol(l);
   
+  if ArbolPesos <> nil then writeln('[x] Se genero el arbol con exito.');
+  
   Separador();
+  
+  
+  writeln('Se imprimirá el arbol de pesos a continuacion:');
+  ImprimirArbol(ArbolPesos);
+  
+  LiberarLista(l);
+  LiberarArbol(ArbolPesos)
 end.
