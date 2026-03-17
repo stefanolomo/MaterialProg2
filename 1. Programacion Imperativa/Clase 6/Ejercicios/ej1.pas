@@ -246,7 +246,7 @@ var
 
 begin
   if (A <> nil) then begin
-    imprimirReporte(A^.HI);
+    imprimirReporte(A^.HD);
     
     aux := A^.dato.partidosJugados;
     contadorPartidos := 0;
@@ -260,7 +260,7 @@ begin
     
     writeln('El jugador ', A^.dato.nombreApellido, ' tiene dni ', A^.dato.dni, ' y juega en la posicion ', A^.dato.posicion, '. Jugo ', contadorPartidos, ' y en ellos acumulo ', contadorPuntaje, ' puntos');
     
-  imprimirReporte(A^.HD);
+  imprimirReporte(A^.HI);
   end;
 end;
 
