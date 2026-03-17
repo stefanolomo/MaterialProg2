@@ -278,6 +278,18 @@ begin
   end;
 end;
 
+function ContarPosicionArbolJugadores(A: arbolJugadores; posicion: str10): longint;
+
+begin
+  ContarPosicionArbolJugadores := 0;
+  if (A <> nil) then begin
+    if (A^.dato.posicion = posicion) then // Si es la posicion, suma 1 y lo que puede haber en las dos subramas
+      ContarPosicionArbolJugadores := 1 + ContarPosicionArbolJugadores(A^.HI, posicion) + ContarPosicionArbolJugadores(A^.HD, posicion);
+    else // Si no es el que buscamos, suma lo que puede haber en las subramas
+      ContarPosicionArbolJugadores := ContarPosicionArbolJugadores(A^.HI, posicion) + ContarPosicionArbolJugadores(A^.HD, posicion);
+  end;
+end;
+
 var
    l: listaPartidos;
    ArbolNuevo: ArbolJugadores;
@@ -298,5 +310,5 @@ begin
   
   imprimirReporte(ArbolNuevo);
   
-  writeln('Jugadores con DNI entre 25 millones y 30 millones: ', BuscarAcotadoArbolJugadores(ArbolNuevo, 30000000, 25000000));
+  writeln('Jugadores con DNI entre 40 millones y 30 millones: ', BuscarAcotadoArbolJugadores(ArbolNuevo, 30000000, 40000000));
 end.
