@@ -310,5 +310,8 @@ begin
   
   imprimirReporte(ArbolNuevo);
   
-  writeln('Jugadores con DNI entre 40 millones y 30 millones: ', BuscarAcotadoArbolJugadores(ArbolNuevo, 30000000, 40000000));
+  writeln('Jugadores con DNI entre 40 millones y 30 millones: ', BuscarAcotadoArbolJugadores(ArbolNuevo, 40000000, 30000000));
+  
+  writeln('Total de delanteros: ', ContarPosicionArbolJugadores(ArbolNuevo, 'delantero'));
+  writeln('Total de arqueros: ', ContarPosicionArbolJugadores(ArbolNuevo, 'arquero'));
 end.
