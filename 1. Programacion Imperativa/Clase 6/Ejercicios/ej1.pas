@@ -8,7 +8,7 @@ Type
             dni: longint;
 	          nombreApellido: string;
 	          posicion: str10;
-            puntaje: integer;
+            puntaje: longint;
      end;
 
      lista = ^nodoLista;
@@ -35,14 +35,14 @@ Type
   listaJugados = ^NodoListaJugados;
   
   NodoListaJugados = record
-    puntaje: integer;
+    puntaje: longint;
     fecha: string;
     sig: listaJugados;
   end;
   
   datoJugador = record
     nombreApellido, posicion: string;
-    dni: integer;
+    dni: longint;
     partidosJugados: listaJugados;
   end;
 
@@ -54,7 +54,7 @@ Type
 
 procedure cargarFecha(var s: str10);
 var
-  dia, mes: integer;
+  dia, mes: longint;
 begin
   dia := random(30)+1;
   mes := random(12)+1;
@@ -88,7 +88,7 @@ end;
 procedure cargarJugadores(var l: lista);
 var
    j: jugador;
-   cant, i, pos: integer;
+   cant, i, pos: longint;
 begin
      cant := random(10)+22;
      for i:=1 to cant do
@@ -112,7 +112,7 @@ end;
 procedure crearLista(var l: listaPartidos);
 var
    p: partido;
-   cant, i: integer;
+   cant, i: longint;
 begin
      cant := random(10);
      for i:=1 to cant do
@@ -175,14 +175,14 @@ begin
     A^.HD := nil;
     
     {NodoListaJugados = record
-    puntaje: integer;
+    puntaje: longint;
     fecha: string;
     sig: listaJugados;
   end;
   
   datoJugador = record
     nombreApellido, posicion: string;
-    dni: integer;
+    dni: longint;
     partidosJugados: listaJugados;
   end;}
     
@@ -242,7 +242,7 @@ procedure imprimirReporte(A: ArbolJugadores);
 
 var
   aux: listaJugados;
-  contadorPartidos, contadorPuntaje: integer;
+  contadorPartidos, contadorPuntaje: longint;
 
 begin
   if (A <> nil) then begin
@@ -261,6 +261,20 @@ begin
     writeln('El jugador ', A^.dato.nombreApellido, ' tiene dni ', A^.dato.dni, ' y juega en la posicion ', A^.dato.posicion, '. Jugo ', contadorPartidos, ' y en ellos acumulo ', contadorPuntaje, ' puntos');
     
   imprimirReporte(A^.HD);
+  end;
+end;
+
+function BuscarAcotadoArbolJugadores(A: arbolJugadores; sup, inf: longint): longint;
+
+begin
+  BuscarAcotadoArbolJugadores := 0;
+  if (A <> nil) then begin
+    if (A^.dato.dni < sup) and (A^.dato.dni > inf) then
+      BuscarAcotadoArbolJugadores := 1 + BuscarAcotadoArbolJugadores(A^.HI, sup, inf) + BuscarAcotadoArbolJugadores(A^.HD, sup, inf)
+    else if (A^.dato.dni < sup) then
+      BuscarAcotadoArbolJugadores := BuscarAcotadoArbolJugadores + BuscarAcotadoArbolJugadores(A^.HD, sup, inf)
+    else
+      BuscarAcotadoArbolJugadores := BuscarAcotadoArbolJugadores + BuscarAcotadoArbolJugadores(A^.HI, sup, inf);
   end;
 end;
 
@@ -283,4 +297,6 @@ begin
   writeln('Se va a imprimir el arbol: ');
   
   imprimirReporte(ArbolNuevo);
+  
+  writeln('Jugadores con DNI entre 25 millones y 30 millones: ', BuscarAcotadoArbolJugadores(ArbolNuevo, 30000000, 25000000));
 end.
