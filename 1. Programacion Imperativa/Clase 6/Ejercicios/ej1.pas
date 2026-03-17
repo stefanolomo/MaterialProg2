@@ -272,9 +272,9 @@ begin
     if (A^.dato.dni < sup) and (A^.dato.dni > inf) then
       BuscarAcotadoArbolJugadores := 1 + BuscarAcotadoArbolJugadores(A^.HI, sup, inf) + BuscarAcotadoArbolJugadores(A^.HD, sup, inf)
     else if (A^.dato.dni < sup) then
-      BuscarAcotadoArbolJugadores := BuscarAcotadoArbolJugadores + BuscarAcotadoArbolJugadores(A^.HD, sup, inf)
+      BuscarAcotadoArbolJugadores := BuscarAcotadoArbolJugadores(A^.HD, sup, inf)
     else
-      BuscarAcotadoArbolJugadores := BuscarAcotadoArbolJugadores + BuscarAcotadoArbolJugadores(A^.HI, sup, inf);
+      BuscarAcotadoArbolJugadores := BuscarAcotadoArbolJugadores(A^.HI, sup, inf);
   end;
 end;
 
@@ -284,7 +284,7 @@ begin
   ContarPosicionArbolJugadores := 0;
   if (A <> nil) then begin
     if (A^.dato.posicion = posicion) then // Si es la posicion, suma 1 y lo que puede haber en las dos subramas
-      ContarPosicionArbolJugadores := 1 + ContarPosicionArbolJugadores(A^.HI, posicion) + ContarPosicionArbolJugadores(A^.HD, posicion);
+      ContarPosicionArbolJugadores := 1 + ContarPosicionArbolJugadores(A^.HI, posicion) + ContarPosicionArbolJugadores(A^.HD, posicion)
     else // Si no es el que buscamos, suma lo que puede haber en las subramas
       ContarPosicionArbolJugadores := ContarPosicionArbolJugadores(A^.HI, posicion) + ContarPosicionArbolJugadores(A^.HD, posicion);
   end;
