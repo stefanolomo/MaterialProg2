@@ -109,9 +109,44 @@ begin
   CargarArbolPasajeros := ArbolCargado;
 end;
 
+function CalcularPuntos(P: venta): longint;
+
+var
+  aux: ListaVuelos;
+  contadorPuntos: longint;
+
+begin
+  aux := P.vuelos;
+  contadorPuntos := 0;
+    
+  while (aux <> nil) do begin
+    if (aux^.dato.clase = 'ejecutiva') then
+      contadorPuntos := 100 * aux^.dato.millas + contadorPuntos
+    else if (aux^.dato.clase = 'turistas') then
+      contadorPuntos := 25 * aux^.dato.millas + contadorPuntos;
+    
+    aux := aux^.sig;
+  end;
+  
+  CalcularPuntos := contadorPuntos;
+end;
+
+function CalcularTodosLosPuntos(A: ArbolPasajeros): longint;
+
+begin
+  if (A <> nil) then begin
+    CalcularTodosLosPuntos := CalcularPuntos(A^.dato) + CalcularTodosLosPuntos(A^.HI) + CalcularTodosLosPuntos(A^.HD);
+  end else
+    CalcularTodosLosPuntos := 0;
+end;
+
 var
   ArbolNuevo: ArbolPasajeros;
 
 begin
   ArbolNuevo := CargarArbolPasajeros();
+  
+  writeln('Los puntos contados bajo el criterio dado acumulan ', CalcularTodosLosPuntos(ArbolNuevo), ' entre todos los pasajeros y sus viajes.');
+
+  //TODO
 end.
