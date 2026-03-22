@@ -226,7 +226,7 @@ var
 begin
   if (A <> nil) then begin
     if (A^.dato.area > inf) then // El rango esta hacia la izquierda
-      ImprimirAcotadoDnis(A^.HI, sup, inf);
+      ImprimirAcotadoDnis2(A^.HI, sup, inf);
       
     if (A^.dato.area >= inf) and (A^.dato.area <= sup) then begin // Esta en rango
       aux := A^.dato.clientes;
@@ -237,7 +237,7 @@ begin
     end;
     
     if (A^.dato.area < sup) then // El rango esta hacia la derecha
-      ImprimirAcotadoDnis(A^.HD, sup, inf);
+      ImprimirAcotadoDnis2(A^.HD, sup, inf);
   end;
 end;
 
