@@ -23,7 +23,7 @@ type
   fecha = record
     dia: 1..31;
     mes: 1..12;
-    anio: integer;
+    anio: longint;
   end;
   
   paquete = record
@@ -73,7 +73,7 @@ type
 
 procedure cargarFecha(var f: fecha);
 var
-  anio: integer;
+  anio: longint;
 begin
   f.dia := random(30) + 1;
   f.mes := random(12) + 1;
@@ -159,7 +159,7 @@ end;
 procedure cargarDestinos(var l: lista);
 var
   d: destino;
-  cant, i, pos: integer;
+  cant, i, pos: longint;
   p, n: nombres;
   no_repetidos: numeros;
 begin
@@ -185,7 +185,7 @@ end;
 procedure crearLista(var l: listaPaquetes);
 var
   p: paquete;
-  cant, i, pos, tiene_hotel: integer;
+  cant, i, pos, tiene_hotel: longint;
   a: nombres;
 begin
   cant := random(100) + 1;
@@ -248,8 +248,132 @@ begin
   end;
 end;
 
+procedure InsertarEnListaPaquetesA(var L: ListaPaquetesA; P: paquete);
+
+var
+  aux, nodoInsertar: ListaPaquetesA;
+
+begin
+  new(nodoInsertar); // Se crea el nodo a insertar
+  nodoInsertar^.dato.identificador := P.identificador;
+  nodoInsertar^.dato.fecha := P.fecha;
+  nodoInsertar^.dato.aerolinea := P.aerolinea;
+  nodoInsertar^.dato.equipaje := P.cant_equipaje;
+  nodoInsertar^.dato.hotel := P.hotel;
+  nodoInsertar^.sig := nil; // El siguiente es nil porque insertamos al final
+  
+  if (L = nil) then
+    L := nodoInsertar // Si esta vacia, es la raiz
+  else begin
+    // Si la lista no esta vacia
+    aux := L;
+    
+    while (aux^.sig <> nil) do begin // Recorremos hasta el ultimo nodo
+      aux := aux^.sig;
+    end;
+    
+    aux^.sig := nodoInsertar; // Enganchamos al final
+  end;
+end;
+
+procedure InsertarDestinoEnArbol(var A: Arbol; nombre, pais: str70; P: paquete);
+
+begin
+  if (A = nil) then begin
+    // Si el arbol esta vacio
+    new(A); // Crear el arbol
+    A^.dato.nombre := nombre;
+    A^.dato.pais := pais;
+    A^.HI := nil;
+    A^.HD := nil;
+    A^.dato.paquetes := nil;
+    
+    InsertarEnListaPaquetesA(A^.dato.paquetes, P); // Insertar en la lista el paquete
+  end else if (A^.dato.nombre = nombre) then
+    // Si el destino ya existe en el arbol, solo se agrega los datos del paquete
+    InsertarEnListaPaquetesA(A^.dato.paquetes, P)
+  else if (A^.dato.nombre > nombre) then
+    InsertarDestinoEnArbol(A^.HI, nombre, pais, P)
+  else if (A^.dato.nombre < nombre) then
+    InsertarDestinoEnArbol(A^.HD, nombre, pais, P)
+end;
+
+procedure InsertarPaqueteEnArbol(var A: Arbol; P: paquete);
+
+var
+  aux: lista;
+
+begin
+  aux := P.destinos;
+  while (aux <> nil) do begin
+    InsertarDestinoEnArbol(A, aux^.dato.nombre, aux^.dato.pais, P);
+    aux := aux^.sig;
+  end;
+end;
+
+procedure CargarArbolDestinos(var A: Arbol; L: listaPaquetes);
+begin
+  while (L <> nil) do begin
+    InsertarPaqueteEnArbol(A, L^.dato); // Llamamos al nuevo procedure
+    L := L^.sig;
+  end;
+end;
+
+function HayPaqueteConOcurrencia(L: ListaPaquetesA): boolean;
+
+begin
+  // Recibe una lista de paquetes y debe recorrerla hasta encontrar uno que coincida con criterios indicados
+  
+  // Recorre la lista mientras no llegue al final o mientras no coincida
+  while (L <> nil) and not (((L^.dato.aerolinea = 'Iberia') or (L^.dato.aerolinea = 'Emirates')) and (L^.dato.equipaje = 3) and (L^.dato.hotel)) do
+    L := L^.sig;
+  // Si llego al final, no hay ocurrencias (Es nil)
+  // Si no esta en el final, hay al menos una ocurrencia (No es nil)
+  HayPaqueteConOcurrencia := (L <> nil);
+end;
+
+function HallarOcurrenciasDestinos(A: Arbol): longint;
+
+begin
+  if (A = nil) then
+    HallarOcurrenciasDestinos := 0
+  else begin
+    // Si coincide, devolver 1 + ocurrencias de rama izquierda + ocurrencias de rama derecha
+    if (HayPaqueteConOcurrencia(A^.dato.paquetes)) then HallarOcurrenciasDestinos := 1 + HallarOcurrenciasDestinos(A^.HI) + HallarOcurrenciasDestinos(A^.HD)
+    // Si no coincide, devolver ocurrencias de rama izquierda + ocurrencias de rama derecha
+    else HallarOcurrenciasDestinos := HallarOcurrenciasDestinos(A^.HI) + HallarOcurrenciasDestinos(A^.HD);
+  end;
+end;
+
+procedure ImprimirData(D: destinoa);
+
+begin
+  writeln('> Nombre: ', D.nombre, ' Pais: ', D.pais);
+end;
+
+Procedure ImprimirEnRangoNombre(A: Arbol; inf, sup: str70);
+
+begin
+  if (A <> nil) then begin
+    if (A^.dato.nombre >= inf) then begin
+      if (A^.dato.nombre <= sup) then begin
+        // Esta en el rango
+        ImprimirEnRangoNombre(A^.HI, inf, sup);
+        ImprimirData(A^.dato);
+        ImprimirEnRangoNombre(A^.HD, inf, sup);
+      end else
+        ImprimirEnRangoNombre(A^.HI, inf, sup);
+    end else
+      ImprimirEnRangoNombre(A^.HD, inf, sup);
+  end;
+end;
+
+
 var
   l: listaPaquetes;
+  ArbolDestinos: Arbol;
+  ocurrencias: longint;
+  
 begin
   Randomize;
 
@@ -258,8 +382,15 @@ begin
   writeln('LISTA GENERADA: ');
   imprimirLista(l);
 
-  {Completar el programa}
-
-  writeln('Fin del programa');
-  readln;
+  {--------------------}
+  
+  ArbolDestinos := nil;
+  CargarArbolDestinos(ArbolDestinos, l);
+  
+  ocurrencias := HallarOcurrenciasDestinos(ArbolDestinos);
+  if (ocurrencias > 0) then writeln('En el arbol hay ', ocurrencias, ' destinos que coinciden con el criterio detallado.')
+  else writeln('En el arbol no hay destinos que coinciden con el criterio detallado.');
+  
+  writeln('Se va a imprimir los nombres y paises de los destinos entre Estambul y Madrid.');
+  ImprimirEnRangoNombre(ArbolDestinos, 'Estambul', 'Madrid');
 end.
