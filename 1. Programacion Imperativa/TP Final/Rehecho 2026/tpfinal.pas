@@ -47,6 +47,29 @@ type
 
   {--------------------}
   
+  DatoNodoListaPaquetes = record
+    identificador, aerolinea: str70;
+    fecha: fecha;
+    equipaje: equipaje;
+    hotel: boolean;
+  end;
+  
+  ListaPaquetesA = ^NodoListaPaquetes;
+  NodoListaPaquetes = record
+    dato: DatoNodoListaPaquetes;
+    sig: ListaPaquetesA;
+  end;
+  
+  destinoa = record
+    nombre, pais: str70;
+    paquetes: ListaPaquetesA;
+  end;
+  
+  Arbol = ^NodoArbol;
+  NodoArbol = record
+    dato: destinoa;
+    HI, HD: Arbol;
+  end;
 
 procedure cargarFecha(var f: fecha);
 var
