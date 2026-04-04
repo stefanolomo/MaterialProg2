@@ -52,7 +52,7 @@ begin
     
   end else if (A^.data.dni < D.dni) then // Si el valor era mayor, sigue por la rama derecha
     InsertarOrdenado(A^.HD, D)
-  else if (A^.data.dni > D.dni) then // Si el valor era menor, sigue por la rama 
+  else if (A^.data.dni > D.dni) then // Si el valor era menor, sigue por la rama izquierda
     InsertarOrdenado(A^.HI, D)
 end;
 
