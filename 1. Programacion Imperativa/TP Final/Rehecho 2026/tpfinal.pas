@@ -368,6 +368,112 @@ begin
   end;
 end;
 
+procedure ImprimirDataListaPaquetesA(L: ListaPaquetesA);
+
+var
+  tieneHotel: string;
+
+begin
+  while (L <> nil) do begin
+    if L^.dato.hotel then tieneHotel := 'Si' else tieneHotel := 'No';
+    
+    writeln('  - Paquete: ', L^.dato.identificador, 
+            ' | Fecha: ', L^.dato.fecha.dia, '/', L^.dato.fecha.mes, '/', L^.dato.fecha.anio,
+            ' | Aerolinea: ', L^.dato.aerolinea, 
+            ' | Equipaje: ', L^.dato.equipaje, 
+            ' | Hotel: ', tieneHotel);
+    
+    writeln('--------------------');
+    
+    L := L^.sig;
+  end;
+end;
+
+procedure ImprimirArbol(A: Arbol);
+
+begin
+  if (A <> nil) then begin
+    ImprimirArbol(A^.HI);
+    ImprimirData(A^.dato); // Imprime el pais y nombre
+    ImprimirDataListaPaquetesA(A^.dato.paquetes); // Imprimir los paquetes
+    ImprimirArbol(A^.HD);
+  end;
+end;
+
+{
+procedure Reemplazar(var A: Arbol; var Aux: Arbol);
+var
+  nodoEliminar: Arbol;
+begin
+  if (Aux^.HD <> nil) then
+    // Seguimos bajando a la derecha para buscar el valor más grande
+    Reemplazar(A, Aux^.HD)
+  else begin
+    // Encontramos el mayor de los menores
+    A^.data := Aux^.data; // Copiamos el contenido (DNI, etc.)
+    nodoEliminar := Aux;   // Guardamos el nodo para borrarlo
+    Aux := Aux^.HI;       // Enganchamos el subárbol izquierdo que pudiera tener
+    dispose(nodoEliminar); // Liberamos memoria
+  end;
+end;
+
+procedure EliminarNodo(var A: Arbol);
+var aux: Arbol;
+begin
+  if (A^.HI = nil) then begin        // Caso 1 y 2: Sin hijo izquierdo
+    aux := A;
+    A := A^.HD;
+    dispose(aux);
+  end 
+  else if (A^.HD = nil) then begin   // Caso 2: Sin hijo derecho
+    aux := A;
+    A := A^.HI;
+    dispose(aux);
+  end 
+  else begin                         // Caso 3: Dos hijos
+    Reemplazar(A, A^.HI);            // Buscamos el mayor de los menores
+  end;
+end;
+}
+
+function ContarPaquetes(L: ListaPaquetesA): longint;
+
+var
+  total: longint;
+
+begin
+  total := 0;
+  
+  while (L <> nil) do begin
+    total := total + 1; 
+    L := L^.sig;
+  end;
+  
+  ContarPaquetes := total;
+end;
+
+function HallarMenorPaquetes(A: Arbol): Arbol;
+
+begin
+  if (A = nil) then // Si esta vacia, no hay puntero al menor
+    HallarMenorPaquetes := nil
+  else begin
+    // Contar la cantidad de paquetes de el actual
+    // Hallar el nodo con la menor cantidad de paquetes del arbol derecho
+    // Hallar el nodo con la menor cantidad de paquetes del arbol derecho
+    // Decidir quien tiene menos paquetes, el de la derecha o el de la izquierda
+    // Si el actual tiene menos, se devuelve, sino, el ganador de las subramas
+  end;
+end;
+
+procedure EliminarMenorPaquetes(var A: Arbol);
+
+begin
+  if (A <> nil) then begin
+    // Buscar el puntero del que tiene la menor cantidad de paquetes
+    // Eliminar el nodo, manteniendo el arbol ordenado.
+  end;
+end;
 
 var
   l: listaPaquetes;
@@ -393,4 +499,11 @@ begin
   
   writeln('Se va a imprimir los nombres y paises de los destinos entre Estambul y Madrid.');
   ImprimirEnRangoNombre(ArbolDestinos, 'Estambul', 'Madrid');
+  
+  writeln('El arbol se va a imprimir en orden.');
+  ImprimirArbol(ArbolDestinos);
+  
+  writeln('Se va a eliminar del arbol el destino con menos paquetes.');
+  EliminarMenorPaquetes(ArbolDestinos);
+  ImprimirArbol(ArbolDestinos);
 end.
