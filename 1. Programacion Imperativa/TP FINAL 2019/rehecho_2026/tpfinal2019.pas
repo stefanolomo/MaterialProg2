@@ -173,17 +173,17 @@ begin
   end;
 end;
 
-function ImprimirCantidad(A: Arbol; inf, sup: longint): longint;
+function ImprimirCantidad(A: Arbol; sup, inf: longint): longint;
 // punto b
 begin
-  if (A = nil) then
-    ImprimirCantidad := 0
-  else begin 
-    // Si el actual esta dentro del rango
-    if (A^.dato.codDisciplina <= sup) and (A^.dato.codDisciplina >= inf) then // Esta en rango
-      ImprimirCantidad := 1 + ImprimirCantidad(A^.HI, inf, sup) + ImprimirCantidad(A^.HD, inf, sup)
+  ImprimirCantidad := 0;
+  if (A <> nil) then begin
+    if (A^.dato.codDisciplina <= sup) and (A^.dato.codDisciplina >= inf) then
+      ImprimirCantidad := A^.dato.total + ImprimirCantidad(A^.HI, sup, inf) + ImprimirCantidad(A^.HD, sup, inf)
+    else if (A^.dato.codDisciplina < sup) then
+      ImprimirCantidad := ImprimirCantidad(A^.HD, sup, inf)
     else
-      ImprimirCantidad := ImprimirCantidad(A^.HI, inf, sup) + ImprimirCantidad(A^.HD, inf, sup)
+      ImprimirCantidad := ImprimirCantidad(A^.HI, sup, inf);
   end;
 end;
 
@@ -224,7 +224,7 @@ begin
   
   Separador();
   writeln('Se va a imprimir la cantidad de atletas de las disciplinas con codigo entre 100 y 200.');
-  cantidadDeAtletas := ImprimirCantidad(ArbolDis, 100, 200);
+  cantidadDeAtletas := ImprimirCantidad(ArbolDis, 200, 100);
   
   if cantidadDeAtletas > 0 then writeln('La cantidad de atletas de las disciplinas con codigo entre 100 y 200 es de', cantidadDeAtletas, ' atletas')
   else writeln('No hay atletas que cumplan');
