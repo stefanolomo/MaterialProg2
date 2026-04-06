@@ -196,9 +196,10 @@ begin
       ImprimirNombres(A^.HI, inf, sup);
       writeln('> Nombre de la disciplina en rango: ', A^.dato.disciplina);
       ImprimirNombres(A^.HD, inf, sup);
-    end else
+    end else begin 
       ImprimirNombres(A^.HI, inf, sup);
       ImprimirNombres(A^.HD, inf, sup);
+    end;
   end;
 end;
 
