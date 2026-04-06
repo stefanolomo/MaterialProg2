@@ -400,41 +400,35 @@ begin
   end;
 end;
 
-{
+procedure LiberarListaPaquetesA(var L: listaPaquetesA);
+
+var
+  aux: listaPaquetesA;
+
+begin 
+  while (L <> nil) do begin
+    aux := L;
+    L := L^.sig;
+    dispose(aux);
+  end;
+end;
+
 procedure Reemplazar(var A: Arbol; var Aux: Arbol);
 var
   nodoEliminar: Arbol;
 begin
   if (Aux^.HD <> nil) then
-    // Seguimos bajando a la derecha para buscar el valor más grande
+    // Seguimos bajando a la derecha para buscar el valor más chico
     Reemplazar(A, Aux^.HD)
   else begin
     // Encontramos el mayor de los menores
-    A^.data := Aux^.data; // Copiamos el contenido (DNI, etc.)
+    A^.dato := Aux^.dato; // Copiamos el contenido
     nodoEliminar := Aux;   // Guardamos el nodo para borrarlo
     Aux := Aux^.HI;       // Enganchamos el subárbol izquierdo que pudiera tener
+    LiberarListaPaquetesA(nodoEliminar^.dato.paquetes);
     dispose(nodoEliminar); // Liberamos memoria
   end;
 end;
-
-procedure EliminarNodo(var A: Arbol);
-var aux: Arbol;
-begin
-  if (A^.HI = nil) then begin        // Caso 1 y 2: Sin hijo izquierdo
-    aux := A;
-    A := A^.HD;
-    dispose(aux);
-  end 
-  else if (A^.HD = nil) then begin   // Caso 2: Sin hijo derecho
-    aux := A;
-    A := A^.HI;
-    dispose(aux);
-  end 
-  else begin                         // Caso 3: Dos hijos
-    Reemplazar(A, A^.HI);            // Buscamos el mayor de los menores
-  end;
-end;
-}
 
 function ContarPaquetes(L: ListaPaquetesA): longint;
 
@@ -452,26 +446,83 @@ begin
   ContarPaquetes := total;
 end;
 
+procedure Separador();
+
+begin
+  writeln(' ');
+  writeln('--------------------');
+  writeln(' ');
+end;
+
+procedure EliminarNodo(var A: Arbol);
+var aux: Arbol;
+begin
+  if (A <> nil) then begin
+    Separador();
+    writeln('El nodo que se va a eliminar es: ');
+    ImprimirData(A^.dato);
+    writeln('El nodo tiene ', ContarPaquetes(A^.dato.paquetes), ' paquete');
+    Separador();
+  end;
+  
+  if (A^.HI = nil) then begin        // Caso 1 y 2: Sin hijo izquierdo
+    aux := A;
+    A := A^.HD;
+    LiberarListaPaquetesA(aux^.dato.paquetes);
+    dispose(aux);
+  end 
+  else if (A^.HD = nil) then begin   // Caso 2: Sin hijo derecho
+    aux := A;
+    A := A^.HI;
+    LiberarListaPaquetesA(aux^.dato.paquetes);
+    dispose(aux);
+  end 
+  else begin                         // Caso 3: Dos hijos
+    Reemplazar(A, A^.HI);            // Buscamos el mayor de los menores y reemplazamos
+  end;
+end;
+
 function HallarMenorPaquetes(A: Arbol): Arbol;
+
+var
+  minAct, minIzq, minDer: Arbol;
+  cantAct, cantIzq, cantDer: longint;
 
 begin
   if (A = nil) then // Si esta vacia, no hay puntero al menor
     HallarMenorPaquetes := nil
   else begin
-    // Contar la cantidad de paquetes de el actual
-    // Hallar el nodo con la menor cantidad de paquetes del arbol derecho
-    // Hallar el nodo con la menor cantidad de paquetes del arbol derecho
-    // Decidir quien tiene menos paquetes, el de la derecha o el de la izquierda
-    // Si el actual tiene menos, se devuelve, sino, el ganador de las subramas
+    // Asumiendo que el menor es el actual
+    minAct := A;
+    // Buscamos en los subarboles
+    minIzq := HallarMenorPaquetes(A^.HI);
+    minDer := HallarMenorPaquetes(A^.HD);
+    
+    cantAct := ContarPaquetes(minAct^.dato.paquetes);
+    if (minDer <> nil) then cantDer := ContarPaquetes(minDer^.dato.paquetes);
+    if (minIzq <> nil) then cantIzq := ContarPaquetes(minIzq^.dato.paquetes);
+    
+    if (minIzq <> nil) and (cantIzq < cantAct) then
+      minAct := minIzq; // Si el de la izquierda es menor, gana ese
+      
+    cantAct := ContarPaquetes(minAct^.dato.paquetes);
+    
+    if (minDer <> nil) and (cantDer < cantAct) then
+      minAct := minDer; // Si el de la derecha es menor, gana ese
+      
+    HallarMenorPaquetes := minAct;
   end;
 end;
 
 procedure EliminarMenorPaquetes(var A: Arbol);
 
+var
+  NodoEliminar: Arbol;
+
 begin
   if (A <> nil) then begin
-    // Buscar el puntero del que tiene la menor cantidad de paquetes
-    // Eliminar el nodo, manteniendo el arbol ordenado.
+    NodoEliminar := HallarMenorPaquetes(A); 
+    EliminarNodo(NodoEliminar);
   end;
 end;
 
@@ -505,5 +556,8 @@ begin
   
   writeln('Se va a eliminar del arbol el destino con menos paquetes.');
   EliminarMenorPaquetes(ArbolDestinos);
+  ImprimirArbol(ArbolDestinos);
+  
+  writeln('Se va a mostrar como queda despues de eliminar el destino.');
   ImprimirArbol(ArbolDestinos);
 end.
