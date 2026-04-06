@@ -325,7 +325,7 @@ begin
   // Recibe una lista de paquetes y debe recorrerla hasta encontrar uno que coincida con criterios indicados
   
   // Recorre la lista mientras no llegue al final o mientras no coincida
-  while (L <> nil) and not (((L^.dato.aerolinea = 'Iberia') or (L^.dato.aerolinea = 'Emirates')) and (L^.dato.equipaje = 3) and (L^.dato.hotel)) do
+  while (L <> nil) and not (((L^.dato.aerolinea = 'Iberia') or (L^.dato.aerolinea = 'Emirates')) and (L^.dato.equipaje = 3) and (L^.dato.hotel) and (L^.dato.fecha.anio = 2026) and (L^.dato.fecha.mes in [1, 2, 3])) do
     L := L^.sig;
   // Si llego al final, no hay ocurrencias (Es nil)
   // Si no esta en el final, hay al menos una ocurrencia (No es nil)
@@ -413,23 +413,6 @@ begin
   end;
 end;
 
-procedure Reemplazar(var A: Arbol; var Aux: Arbol);
-var
-  nodoEliminar: Arbol;
-begin
-  if (Aux^.HD <> nil) then
-    // Seguimos bajando a la derecha para buscar el valor más chico
-    Reemplazar(A, Aux^.HD)
-  else begin
-    // Encontramos el mayor de los menores
-    A^.dato := Aux^.dato; // Copiamos el contenido
-    nodoEliminar := Aux;   // Guardamos el nodo para borrarlo
-    Aux := Aux^.HI;       // Enganchamos el subárbol izquierdo que pudiera tener
-    LiberarListaPaquetesA(nodoEliminar^.dato.paquetes);
-    dispose(nodoEliminar); // Liberamos memoria
-  end;
-end;
-
 function ContarPaquetes(L: ListaPaquetesA): longint;
 
 var
@@ -454,31 +437,59 @@ begin
   writeln(' ');
 end;
 
-procedure EliminarNodo(var A: Arbol);
-var aux: Arbol;
-begin
-  if (A <> nil) then begin
-    Separador();
-    writeln('El nodo que se va a eliminar es: ');
-    ImprimirData(A^.dato);
-    writeln('El nodo tiene ', ContarPaquetes(A^.dato.paquetes), ' paquete');
-    Separador();
-  end;
+
+procedure Reemplazar(var A: Arbol; var Aux: Arbol);
+
+var
+  nodoAEliminar: Arbol;
   
-  if (A^.HI = nil) then begin        // Caso 1 y 2: Sin hijo izquierdo
+begin
+  if (Aux^.HD <> nil) then
+    Reemplazar(A, Aux^.HD) // Buscamos el mayor de la rama izquierda
+  else begin // Encontrado y es aux
+    LiberarListaPaquetesA(A^.dato.paquetes); // Borramos la lista de A
+    A^.dato := Aux^.dato; // Reemplazamos sus datos
+    
+    nodoAEliminar := Aux; // Guardamos el nodo en una variable
+    Aux := Aux^.HI; // Enganchamos lo que pueda tener a la izquierda (nil o subarbol)
+    
+    dispose(nodoAEliminar); // Se elimina el nodo repetido
+  end;
+end;
+
+procedure EliminarNodo(var A: Arbol);
+
+var 
+  aux: Arbol;
+  
+begin
+  if (A^.HI = nil) then begin // Si tiene solo hijo derecho
     aux := A;
     A := A^.HD;
     LiberarListaPaquetesA(aux^.dato.paquetes);
     dispose(aux);
   end 
-  else if (A^.HD = nil) then begin   // Caso 2: Sin hijo derecho
+  else if (A^.HD = nil) then begin // Si tiene solo hijo izquierdo
     aux := A;
     A := A^.HI;
     LiberarListaPaquetesA(aux^.dato.paquetes);
     dispose(aux);
-  end 
-  else begin                         // Caso 3: Dos hijos
-    Reemplazar(A, A^.HI);            // Buscamos el mayor de los menores y reemplazamos
+  end else // Si tiene los dos hijos
+    Reemplazar(A, A^.HI);
+end;
+
+procedure BorrarPorNombre(var A: Arbol; nombreAEliminar: str70);
+
+begin
+  if (A <> nil) then begin
+    if (nombreAEliminar < A^.dato.nombre) then
+      BorrarPorNombre(A^.HI, nombreAEliminar)
+    else if (nombreAEliminar > A^.dato.nombre) then
+      BorrarPorNombre(A^.HD, nombreAEliminar)
+    else
+      // Es el buscado, hay que eliminarlo
+      EliminarNodo(A);
+    
   end;
 end;
 
@@ -522,7 +533,7 @@ var
 begin
   if (A <> nil) then begin
     NodoEliminar := HallarMenorPaquetes(A); 
-    EliminarNodo(NodoEliminar);
+    BorrarPorNombre(A, NodoEliminar^.dato.nombre);
   end;
 end;
 
