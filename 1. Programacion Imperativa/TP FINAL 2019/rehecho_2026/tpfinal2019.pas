@@ -136,11 +136,11 @@ begin
     A^.dato.total := A^.dato.total + 1;
     InsertarEnListaPaises(A^.dato.paises, L^.dato.pais) 
     
-  end else if (A^.dato.disciplina < L^.dato.disciplina) then // Si el valor era mayor, sigue por la rama derecha
+  end else if (A^.dato.codDisciplina < L^.dato.codDisciplina) then // Si el valor era mayor, sigue por la rama derecha
     InsertarNodoEnArbol(A^.HD, L)
-  else if (A^.dato.disciplina > L^.dato.disciplina) then // Si el valor era menor, sigue por la rama izquierda
+  else if (A^.dato.codDisciplina > L^.dato.codDisciplina) then // Si el valor era menor, sigue por la rama izquierda
     InsertarNodoEnArbol(A^.HI, L)
-  else if (A^.dato.disciplina = L^.dato.disciplina) then begin
+  else if (A^.dato.codDisciplina = L^.dato.codDisciplina) then begin
     A^.dato.total := A^.dato.total + 1;
     InsertarEnListaPaises(A^.dato.paises, L^.dato.pais);
   end;
