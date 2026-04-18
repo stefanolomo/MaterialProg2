@@ -20,8 +20,10 @@ public class Act1
 
         System.out.println("Ingrese el lado A del triangulo");
         a = in.nextDouble();
+        
         System.out.println("Ingrese el lado B del triangulo");
         b = in.nextDouble();
+        
         System.out.println("Ingrese el lado C del triangulo");
         c = in.nextDouble();
 

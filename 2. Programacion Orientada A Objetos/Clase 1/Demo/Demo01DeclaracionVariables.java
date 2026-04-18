@@ -5,10 +5,13 @@ public class Demo01DeclaracionVariables {
         Scanner in = new Scanner(System.in);
         
         boolean encontre=false;
-        int miDNI =11222333, tuDNI = 10555444;char sexo, inicial='C';
+        
+        int miDNI = 11222333, tuDNI = 10555444;
+        char sexo, inicial='C';
         sexo = 'F';
         double miSueldo=1000.30;
         String miNombre="Pepe";
+        
         miNombre = in.next();
         
         while (!miNombre.equals("x")) {
